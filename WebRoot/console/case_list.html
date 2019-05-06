@@ -2,434 +2,441 @@
 
 <html lang="zh-CN">
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
-        <!-- iCheck for checkboxes and radio inputs -->
-        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
-        <!-- Select2 -->
-        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
-        <!-- switch -->
-        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
-        <!-- datetimepicker -->
-        <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
-        <!-- 自定义 -->
-        <link rel="shortcut icon" href="self/img/logo.png">
-        <link rel="stylesheet" href="self/css/self.css">
-        <link rel="stylesheet" href="self/css/add.css">
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+    <!-- switch -->
+    <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+    <!-- datetimepicker -->
+    <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+     folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+    <!-- 自定义 -->
+    <link rel="shortcut icon" href="self/img/logo.png">
+    <link rel="stylesheet" href="self/css/self.css">
+    <link rel="stylesheet" href="self/css/add.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    </head>
+</head>
 
-    <body class="hold-transition skin-blue sidebar-mini">
-        <div class="wrapper">
-            <header class="main-header"></header>
-            <aside class="main-sidebar">
-                <section class="sidebar">
-                    <ul class="sidebar-menu" id="ul_menu"></ul>
-                </section>
-            </aside>
-            <div class="content-wrapper">
-                <section class="content-header"></section>
-                <section class="content">
-                    <div class="box box-solid no-shadow" id="box_search" style="display: none;">
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-lg-3" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">案件年号</div>
-                                        <select style="width: 100%;" id="search_year_no" name="search_year_no"></select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">案件编号</div>
-                                        <input type="text" class="form-control" id="search_no" name="search_no" placeholder="案件编号">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">被申请人</div>
-                                        <input type="text" class="form-control" id="search_defendant" name="search_defendant" placeholder="被申请人">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">申请人</div>
-                                        <input type="text" class="form-control" id="search_apply" name="search_apply" placeholder="申请人">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">案件状态</div>
-                                        <select class="select2" style="width: 100%;" id="search_state"></select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">申请日期</div>
-                                        <input type="text" class="form-control" id="search_apply_time_1" name="search_apply_time_1" placeholder="开始日期">
-                                        <div class="input-group-addon">至</div>
-                                        <input type="text" class="form-control" id="search_apply_time_2" name="search_apply_time_2" placeholder="结束日期">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" style="margin-top: 7px;">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">关键字</div>
-                                        <input type="text" class="form-control" id="search_key" name="search_key" placeholder="关键字">
-                                    </div>
-                                </div>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header class="main-header"></header>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" id="ul_menu"></ul>
+        </section>
+    </aside>
+    <div class="content-wrapper">
+        <section class="content-header"></section>
+        <section class="content">
+            <div class="box box-solid no-shadow" id="box_search" style="display: none;">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-3" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">案件年号</div>
+                                <select style="width: 100%;" id="search_year_no" name="search_year_no"></select>
                             </div>
                         </div>
-                        <div class="box-footer">
-                            <button class="btn btn-skin btn-primary" id="btn_search"><i class="fa fa-search"></i> 查询</button>
-                            <button class="btn btn-skin btn-primary" id="btn_refresh"><i class="fa fa-list"></i> 查看全部</button>
-                            <button class="btn btn-skin btn-primary" id="btn_exportExcel"><i class="fa fa-list"></i> 导出</button>
-                        </div>
-                    </div>
-                    <div class="box box-solid no-shadow">
-                        <div class="box-header with-border">
-                            <div class="btn-group">
-                                <button class="btn btn-default btn-sm page-info" id="btn_home_page">首页</button>
-                                <button class="btn btn-default btn-sm page-info" id="btn_upper_page">上一页</button>
-                                <button class="btn btn-default btn-sm" id="btn_page_total" disabled="disabled">0/0</button>
-                                <button class="btn btn-default btn-sm" id="btn_data_total" disabled="disabled">总数：0</button>
-                                <button class="btn btn-default btn-sm page-info" id="btn_next_page">下一页</button>
-                                <button class="btn btn-default btn-sm page-info" id="btn_last_page">末页</button>
-                            </div>
-                            <div class="pull-right">
-                                <input type="checkbox" data-on-text="打开" data-off-text="关闭" data-label-text="检索" data-label-width="70" id="switchSearch" />
+                        <div class="col-lg-3" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">案件编号</div>
+                                <input type="text" class="form-control" id="search_no" name="search_no"
+                                       placeholder="案件编号">
                             </div>
                         </div>
-                        <div class="box-body">
-                            <table class="table table-bordered table-striped table-hover" id="table_data">
-                                <tr>
-                                    <th>年号</th>
-                                    <th>编号</th>
-                                    <th>类型</th>
-                                    <th>申请人</th>
-                                    <th>第三人</th>
-                                    <th>被申请人</th>
-                                    <th>行政管理类别</th>
-                                    <th>案由</th>
-                                    <th>案件状态</th>
-                                    <th>申请时间</th>
-                                    <th>预计结案时间</th>
-                                    <!--
-                                        <th>录入时间</th>
-                                        <th>录入人</th>
-                                        <th>行政部门</th>
-                                    -->
-                                </tr>
-                            </table>
+                        <div class="col-lg-3" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">被申请人</div>
+                                <input type="text" class="form-control" id="search_defendant" name="search_defendant"
+                                       placeholder="被申请人">
+                            </div>
                         </div>
-                        <div class="overlay" id="table_loading" style="display: none;">
-                            <i class="fa fa-spin fa-refresh"></i>
+                        <div class="col-lg-3" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">申请人</div>
+                                <input type="text" class="form-control" id="search_apply" name="search_apply"
+                                       placeholder="申请人">
+                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-            <footer class="main-footer"></footer>
-        </div>
-
-        <div class="modal fade" id="modal_msg">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                        <div class="col-lg-3" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">案件状态</div>
+                                <select class="select2" style="width: 100%;" id="search_state"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">申请日期</div>
+                                <input type="text" class="form-control" id="search_apply_time_1"
+                                       name="search_apply_time_1" placeholder="开始日期">
+                                <div class="input-group-addon">至</div>
+                                <input type="text" class="form-control" id="search_apply_time_2"
+                                       name="search_apply_time_2" placeholder="结束日期">
+                            </div>
+                        </div>
+                        <div class="col-lg-3" style="margin-top: 7px;">
+                            <div class="input-group">
+                                <div class="input-group-addon">关键字</div>
+                                <input type="text" class="form-control" id="search_key" name="search_key"
+                                       placeholder="关键字">
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="box-footer">
+                    <button class="btn btn-skin btn-primary" id="btn_search"><i class="fa fa-search"></i> 查询</button>
+                    <button class="btn btn-skin btn-primary" id="btn_refresh"><i class="fa fa-list"></i> 查看全部</button>
+                    <button class="btn btn-skin btn-primary" id="btn_exportExcel"><i class="fa fa-list"></i> 导出</button>
+                </div>
+            </div>
+            <div class="box box-solid no-shadow">
+                <div class="box-header with-border">
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm page-info" id="btn_home_page">首页</button>
+                        <button class="btn btn-default btn-sm page-info" id="btn_upper_page">上一页</button>
+                        <button class="btn btn-default btn-sm" id="btn_page_total" disabled="disabled">0/0</button>
+                        <button class="btn btn-default btn-sm" id="btn_data_total" disabled="disabled">总数：0</button>
+                        <button class="btn btn-default btn-sm page-info" id="btn_next_page">下一页</button>
+                        <button class="btn btn-default btn-sm page-info" id="btn_last_page">末页</button>
+                    </div>
+                    <div class="pull-right">
+                        <input type="checkbox" data-on-text="打开" data-off-text="关闭" data-label-text="检索"
+                               data-label-width="70" id="switchSearch"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped table-hover" id="table_data">
+                        <tr>
+                            <th>年号</th>
+                            <th>编号</th>
+                            <th>类型</th>
+                            <th>申请人</th>
+                            <th>第三人</th>
+                            <th>被申请人</th>
+                            <th>行政管理类别</th>
+                            <th>案由</th>
+                            <th>案件状态</th>
+                            <th>申请时间</th>
+                            <th>预计结案时间</th>
+                            <!--
+                                <th>录入时间</th>
+                                <th>录入人</th>
+                                <th>行政部门</th>
+                            -->
+                        </tr>
+                    </table>
+                </div>
+                <div class="overlay" id="table_loading" style="display: none;">
+                    <i class="fa fa-spin fa-refresh"></i>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="main-footer"></footer>
+</div>
+
+<div class="modal fade" id="modal_msg">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- jQuery 2.1.4 -->
-        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-        <script src="res/plugins/jQuery/jquery.table2excel.js"></script>
-        <!-- jQuery UI 1.11.4 -->
-        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-        <!-- Bootstrap 3.3.5 -->
-        <script src="res/bootstrap/js/bootstrap.min.js"></script>
-        <!-- iCheck 1.0.1 -->
-        <script src="res/plugins/iCheck/icheck.min.js"></script>
-        <!-- Select2 -->
-        <script src="res/plugins/select2/select2.full.min.js"></script>
-        <!-- datetimepicker -->
-        <script src="res/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="res/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-        <!-- switch -->
-        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="res/dist/js/app.min.js"></script>
-        <!-- 自定义 -->
-        <script src="self/js/head.js"></script>
-        <script src="self/js/self.js"></script>
-        <script src="self/js/sidebar.js"></script>
-        <script>
-            $(function() {
-                $("#switchSearch").bootstrapSwitch();
-                $("#switchSearch").on("switchChange.bootstrapSwitch", function(e, state) {
-                    if(state) {
-                        $("#box_search").show();
-                    } else {
-                        $("#box_search").hide();
-                    }
-                })
-
-                var web = getParameter("web");
-                var mode = initPage(web);
-
-                initSelect2WithData("search_year_no", yearNoArr);
-                initDatetimePicker("search_apply_time_1");
-                initDatetimePicker("search_apply_time_2");
-
-                initSearch();
-
-                var isSearch = 0; //是否查询模式
-                var page = 1; //当前页
-                var pageTotal = 1; //总页数
-
-                initData();
-               
-                //加载数据
-                function initData() {
-                    var searchYearNo = "";
-                    var searchNo = "";
-                    var searchDefendant = "";
-                    var searchApply = "";
-                    var searchState = "";
-                    var searchApplyTime1 = "";
-                    var searchApplyTime2 = "";
-                    var searchKey = "";
-                    if(isSearch == 1) {
-                        searchYearNo = $("#search_year_no").val();
-                        searchNo = $("#search_no").val();
-                        searchDefendant = $("#search_defendant").val();
-                        searchApply = $("#search_apply").val();
-                        searchState = $("#search_state").val();
-                        searchApplyTime1 = $("#search_apply_time_1").val();
-                        searchApplyTime2 = $("#search_apply_time_2").val();
-                        searchKey = $("#search_key").val();
-                    }
-
-                    $("#table_loading").show();
-                    $.ajax({
-                        type: "POST",
-                        url: "cases/get_list",
-                        dataType: "JSON",
-                        data: {
-                            mode: mode,
-                            page: page,
-                            search_year_no: searchYearNo,
-                            search_no: searchNo,
-                            search_defendant: searchDefendant,
-                            search_apply: searchApply,
-                            search_state: searchState,
-                            search_apply_time_1: searchApplyTime1,
-                            search_apply_time_2: searchApplyTime2,
-                            search_key: searchKey,
-                        },
-                        success: function(data) {
-                            $("#table_loading").hide();
-                            if(data.result != 1) {
-                                showMsg(data.error_msg);
-                                return;
-                            }
-                            $(".tr-data").remove(); //清除数据
-                            var dataTotal = data.data.data_total;
-                            if(dataTotal == 0) {
-                                $(".page-info").attr("disabled", true);
-                                return;
-                            }
-
-                            pageTotal = data.data.page_total;
-                            $("#btn_page_total").html(page + "/" + pageTotal);
-                            $("#btn_data_total").html("总数：" + dataTotal);
-                            $.each(data.data.data_list, function(index, value) {
-                            	$.ajax({
-                            		type: "POST",
-                            		url: "cases/switchState",
-                            		dataType: "JSON",
-                            		async:false,
-                            		data: {
-                            			res_id:value.id
-                            		},
-                            		success: function(data) {
-                            			if(data.rs >0) {
-                            				value.state="30";
-                            			}
-
-                            		},
-                            		error: function(xhr, type) {
-                            			showMsg("系统繁忙");
-                            		}
-                            	});
-                                $td_data = $("<tr class='tr-data' style='cursor: pointer;' data-id='" + value.id + "' data-state='" + value.state + "'>" +
-                                    /*"<td>" + ((page - 1) * 10 + index + 1) + ".</td>" +*/
-                                    /*"<td><input type='checkbox' class='minimal td-checkbox' data-id='" + value.id + "'></td>" +*/
-                                    "<td>" + value.year_no + "</td>" +
-                                    "<td>" + value.no + "</td>" +
-                                    "<td>" + value.label_type + "</td>" +
-                                    "<td>" + value.apply + "</td>" +
-                                    /*"<td>" + value.apply_third_party + "</td>" +*/
-                                    "<td>" + value.third_party + "</td>" +
-                                    "<td>" + value.defendant + "</td>" +
-                                    "<td>" + value.label_administrative_category + "</td>" +
-                                    "<td>" + value.label_reason + "</td>" +
-                                    "<td>" + getStateLabel(value.state) + "</td>" +
-                                    "<td>" + value.apply_time + "</td>" +
-                                    "<td>" + value.expected_time + "</td>" +
-                                    //"<td>" + value.create_time + "</td>" +
-                                    //"<td>" + value.create_account + "</td>" +
-                                    //"<td>" + value.create_department + "</td>" +
-                                    "</tr>");
-                                $("#table_data").append($td_data);
-                            });
-
-                            if(page == 1) {
-                                if(page == pageTotal) {
-                                    $(".page-info").attr("disabled", true);
-                                } else {
-                                    $("#btn_home_page").attr("disabled", true); //首页
-                                    $("#btn_upper_page").attr("disabled", true); //上一页
-
-                                    $("#btn_next_page").attr("disabled", false); //下一页
-                                    $("#btn_last_page").attr("disabled", false); //末页
-                                }
-                            } else {
-                                if(page == pageTotal) {
-                                    $("#btn_home_page").attr("disabled", false); //首页
-                                    $("#btn_upper_page").attr("disabled", false); //上一页
-
-                                    $("#btn_next_page").attr("disabled", true); //下一页
-                                    $("#btn_last_page").attr("disabled", true); //末页
-                                } else {
-                                    $(".page-info").attr("disabled", false);
-                                }
-                            }
-
-                            //initCheckBoxByClassName("td-checkbox");
-                            onEvent();
-                        },
-                        error: function(xhr, type) {
-                            $("#table_loading").hide();
-                            showMsg("系统繁忙");
-                        }
-                    });
-                }
-                
-                
-
-                //首页
-                $("#btn_home_page").click(function() {
-                    page = 1;
-                    initData();
-                })
-                //上一页
-                $("#btn_upper_page").click(function() {
-                    page--;
-                    initData();
-                })
-                //下一页
-                $("#btn_next_page").click(function() {
-                    page++;
-                    initData();
-                })
-                //末页
-                $("#btn_last_page").click(function() {
-                    page = pageTotal;
-                    initData();
-                })
-
-                //刷新
-                $("#btn_refresh").click(function() {
-                    loadData(false);
-                });
-                
-                
-                //查询
-                $("#btn_search").click(function() {
-                    loadData(true);
-                });
-
-                function loadData(arg) {
-                    if(!arg) {
-                        initSearch();
-                        isSearch = 0;
-                        page = 1;
-                    } else {
-                        isSearch = 1;
-                        page = 1;
-                    }
-                    initData();
-                }
-
-                function initSearch() {
-                    $("#search_year_no").val("-1").trigger("change");
-                    $("#search_no").val(null);
-                    $("#search_defendant").val(null);
-                    $("#search_apply").val(null);
-                    $("#search_state").val("-1").trigger("change");
-                    $("#search_time").val(null);
-                    $("#search_key").val(null);
-                }
-
-                //点击案件列表跳转
-                function onEvent() {
-                    $(".tr-data").off().on("click", function() {
-                        if(mode == "0") {
-                            window.location.href = "case_repair.html?web=" + web + "&cases=" + $(this).data("id");
-                            return;
-                        }
-                        if(mode == "6") {
-                            window.location.href = "case_detail.html?web=" + web + "&cases=" + $(this).data("id");
-                            return;
-                        }
-                        if($(this).data("state") == "9" || $(this).data("state") == "10" || $(this).data("state") == "11"
-                            || $(this).data("state") == "30" || $(this).data("state") == "32") {
-                            window.location.href = "case_process_exchange.html?web=" + web + "&cases=" + $(this).data("id");
-                        } else if ($(this).data("state") == "1") {
-                            window.location.href = "accept_case.html?web=" + web + "&cases=" + $(this).data("id");
-                        } else {
-                            window.location.href = "audit_case.html?web=" + web + "&cases=" + $(this).data("id");
-                        }
-                    });
-                }
-            });
-            
-            //导出
-            $("#btn_exportExcel").click(function() {
-            	exportExcel();
-            });
-            function exportExcel(){
-                console.log("导出");
-                $("#table_data").table2excel({
-                    exclude: ".noExl",
-                    filename: "案件情况列表.xls",
-                    exclude_img: false,
-                    exclude_links: true,
-                    exclude_inputs: true
-                });
+<!-- jQuery 2.1.4 -->
+<script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="res/plugins/jQuery/jquery.table2excel.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 3.3.5 -->
+<script src="res/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="res/plugins/iCheck/icheck.min.js"></script>
+<!-- Select2 -->
+<script src="res/plugins/select2/select2.full.min.js"></script>
+<!-- datetimepicker -->
+<script src="res/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="res/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- switch -->
+<script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+<!-- AdminLTE App -->
+<script src="res/dist/js/app.min.js"></script>
+<!-- 自定义 -->
+<script src="self/js/head.js"></script>
+<script src="self/js/self.js"></script>
+<script src="self/js/sidebar.js"></script>
+<script>
+    $(function () {
+        $("#switchSearch").bootstrapSwitch();
+        $("#switchSearch").on("switchChange.bootstrapSwitch", function (e, state) {
+            if (state) {
+                $("#box_search").show();
+            } else {
+                $("#box_search").hide();
             }
-        </script>
-    </body>
+        })
+
+        var web = getParameter("web");
+        var mode = initPage(web);
+
+        initSelect2WithData("search_year_no", yearNoArr);
+        initDatetimePicker("search_apply_time_1");
+        initDatetimePicker("search_apply_time_2");
+
+        initSearch();
+
+        var isSearch = 0; //是否查询模式
+        var page = 1; //当前页
+        var pageTotal = 1; //总页数
+
+        initData();
+
+        //加载数据
+        function initData() {
+            var searchYearNo = "";
+            var searchNo = "";
+            var searchDefendant = "";
+            var searchApply = "";
+            var searchState = "";
+            var searchApplyTime1 = "";
+            var searchApplyTime2 = "";
+            var searchKey = "";
+            if (isSearch == 1) {
+                searchYearNo = $("#search_year_no").val();
+                searchNo = $("#search_no").val();
+                searchDefendant = $("#search_defendant").val();
+                searchApply = $("#search_apply").val();
+                searchState = $("#search_state").val();
+                searchApplyTime1 = $("#search_apply_time_1").val();
+                searchApplyTime2 = $("#search_apply_time_2").val();
+                searchKey = $("#search_key").val();
+            }
+
+            $("#table_loading").show();
+            $.ajax({
+                type: "POST",
+                url: "cases/get_list",
+                dataType: "JSON",
+                data: {
+                    mode: mode,
+                    page: page,
+                    search_year_no: searchYearNo,
+                    search_no: searchNo,
+                    search_defendant: searchDefendant,
+                    search_apply: searchApply,
+                    search_state: searchState,
+                    search_apply_time_1: searchApplyTime1,
+                    search_apply_time_2: searchApplyTime2,
+                    search_key: searchKey,
+                },
+                success: function (data) {
+                    $("#table_loading").hide();
+                    if (data.result != 1) {
+                        showMsg(data.error_msg);
+                        return;
+                    }
+                    $(".tr-data").remove(); //清除数据
+                    var dataTotal = data.data.data_total;
+                    if (dataTotal == 0) {
+                        $(".page-info").attr("disabled", true);
+                        return;
+                    }
+
+                    pageTotal = data.data.page_total;
+                    $("#btn_page_total").html(page + "/" + pageTotal);
+                    $("#btn_data_total").html("总数：" + dataTotal);
+                    $.each(data.data.data_list, function (index, value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "cases/switchState",
+                            dataType: "JSON",
+                            async: false,
+                            data: {
+                                res_id: value.id
+                            },
+                            success: function (data) {
+                                if (data.rs > 0) {
+                                    value.state = "30";
+                                }
+
+                            },
+                            error: function (xhr, type) {
+                                showMsg("系统繁忙");
+                            }
+                        });
+                        $td_data = $("<tr class='tr-data' style='cursor: pointer;' data-id='" + value.id + "' data-state='" + value.state + "'>" +
+                            /*"<td>" + ((page - 1) * 10 + index + 1) + ".</td>" +*/
+                            /*"<td><input type='checkbox' class='minimal td-checkbox' data-id='" + value.id + "'></td>" +*/
+                            "<td>" + value.year_no + "</td>" +
+                            "<td>" + value.no + "</td>" +
+                            "<td>" + value.label_type + "</td>" +
+                            "<td>" + value.apply + "</td>" +
+                            /*"<td>" + value.apply_third_party + "</td>" +*/
+                            "<td>" + value.third_party + "</td>" +
+                            "<td>" + value.defendant + "</td>" +
+                            "<td>" + value.label_administrative_category + "</td>" +
+                            "<td>" + value.label_reason + "</td>" +
+                            "<td>" + getStateLabel(value.state) + "</td>" +
+                            "<td>" + value.apply_time + "</td>" +
+                            "<td>" + value.expected_time + "</td>" +
+                            //"<td>" + value.create_time + "</td>" +
+                            //"<td>" + value.create_account + "</td>" +
+                            //"<td>" + value.create_department + "</td>" +
+                            "</tr>");
+                        $("#table_data").append($td_data);
+                    });
+
+                    if (page == 1) {
+                        if (page == pageTotal) {
+                            $(".page-info").attr("disabled", true);
+                        } else {
+                            $("#btn_home_page").attr("disabled", true); //首页
+                            $("#btn_upper_page").attr("disabled", true); //上一页
+
+                            $("#btn_next_page").attr("disabled", false); //下一页
+                            $("#btn_last_page").attr("disabled", false); //末页
+                        }
+                    } else {
+                        if (page == pageTotal) {
+                            $("#btn_home_page").attr("disabled", false); //首页
+                            $("#btn_upper_page").attr("disabled", false); //上一页
+
+                            $("#btn_next_page").attr("disabled", true); //下一页
+                            $("#btn_last_page").attr("disabled", true); //末页
+                        } else {
+                            $(".page-info").attr("disabled", false);
+                        }
+                    }
+
+                    //initCheckBoxByClassName("td-checkbox");
+                    onEvent();
+                },
+                error: function (xhr, type) {
+                    $("#table_loading").hide();
+                    showMsg("系统繁忙");
+                }
+            });
+        }
+
+
+        //首页
+        $("#btn_home_page").click(function () {
+            page = 1;
+            initData();
+        })
+        //上一页
+        $("#btn_upper_page").click(function () {
+            page--;
+            initData();
+        })
+        //下一页
+        $("#btn_next_page").click(function () {
+            page++;
+            initData();
+        })
+        //末页
+        $("#btn_last_page").click(function () {
+            page = pageTotal;
+            initData();
+        })
+
+        //刷新
+        $("#btn_refresh").click(function () {
+            loadData(false);
+        });
+
+
+        //查询
+        $("#btn_search").click(function () {
+            loadData(true);
+        });
+
+        function loadData(arg) {
+            if (!arg) {
+                initSearch();
+                isSearch = 0;
+                page = 1;
+            } else {
+                isSearch = 1;
+                page = 1;
+            }
+            initData();
+        }
+
+        function initSearch() {
+            $("#search_year_no").val("-1").trigger("change");
+            $("#search_no").val(null);
+            $("#search_defendant").val(null);
+            $("#search_apply").val(null);
+            $("#search_state").val("-1").trigger("change");
+            $("#search_time").val(null);
+            $("#search_key").val(null);
+        }
+
+        //点击案件列表跳转
+        function onEvent() {
+            $(".tr-data").off().on("click", function () {
+                if (mode == "0") {
+                    window.location.href = "case_repair.html?web=" + web + "&cases=" + $(this).data("id");
+                    return;
+                }
+                if (mode == "6") {
+                    window.location.href = "case_detail.html?web=" + web + "&cases=" + $(this).data("id");
+                    return;
+                }
+                if ($(this).data("state") == "9" || $(this).data("state") == "10" || $(this).data("state") == "11"
+                    || $(this).data("state") == "30" || $(this).data("state") == "32") {
+                    window.location.href = "case_process_exchange.html?web=" + web + "&cases=" + $(this).data("id");
+                } else if ($(this).data("state") == "1") {
+                    window.location.href = "accept_case.html?web=" + web + "&cases=" + $(this).data("id");
+                } else {
+                    window.location.href = "audit_case.html?web=" + web + "&cases=" + $(this).data("id");
+                }
+            });
+        }
+    });
+
+    //导出
+    $("#btn_exportExcel").click(function () {
+        exportExcel();
+    });
+
+    function exportExcel() {
+        console.log("导出");
+        $("#table_data").table2excel({
+            exclude: ".noExl",
+            filename: "案件情况列表.xls",
+            exclude_img: false,
+            exclude_links: true,
+            exclude_inputs: true
+        });
+    }
+</script>
+</body>
 
 </html>

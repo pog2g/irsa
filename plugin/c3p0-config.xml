@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <c3p0-config>
 	<named-config name="database">
-		<!-- 
+		<!--
 		<property name="jdbcUrl">jdbc:mysql://47.93.229.62:3306/irsa</property>
 		<property name="jdbcUrl">jdbc:mysql://localhost:3306/irsa_bak</property>
 		 -->
@@ -29,9 +29,9 @@
 		<!--如果设为true那么在取得连接的同时将校验连接的有效性。Default: false -->
 		<property name="testConnectionOnCheckin">false</property>
 		<!--JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0
-		<property name="maxStatements">20</property> 
+		<property name="maxStatements">20</property>
 		-->
-		<!--maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0 
+		<!--maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0
 		<property name="maxStatementsPerConnection">5</property>
 		-->
 	</named-config>
