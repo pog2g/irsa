@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>信息录入</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+    <!-- switch -->
+    <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+    <!-- datetimepicker -->
+    <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+     folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+    <!-- 自定义 -->
+    <link rel="shortcut icon" href="self/img/logo.png">
+    <link rel="stylesheet" href="self/css/self.css">
+    <link rel="stylesheet" href="self/css/add.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header class="main-header"></header>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" id="ul_menu"></ul>
+        </section>
+    </aside>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>录入系统
+                <small>信息录入</small>
+            </h1>
+        </section>
+        <section class="content">
+            <a id="arrow_left" class="btn btn-flat btn-primary"
+               style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display: none;"><i
+                    class="fa fa-arrow-left"></i></a>
+            <div id="form_list" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display: none;">
+                <div class="btn-group-vertical">
+                    <a class="btn btn-flat btn-primary btn-skin" href="#form_apply">申请人</a>
+                    <a class="btn btn-flat btn-primary btn-skin case-type-2" style="display: none;"
+                       href="#form_apply_representative">申请人代表</a>
+                    <a class="btn btn-flat btn-primary btn-skin" href="#form_apply_third_party">（申请人建议追加）第三人</a>
+                    <a class="btn btn-flat btn-primary btn-skin" href="#form_defendant">被申请人</a>
+                    <a class="btn btn-flat btn-primary btn-skin" href="#form_specific_behavior">不服具体行政行为</a>
+                    <a class="btn btn-flat btn-primary btn-skin" href="#form_apply_request">行政复议请求</a>
+                    <a class="btn btn-flat btn-primary btn-skin" href="#form_facts_reasons">事实和理由</a>
+                    <a class="btn btn-flat btn-primary btn-skin" href="#topAnchor"><i
+                            class="fa fa-arrow-circle-o-up"></i> 返回顶部</a>
+                    <button class="btn btn-flat btn-primary btn-skin" id="arrow_right"><i
+                            class="fa fa-arrow-circle-o-right"></i> 收起
+                    </button>
+                </div>
+            </div>
+            <div class="row div-cases-type">
+                <div class="col-lg-12 text-center">
+                    <h1>欢迎使用法眼慧心行政复议应诉系统2.0版（研判主平台）</h1>
+                    <h3 style="margin-bottom: 25px;">请选择申请人类型</h3>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body text-center" style="padding-top: 50px;">
+                            <button class="btn btn-lg btn-primary btn-skin btn-cases-type" data-type="1"><i
+                                    class="fa fa-user"></i>&nbsp;&nbsp;个人申请行政复议
+                            </button>
+
+                        </div>
+                        <div class="box-body text-center" style="padding: 10px 40px;height: 140px;">
+                            <h3>个人申请</h3>
+                            <h5 style="line-height: 1.5rem;">单个公民独自申请行政复议。</h5>
+                            <a class="pull-right" data-toggle="tooltip" data-placement="top"
+                               title="口头笔录完成后请按照正常操作流程继续录入" id="downloadTemplate1" onclick="download1('个人口头申请行政复议笔录');"><i
+                                    class="fa fa-download"></i> 个人口头申请行政复议笔录</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body text-center" style="padding-top: 50px;">
+                            <button class="btn btn-lg btn-primary btn-skin btn-cases-type" data-type="2"><i
+                                    class="fa fa-users"></i>&nbsp;&nbsp;多人申请行政复议
+                            </button>
+                        </div>
+                        <div class="box-body text-center" style="padding: 10px 40px;height: 140px;">
+                            <h3>多人申请</h3>
+                            <h5 class="text-center" style="line-height: 1.5rem;">两名以上公民申请行政复议。</h5>
+                            <a class="pull-right" data-toggle="tooltip" data-placement="top"
+                               title="口头笔录完成后请按照正常操作流程继续录入" id="downloadTemplate2" onclick="download1('多人口头申请行政复议笔录');"><i
+                                    class="fa fa-download"></i> 多人口头申请行政复议笔录</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body text-center" style="padding-top: 50px;">
+                            <button class="btn btn-lg btn-primary btn-skin btn-cases-type" data-type="3"><i
+                                    class="fa fa-briefcase"></i>&nbsp;&nbsp;法人组织申请行政复议
+                            </button>
+                        </div>
+                        <div class="box-body text-center" style="padding: 10px 40px;height: 140px;">
+                            <h3>法人组织申请</h3>
+                            <h5 class="text-center" style="line-height: 1.5rem;">单个法人或其他组织独自申请行政复议。</h5>
+                            <a class="pull-right" data-toggle="tooltip" data-placement="top"
+                               title="口头笔录完成后请按照正常操作流程继续录入" id="downloadTemplate3"
+                               onclick="download1('法人组织口头申请行政复议笔录');"><i class="fa fa-download"></i> 法人组织口头申请行政复议笔录</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body text-center" style="padding-top: 50px;">
+                            <button class="btn btn-lg btn-primary btn-skin btn-cases-type" data-type="4"><i
+                                    class="fa fa-th"></i>&nbsp;&nbsp;混合申请行政复议
+                            </button>
+                        </div>
+                        <div class="box-body text-center" style="padding: 10px 40px;height: 140px;">
+                            <h3>混合申请</h3>
+                            <h5 class="text-center" style="line-height: 1.5rem;">两个以上法人或其他组织、公民和其他组织等共同申请行政复议。</h5>
+                            <a class="pull-right" data-toggle="tooltip" data-placement="top"
+                               title="口头笔录完成后请按照正常操作流程继续录入" id="downloadTemplate4" onclick="download1('混合口头申请行政复议笔录');"><i
+                                    class="fa fa-download"></i> 混合口头申请行政复议笔录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row div-info" style="display: none;">
+                <div class="col-lg-6">
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body" style="border-bottom: 1px solid #f4f4f4;">
+                            <button class="btn btn-primary btn-skin btn-submit-cases-draft"><i
+                                    class="fa fa-file-text-o"></i>
+                                保存草稿
+                            </button>
+                            <!--<button class="btn btn-primary btn-skin btn-submit-cases" data-next="1"><i class="fa fa-copy"></i>
+                            新建录入</button>-->
+                            <button class="btn btn-primary btn-skin btn-submit-cases"><i class="fa fa-check"></i> 提交
+                            </button>
+
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+
+                                <!-- 案件标签开始 -->
+                                <div class="col-lg-12">
+                                    <div class="box box-solid">
+
+                                        <div class="box-header with-border text-blue">
+                                            <i class="fa fa-thumb-tack"></i>
+                                            <h3 class="box-title" id="box_case_intro">案件标签</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>类型</label>
+                                                        <div class="form-control bg-gray-light"
+                                                             id="font_cases_type"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>案件年号</label>
+                                                        <select class="form-control" style="width: 100%;" id="year_no"
+                                                                name="year_no"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6" id="col_no">
+                                                    <div class="form-group">
+                                                        <label>案件编号</label>
+                                                        <input class="form-control" id="no" name="no"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6" id="col_no_more" style="display: none;">
+                                                    <div class="form-group">
+                                                        <label>案件编号</label>
+                                                        <div class="input-group">
+                                                            <input class="form-control" id="no_min" name="no_min"/>
+                                                            <div class="input-group-addon">-</div>
+                                                            <input class="form-control" id="no_max" name="no_max"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>申请时间
+                                                            <small>（格式：2018-01-01）</small>
+                                                        </label>
+                                                        <input class="form-control" id="apply_time" name="apply_time"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>申请方式</label>
+                                                        <div class="form-control">
+                                                            <label style="padding-left: 7px"><input type="radio"
+                                                                                                    class="minimal"
+                                                                                                    id="apply_mode_1"
+                                                                                                    name="apply_mode"
+                                                                                                    value="1"
+                                                                                                    checked="checked">
+                                                                收件</label>
+                                                            <label style="padding-left: 7px"><input type="radio"
+                                                                                                    class="minimal"
+                                                                                                    id="apply_mode_2"
+                                                                                                    name="apply_mode"
+                                                                                                    value="2">
+                                                                邮寄</label>
+                                                            <label style="padding-left: 7px"><input type="radio"
+                                                                                                    class="minimal"
+                                                                                                    id="apply_mode_3"
+                                                                                                    name="apply_mode"
+                                                                                                    value="4">
+                                                                网件</label>
+                                                            <label style="padding-left: 7px"><input type="radio"
+                                                                                                    class="minimal"
+                                                                                                    id="apply_mode_4"
+                                                                                                    name="apply_mode"
+                                                                                                    value="3">
+                                                                其他备注</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>申请方式其他备注</label>
+                                                        <input class="form-control" id="apply_mode_another"
+                                                               name="apply_mode_another" disabled="true"
+                                                               oninput="inputRealTimeEvent('apply_mode_another','font_apply_mode')"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <div class="form-group">
+                                                        <label>案由</label>
+                                                        <select class="form-control" style="width: 100%;"
+                                                                id="reason"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="form-group">
+                                                        <label>自定义案由</label>
+                                                        <input class="form-control" id="reason_another"
+                                                               name="reason_another" disabled="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>请求类别</label>
+                                                        <div class="form-control" id="request_category"
+                                                             style="padding: 7px;">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>行政管理类别</label>
+                                                        <select class="form-control" style="width: 100%;"
+                                                                id="administrative_category"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group" id="normative_documents">
+                                                        <label>一并提出规范性文件审查</label>
+                                                        <!-- 添加单选框按钮  选中后显示编辑内容，非选中则默认隐藏 -->
+                                                        <div class="form-control" style="padding: 7px;">
+                                                            <label style="padding-left: 7px"><input type="radio"
+                                                                                                    class="minimal"
+                                                                                                    id="addNormativeDocYes"
+                                                                                                    name="addNormativeDocRadio"
+                                                                                                    value="1">
+                                                                申请</label>
+                                                            <label style="padding-left: 7px"><input type="radio"
+                                                                                                    class="minimal"
+                                                                                                    id="addNormativeDocNo"
+                                                                                                    name="addNormativeDocRadio"
+                                                                                                    value="2"
+                                                                                                    checked="checked">
+                                                                不申请</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 案件标签结束 -->
+
+
+                                <!-- 当事人信息开始 -->
+                                <div class="col-lg-12">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-header with-border text-blue">
+                                            <i class="fa fa-users"></i>
+                                            <h3 class="box-title" id="box_case_users">当事人信息</h3>
+                                        </div><!-- /.box-header -->
+
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group" id="form_apply">
+                                                        <label>申请人</label>
+                                                        <div id="apply_info" class="box box-solid no-shadow no-margin"
+                                                             style="border: 1px solid #d2d6de;border-radius: 0px;">
+                                                            <div class="box-body" id="append_apply_btn"
+                                                                 style="border-bottom: 1px solid #d2d6de;border-radius: 0px;">
+                                                                <button class="btn btn-xs btn-primary btn-skin btn-add-apply">
+                                                                    <i class="fa fa-plus"></i> 添加
+                                                                </button>
+                                                            </div>
+                                                            <div class="collapse" style="padding-bottom: 0px;"
+                                                                 id="row_apply">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group case-type-2" id="form_apply_representative"
+                                                         style="display: none;">
+                                                        <label>行政复议代表</label>
+                                                        <div class="box box-solid no-shadow no-margin"
+                                                             style="border: 1px solid #d2d6de;border-radius: 0px;">
+                                                            <div class="box-body"
+                                                                 style="border-bottom: 1px solid #d2d6de;border-radius: 0px;">
+                                                                <button class="btn btn-xs btn-primary btn-skin btn-add-apply-representative">
+                                                                    <i class="fa fa-plus"></i> 添加
+                                                                </button>
+                                                            </div>
+                                                            <div class="box-body" style="padding-bottom: 0px;"
+                                                                 id="row_apply_representative"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group case-type-2" id="form_cases_file_9"
+                                                         style="display: none;">
+                                                        <label>行政复议代表推选凭证
+                                                            <small></small>
+                                                        </label>
+                                                        <div style="border: 1px solid #d2d6de;padding: 10px 10px 0 10px;">
+                                                            <ul class="mailbox-attachments clearfix"
+                                                                id="ul_cases_file_9">
+                                                                <li style="width: auto;">
+                                                                    <div class="mailbox-attachment-info">
+                                                                        <div class="mailbox-attachment-name"
+                                                                             style="overflow: hidden;height: 25px;"><i
+                                                                                class="fa fa-paperclip"></i> 选择文件
+                                                                        </div>
+                                                                        <span class="mailbox-attachment-size">
+                                                                            <button class="btn btn-xs btn-primary btn-skin btn-file">
+                                                                                <i class="fa fa-plus"></i> 添加
+                                                                                <input type="file" id="cases_file_9"/>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group" id="form_apply_third_party">
+                                                        <label>申请人是否一并要求追加第三人</label>
+                                                        <!--  添加单选框按钮  选中后显示编辑内容，非选中则默认隐藏 -->
+
+                                                        <label style="padding-left: 7px"><input type="radio"
+                                                                                                class="minimal"
+                                                                                                id="addThirdPersonYes"
+                                                                                                name="addThirdBtn"
+                                                                                                value="1"> 是</label>
+                                                        <label style="padding-left: 7px"><input type="radio"
+                                                                                                class="minimal"
+                                                                                                id="addThirdPersonNo"
+                                                                                                name="addThirdBtn"
+                                                                                                value="2"
+                                                                                                checked="checked">
+                                                            否</label>
+
+                                                        <div id="addThirdPersonDiv"
+                                                             class="box box-solid no-shadow no-margin hidden"
+                                                             style="border: 1px solid #d2d6de;border-radius: 0px;">
+                                                            <div class="box-body" id="thirdpartyappend_element_btn"
+                                                                 style="border-bottom: 1px solid #d2d6de;border-radius: 0px;">
+                                                                <button class="btn btn-xs btn-primary btn-skin btn-add-third-party">
+                                                                    <i class="fa fa-plus"></i> 添加
+                                                                </button>
+                                                            </div>
+                                                            <div class="collapse" style="padding-bottom: 0px;"
+                                                                 id="row_third_party_0">
+
+                                                            </div>
+                                                            <div class="box-body" style="padding-bottom: 0px;"
+                                                                 id="row_apply_third_party_0"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group" id="form_defendant">
+                                                        <label>被申请人</label>
+                                                        <span style="color:#DB192B;font-size:10px">*	请注意联想搜索避免数据重复导致错误</span>
+                                                        <div id="defendant_info"
+                                                             class="box box-solid no-shadow no-margin"
+                                                             style="border: 1px solid #d2d6de;border-radius: 0px;">
+                                                            <div class="box-body" id="append_defendant_btn"
+                                                                 style="border-bottom: 1px solid #d2d6de;border-radius: 0px;">
+                                                                <button class="btn btn-xs btn-primary btn-skin btn-add-defendant">
+                                                                    <i class="fa fa-plus"></i> 添加
+                                                                </button>
+                                                            </div>
+                                                            <div class="collapse" style="padding-bottom: 0px;"
+                                                                 id="row_defendant"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 当事人信息结束 -->
+                                <!-- 复议申请详情开始 -->
+                                <div class="col-lg-12">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-header with-border text-blue">
+                                            <i class="fa fa-file-text"></i>
+                                            <h3 class="box-title" id="box_case_info">复议申请详情</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <!-- 规范性文件审查上传组件默认隐藏 -->
+                                                    <div class="form-group no-margin hidden" id="addNormativeDocDiv">
+                                                        <div class="form-group">
+                                                            <!-- <input class="form-control" id="review_articles" name="review_articles" placeholder="请填写请求审查的规范性文件名称或条款" /> -->
+                                                            <label>规范性文件审查</label>
+                                                            <span style="color:#DB192B;font-size:10px">*	注意填充内容与“申请人不服被申请人........向本机关申请行政复议”的语句保持通顺</span>
+                                                            <textarea class="form-control" id="review_articles"
+                                                                      name="review_articles"></textarea>
+                                                        </div>
+                                                        <div class="">如提交有单独的规范性文件审查材料，请上传<span
+                                                                style="color:#DB192B;font-size:10px">(审查内容包含于《行政复议申请书》中的，无需上传)</span>
+                                                        </div>
+                                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                                            <ul class="mailbox-attachments clearfix"
+                                                                id="ul_normativeDoc_file">
+                                                                <li style="width: auto;">
+                                                                    <div class="mailbox-attachment-info">
+                                                                        <div class="mailbox-attachment-name"
+                                                                             style="overflow: hidden;height: 25px;"><i
+                                                                                class="fa fa-paperclip"></i> 选择文件
+                                                                        </div>
+                                                                        <span class="mailbox-attachment-size">
+                                                                                <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                                    <i class="fa fa-plus"></i> 添加
+                                                                                    <input type="file"
+                                                                                           id="normativeDoc_file"/>
+                                                                                </button>
+                                                                            </span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" id="form_specific_behavior">
+                                                        <label>不服具体行政行为</label>
+                                                        <span style="color:#DB192B;font-size:10px">*	注意填充内容与“申请人不服被申请人........向本机关申请行政复议”的语句保持通顺</span>
+                                                        <textarea class="form-control" id="specific_behavior"
+                                                                  name="specific_behavior"></textarea>
+                                                    </div>
+                                                    <div class="form-group" id="form_apply_request">
+                                                        <label>行政复议请求</label>
+                                                        <textarea class="form-control" id="apply_request"
+                                                                  name="apply_request"></textarea>
+                                                    </div>
+                                                    <div class="form-group" id="form_facts_reasons">
+                                                        <label>事实和理由</label>
+                                                        <textarea id="facts_reasons" name="facts_reasons"
+                                                                  style="visibility:hidden;"></textarea>
+                                                    </div>
+                                                    <div class="form-group" id="form_cases_file_1">
+                                                        <label>申请人证据信息
+                                                            <small></small>
+                                                        </label>
+                                                        <div style="border: 1px solid #d2d6de;padding: 10px 10px 0 10px;">
+                                                            <ul class="mailbox-attachments clearfix"
+                                                                id="ul_cases_file_1">
+                                                                <li style="width: auto;">
+                                                                    <div class="mailbox-attachment-info">
+                                                                        <div class="mailbox-attachment-name"
+                                                                             style="overflow: hidden;height: 25px;"><i
+                                                                                class="fa fa-paperclip"></i> 选择文件
+                                                                        </div>
+                                                                        <span class="mailbox-attachment-size">
+                                                                                <button class="btn btn-xs btn-primary btn-skin btn-file">
+                                                                                    <i class="fa fa-plus"></i> 添加
+                                                                                    <input type="file"
+                                                                                           id="cases_file_1"/>
+                                                                                </button>
+                                                                            </span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group" id="form_labels">
+                                                        <label>关键字标签
+                                                            <small>（多个请使用中文逗号间隔）</small>
+                                                        </label>
+                                                        <input class="form-control" id="labels" name="labels"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 复议申请详情结束 -->
+
+                            </div>
+                            <div style="line-height: 2em;" id="div_labels"></div>
+                        </div>
+                        <div class="box-footer">
+                            <button class="btn btn-primary btn-skin btn-submit-cases-draft"><i
+                                    class="fa fa-file-text-o"></i>
+                                保存草稿
+                            </button>
+                            <button class="btn btn-primary btn-skin btn-submit-cases"><i class="fa fa-check"></i> 提交
+                            </button>
+                            <!--<button class="btn btn-primary btn-skin btn-submit-cases" data-next="1"><i class="fa fa-copy"></i>
+                            下一个</button>-->
+                        </div>
+                        <div class="overlay" id="table_loading" style="display: none;">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box box-solid">
+                        <div class="box-header text-black"><i class="fa fa-file-word-o"></i> 文书预览</div>
+                        <div class="box-body" id="div_file">
+                            <div id="font_pageTitle" style="text-indent: 2em; line-height: 420%">&COPY;法眼慧心&trade;行政复议智能研判系统采集生成文书Ⅲ</div>
+                            <div style="line-height: 37px;font-size: 29px;text-align: center;font-family: simsun;margin-bottom: 37px;">
+                                行政复议申请书
+                            </div>
+                            <div style="font-family: '仿宋';line-height: 37px;font-size: 21px;">
+                                <div id="font_case_id" style="text-align: center">分配案号：〔<span
+                                        id="font_years_no">2019</span>〕<span id="font_case_no"></span>号
+                                </div>
+                                <div id="font_apply"></div>
+                                <div id="font_apply_agent"></div>
+                                <div id="font_agent"></div>
+                                <div id="font_defendant"></div>
+                                <div id="font_other"></div>
+                                <div style="text-indent: 2em;">行政复议请求：<span id="font_apply_request"></span></div>
+                                <div style="text-indent: 2em;">事实与理由：<span id="font_facts_reasons"></span></div>
+                                <div style="text-indent: 2em;">此致</div>
+                                <!--<div style="text-indent: 2em;margin-bottom: 37px;" class="font-department"></div>-->
+                                <div style="text-align: right;">申请时间：<span id="font_date"></span></div>
+                                <div style="text-align: right;">申请方式：<span id="font_apply_mode"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="main-footer"></footer>
+
+    <aside class="control-sidebar control-sidebar-dark">
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li class="active">
+                <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+            </li>
+            <li>
+                <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+            </li>
+            <li>
+                <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_skin">
+                <h4 class="control-sidebar-heading">皮肤</h4>
+            </div>
+            <div class="tab-pane" id="tab_contactbook">
+                <h4 class="control-sidebar-heading">通讯录</h4>
+                <ul class="control-sidebar-menu">
+                    <li style="display: none;">
+                        <a href="javascript:void(0)">
+                            <i class="menu-icon fa fa-user bg-gray"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">张三</h4>
+                                <p>18712345678</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab_notice">
+                <h4 class="control-sidebar-heading">版本更新公告</h4>
+                <div class="form-group" style="display: none;">
+                    <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i>
+                        修复挺里面可能会遇到的多处bug</label>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="control-sidebar-bg"></div>
+</div>
+
+
+<!-- 添加申请人modal框 开始 -->
+<div class="modal fade" id="modal_add_apply">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="modal_add_apply_title" class="modal-title"><i class="fa fa-plus"></i> 添加 - 申请人</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee">
+                    <div class="box-body" style="border-bottom: 1px solid #eee;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>联想搜索</label>
+                            <select class="select2 form-control" style="width: 100%;" id="search_apply"></select>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <input type="hidden" id="apply_personnel_id" name="apply_personnel_id"/>
+                        <div class="row">
+                            <!-- 新加字段 -->
+                            <!-- 混合行政复议申请时显示选择申请人类型按钮 -->
+                            <div class="col-lg-12" id="blend_type_radio" style="display: none;">
+                                <div class="form-group">
+                                    <label>申请人类型</label>
+                                    <div class="form-control">
+                                        <input type="radio" class="minimal" id="person-radio" name="blend_apply_type"
+                                               value="1" checked="checked"> 个人
+                                        <input type="radio" class="minimal" id="legal-radio" name="blend_apply_type"
+                                               value="2"> 法人组织
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 单位名称 -->
+                            <div class="col-lg-6 form-unit" style="display: none;">
+                                <div class="form-group legal-needs">
+                                    <label>单位名称</label>
+                                    <input class="form-control" id="apply_unit_name" name="apply_unit_name"/>
+                                </div>
+                            </div>
+                            <!-- 单位联系方式 -->
+                            <div class="col-lg-6 form-unit" style="display: none;">
+                                <div class="form-group legal-needs">
+                                    <label>单位联系方式</label>
+                                    <input class="form-control" id="apply_unit_contact" name="apply_unit_contact"/>
+                                </div>
+                            </div>
+                            <!-- 单位证件类型 -->
+                            <div class="col-lg-4 form-unit" style="display: none;">
+                                <div class="form-group legal-needs">
+                                    <label>单位证件类型</label>
+                                    <select class="form-control" style="width: 100%;" id="apply_unit_id_type"
+                                            name="apply_unit_id_type"></select>
+                                </div>
+                            </div>
+                            <!-- 单位证件号码 -->
+                            <div class="col-lg-8 form-unit" style="display: none;">
+                                <div class="form-group legal-needs">
+                                    <label>单位证件号码</label>
+                                    <input class="form-control" id="apply_unit_id_no" name="apply_unit_id_no"/>
+                                </div>
+                            </div>
+                            <!-- 单位住所 -->
+                            <div class="col-lg-8 form-unit" style="display: none;">
+                                <div class="form-group legal-needs">
+                                    <label>单位住所</label>
+                                    <input class="form-control" id="apply_unit_abode" name="apply_unit_abode"/>
+                                </div>
+                            </div>
+                            <!-- 法定负责人选项 -->
+                            <div class="col-lg-4 form-unit" style="display: none;">
+                                <div class="form-group legal-needs">
+                                    <label>法定负责人</label>
+                                    <div class="form-control">
+                                        <input type="radio" class="minimal" name="Legal_person" value="1"
+                                               checked="checked"> 法定代表人
+                                        <input type="radio" class="minimal" name="Legal_person" value="2"> 负责人
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 单位项结束 个人项/法人代表项开始 -->
+                            <!-- 姓名/法定代表人姓名 -->
+                            <div class="col-lg-3">
+                                <div class="form-group person-needs legal-needs">
+                                    <label id="label_apply_name">姓名</label>
+                                    <input class="form-control" id="apply_name" name="apply_name"/>
+                                </div>
+                            </div>
+                            <!-- 别名/法定代表人别名 -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>英文/其他语种名/化名/曾用名</label>
+                                    <input class="form-control" id="other_name" name="other_name"/>
+                                </div>
+                            </div>
+                            <!-- 民族/法定代表人民族 -->
+                            <!-- label_apply_nature1 -->
+                            <div class="col-lg-3" id="apply_nature_parent">
+                                <div class="form-group">
+                                    <label>民族</label>
+                                    <input class="form-control" id="apply_nature" name="apply_nature"/>
+                                </div>
+                            </div>
+                            <!-- 性别/法定代表人性别 -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>性别</label>
+                                    <div class="form-control">
+                                        <input type="radio" class="minimal" id="apply_gender_1" name="apply_gender"
+                                               value="1" checked="checked"> 男
+                                        <input type="radio" class="minimal" id="apply_gender_2" name="apply_gender"
+                                               value="2"> 女
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 出生日期/法定代表人出生日期 -->
+                            <div class="col-lg-3">
+                                <div class="form-group person-needs">
+                                    <label>出生日期222
+                                        <small>（格式：2019-01-01）</small>
+                                    </label>
+                                    <input class="form-control" id="apply_birthday" name="apply_birthday"/>
+                                </div>
+                            </div>
+                            <!-- 个人证件类型/法定代表人证件类型 -->
+                            <div class="col-lg-3">
+                                <div class="form-group person-needs">
+                                    <label>证件类型</label>
+                                    <select class="form-control" style="width: 100%;" id="apply_id_type"
+                                            name="apply_id_type"></select>
+                                </div>
+                            </div>
+                            <!-- 证件号码/法定代表人证件号码 -->
+                            <div class="col-lg-3">
+                                <div class="form-group person-needs">
+                                    <label>证件号码</label>
+                                    <input class="form-control" id="apply_id_no" name="apply_id_no"/>
+                                </div>
+                            </div>
+                            <!-- 手机号码/法定代表人手机号码 -->
+                            <div class="col-lg-3" id="s3">
+                                <div class="form-group person-needs legal-needs">
+                                    <label>手机号码</label>
+                                    <input class="form-control" id="apply_phone" name="apply_phone"/>
+                                </div>
+                            </div>
+                            <!-- <div id="c" style="height:300px;"> -->
+                            <!-- <div id="c1" style=" position:absolute;z-index:-100;top:0px;left:0px;margin-left:0px;"> -->
+                            <!-- 户籍所在地/法定代表人户籍所在地 -->
+                            <div class="col-lg-4" id="s1">
+                                <div class="form-group person-needs">
+                                    <label>户籍所在地</label>
+                                    <input class="form-control" id="apply_domicile" name="apply_domicile"/>
+                                </div>
+                            </div>
+                            <!-- 邮编/单位邮编 -->
+                            <div class="col-lg-4" id="s2">
+                                <div class="form-group">
+                                    <label>邮编</label>
+                                    <input class="form-control" id="apply_zip_code" name="apply_zip_code"/>
+                                </div>
+                            </div>
+                            <!-- 其他联系方式/法人代表其他联系方式 -->
+                            <div class="col-lg-4" id="s4">
+                                <div class="form-group">
+                                    <label>其他联系方式</label>
+                                    <input class="form-control" id="apply_contact" name="apply_contact"/>
+                                </div>
+                            </div>
+                            <!-- 法律文书送达地址 -->
+                            <div class="col-lg-12">
+                                <div class="form-group no-margin legal-needs person-needs">
+                                    <label>法律文书送达地址</label>
+                                    <input class="form-control" id="abode" name="abode"/>
+                                </div>
+                            </div>
+                            <!-- 证件信息 -->
+                            <div class="col-lg-12" id="s7">
+                                <div class="form-group margin-top-10 legal-needs person-needs">
+                                    <label>证件信息</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px; ">
+                                        <ul class="mailbox-attachments clearfix" id="ul_apply_file">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                        <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                            <i class="fa fa-plus"></i> 添加
+                                                            <input type="file" id="apply_file"/>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-skin" id="btn_clear_apply">清空</button>
+                <button type="button" class="btn btn-primary btn-skin" id="btn_submit_apply">确定</button>
+                <!-- <button type="button" class="btn btn-primary btn-skin" id="btn_next_apply">下一个</button> -->
+            </div>
+            <div class="loading" style="display: none" id="loading_apply">
+                <i class="fa fa-spin fa-refresh loading-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加申请人代表modal框 开始 -->
+<div class="modal fade" id="modal_add_apply_representative">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> 添加 - 申请人代表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee">
+                    <div class="box-body" style="border-bottom: 1px solid #eee;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>请选择申请人代表</label>
+                            <select class="select2 form-control" multiple="multiple" style="width: 100%;"
+                                    id="search_apply_representative"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-skin" id="btn_clear_apply_representative">清空</button>
+                <button type="button" class="btn btn-primary btn-skin" id="btn_submit_apply_representative">确定</button>
+            </div>
+            <div class="loading" style="display: none" id="loading_apply_representative">
+                <i class="fa fa-spin fa-refresh loading-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加申请人代表modal框 结束 -->
+
+<!-- 添加委托代表人modal 开始 -->
+<div class="modal fade" id="modal_add_agent">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> 添加 - <font id="title_add_agent"></font></h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-solid no-shadow" style="border: 1px solid #eee;margin-bottom: 10px;"
+                     id="box_client">
+                    <div class="box-body">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>委托人</label>
+                            <select class="form-control" style="width: 100%;" id="agent_client"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-solid no-shadow" style="border: 1px solid #eee;margin-bottom: 10px;">
+                    <div class="box-body">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>委托类型</label>
+                            <select class="form-control" style="width: 100%;" id="agent_type"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee;">
+                    <div class="box-body" style="border-bottom: 1px solid #eee;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>请输入证件号码</label>
+                            <select class="form-control" style="width: 100%;" id="search_agent"></select>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <input type="hidden" id="agent_personnel_id" name="agent_personnel_id"/>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input class="form-control" id="agent_name" name="agent_name"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>性别</label>
+                                    <div class="form-control">
+                                        <label style="padding-left: 7px"><input type="radio" class="minimal"
+                                                                                name="agent_gender"
+                                                                                value="1" checked="checked"> 男</label>
+                                        <label style="padding-left: 7px"><input type="radio" class="minimal"
+                                                                                name="agent_gender"
+                                                                                value="2"> 女</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>民族</label>
+                                    <input class="form-control" id="agent_nature" name="agent_nature"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>出生日期
+                                        <small>（格式：2008-08-08）</small>
+                                    </label>
+                                    <input class="form-control" id="agent_birthday" name="agent_birthday"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="agent_kinsfolk_div">
+                                <div class="form-group">
+                                    <label>亲属关系</label>
+                                    <input class="form-control" id="agent_kinsfolk" name="agent_kinsfolk"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" id="agent_identity_div">
+                                <div class="form-group">
+                                    <label>身份类型</label>
+                                    <select class="form-control" style="width: 100%;" id="agent_identity"
+                                            name="agent_identity"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" id="agent_id_type_div">
+                                <div class="form-group">
+                                    <label>证件类型</label>
+                                    <select class="form-control" style="width: 100%;" id="agent_id_type"
+                                            name="agent_id_type"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>证件号码</label>
+                                    <input class="form-control" id="agent_id_no" name="agent_id_no"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="agent_unit_name_div">
+                                <div class="form-group">
+                                    <label>工作单位</label>
+                                    <input class="form-control" id="agent_unit_name" name="agent_unit_name"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>联系方式</label>
+                                    <input class="form-control" id="agent_phone" name="agent_phone"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label id="address_title">详细地址</label>
+                                    <input class="form-control" id="agent_address" name="agent_address"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>证件信息</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                        <ul class="mailbox-attachments clearfix" id="ul_agent_file_1">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="agent_file_1"/>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group no-margin">
+                                    <label>委托代理书</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                        <ul class="mailbox-attachments clearfix" id="ul_agent_file_2">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="agent_file_2"/>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group no-margin">
+                                    <label id="other_file">单位公函</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                        <ul class="mailbox-attachments clearfix" id="ul_agent_file_3">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="agent_file_3"/>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-skin" id="btn_clear_agent">清空</button>
+                <button type="button" class="btn btn-primary btn-skin" id="btn_submit_agent">确定</button>
+            </div>
+            <div class="loading" style="display: none" id="loading_agent">
+                <i class="fa fa-spin fa-refresh loading-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加委托代表人modal 结束 -->
+
+<!-- 添加建议第三人模态框 开始 -->
+<div class="modal fade" id="modal_advice_third_party">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> 添加 - 建议追加第三人<font id="title_third_party"></font></h4>
+                <span style="color:#DB192B;font-size:10px">*	请注意录入顺序,以申请人在前,法人或其他组织在后</span>
+            </div>
+            <div class="modal-body">
+                <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee">
+                    <div class="box-body" style="border-bottom: 1px solid #eee;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>联想搜索</label>
+                            <select class="select2 form-control" style="width: 100%;" id="search_third_party"></select>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <input type="hidden" id="third_party_personnel_id" name="third_party_personnel_id"/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>第三人类型</label>
+                                    <div class="form-control">
+                                        <input type="radio" class="minimal" id="choose_third_for_person"
+                                               name="third_party_type" value="1" checked="checked"> 个人
+                                        <input type="radio" class="minimal" id="choose_third_for_legal"
+                                               name="third_party_type" value="2"> 法人组织
+                                    </div>
+                                </div>
+                            </div>
+                            <!--单位名称-->
+                            <div class="col-lg-6 form-third-unit hidden">
+                                <div class="form-group">
+                                    <label>单位名称</label>
+                                    <input class="form-control" id="third_party_unit_name"
+                                           name="third_party_unit_name"/>
+                                </div>
+                            </div>
+                            <!--单位联系方式-->
+                            <div class="col-lg-6 form-third-unit hidden">
+                                <div class="form-group">
+                                    <label>单位联系方式</label>
+                                    <input class="form-control" id="third_party_unit_contact"
+                                           name="third_party_unit_contact"/>
+                                </div>
+                            </div>
+                            <!--单位证件类型-->
+                            <div class="col-lg-4 form-third-unit hidden">
+                                <div class="form-group">
+                                    <label>单位证件类型</label>
+                                    <select class="form-control" style="width: 100%;" id="third_party_unit_id_type"
+                                            name="third_party_unit_id_type"></select>
+                                </div>
+                            </div>
+                            <!--单位证件号码-->
+                            <div class="col-lg-8 form-third-unit hidden">
+                                <div class="form-group">
+                                    <label>单位证件号码</label>
+                                    <input class="form-control" id="third_party_unit_id_no"
+                                           name="third_party_unit_id_no"/>
+                                </div>
+                            </div>
+                            <!--单位住所-->
+                            <div class="col-lg-8 form-third-unit hidden">
+                                <div class="form-group">
+                                    <label>单位住所</label>
+                                    <input class="form-control" id="third_party_unit_abode"
+                                           name="third_party_unit_abode"/>
+                                </div>
+                            </div>
+                            <!-- 法定负责人选项-->
+                            <div class="col-lg-4 form-third-unit hidden">
+                                <div class="form-group">
+                                    <label>法定代表人/负责人</label>
+                                    <div class="form-control">
+                                        <input type="radio" class="minimal" name="third_party_Legal_person" value="1"
+                                               checked="checked"> 法定代表人
+                                        <input type="radio" class="minimal" name="third_party_Legal_person" value="2">
+                                        负责人
+                                    </div>
+                                </div>
+                            </div>
+                            <!--单位项结束 个人项/法人代表项开始 -->
+                            <!--姓名/法定代表人姓名 -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input class="form-control" id="third_party_name" name="third_party_name"/>
+                                </div>
+                            </div>
+                            <!--别名/法定代表人别名-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>英文/其他语种名/化名/曾用名</label>
+                                    <input class="form-control" id="third_party_other_name"
+                                           name="third_party_other_name"/>
+                                </div>
+                            </div>
+                            <!--民族/法定代表人民族-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>民族</label>
+                                    <input class="form-control" id="third_party_nature" name="third_party_nature"/>
+                                </div>
+                            </div>
+                            <!--性别/法定代表人性别-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>性别</label>
+                                    <div class="form-control">
+                                        <input type="radio" class="minimal" name="third_party_gender" value="1"
+                                               checked="checked"> 男
+                                        <input type="radio" class="minimal" name="third_party_gender" value="2"> 女
+                                    </div>
+                                </div>
+                            </div>
+                            <!--出生日期/法定代表人出生日期-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>出生日期
+                                        <small>（格式：2019-01-01）</small>
+                                    </label>
+                                    <input class="form-control" id="third_party_birthday" name="third_party_birthday"/>
+                                </div>
+                            </div>
+                            <!--个人证件类型/法定代表人证件类型-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>证件类型</label>
+                                    <select class="form-control" style="width: 100%;" id="third_party_id_type"
+                                            name="third_party_id_type"></select>
+                                </div>
+                            </div>
+                            <!--证件号码/法定代表人证件号码-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>证件号码</label>
+                                    <input class="form-control" id="third_party_id_no" name="third_party_id_no"/>
+                                </div>
+                            </div>
+                            <!--手机号码/法定代表人手机号码-->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>手机号码</label>
+                                    <input class="form-control" id="third_party_phone" name="third_party_phone"/>
+                                </div>
+                            </div>
+                            <!--户籍所在地/法定代表人户籍所在地-->
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>户籍所在地</label>
+                                    <input class="form-control" id="third_party_domicile" name="third_party_domicile"/>
+                                </div>
+                            </div>
+                            <!--邮编/单位邮编-->
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>邮编</label>
+                                    <input class="form-control" id="third_party_zip_code" name="third_party_zip_code"/>
+                                </div>
+                            </div>
+                            <!--其他联系方式/法人代表其他联系方式-->
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>其他联系方式</label>
+                                    <input class="form-control" id="third_party_contact" name="third_party_contact"/>
+                                </div>
+                            </div>
+                            <!--法律文书送达地址-->
+                            <div class="col-lg-12">
+                                <div class="form-group no-margin">
+                                    <label>法律文书送达地址</label>
+                                    <input class="form-control" id="third_party_abode" name="third_party_abode"/>
+                                </div>
+                            </div>
+                            <!--证件信息-->
+                            <div class="col-lg-12">
+                                <div class="form-group margin-top-10 legal-needs person-needs">
+                                    <label>证件信息</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px; ">
+                                        <ul class="mailbox-attachments clearfix" id="ul_third_party_file">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                        <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                            <i class="fa fa-plus"></i> 添加
+                                                            <input type="file" id="third_party_file"/>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-skin" id="btn_clear_advice_third_party">清空</button>
+                <button type="button" class="btn btn-primary btn-skin" id="btn_submit_advice_third_party">确定</button>
+                <!--<button type="button" class="btn btn-primary btn-skin" id="btn_next_third_party">下一个</button>-->
+            </div>
+            <div class="loading" style="display: none" id="loading_advice_third_party">
+                <i class="fa fa-spin fa-refresh loading-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加建议第三人模态框 结束 -->
+
+<!-- 添加被申请人模态框 开始 -->
+<div class="modal fade" id="modal_add_defendant">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> 添加 - 被申请人</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee;">
+                    <div class="box-body" style="border-bottom: 1px solid #eee;">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label>请输入被申请人名称</label>
+                            <select class="form-control" style="width: 100%;" id="search_defendant"></select>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <input type="hidden" id="defendant_personnel_id" name="defendant_personnel_id"/>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>被申请人类型</label>
+                                    <select class="form-control" style="width: 100%;" id="defendant_type"
+                                            name="defendant_type"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>被申请人名称</label>
+                                    <input class="form-control" id="defendant_unit_name" name="defendant_unit_name"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>被申请人住所</label>
+                                    <input class="form-control" id="defendant_unit_abode" name="defendant_unit_abode"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>职务</label>
+                                    <input class="form-control" id="defendant_duty" name="defendant_duty"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <input type="radio"
+                                           name="defendant_legal_person_type" class="minimal" value="1"
+                                           checked="checked"> 负责人
+                                    <input type="radio" id="defendant_legal_person_type_2"
+                                           name="defendant_legal_person_type" class="minimal" value="2"> 法定代表人
+                                    <input style="margin-top: 4px" class="form-control" id="defendant_name"
+                                           name="defendant_name" placeholder="请填写法定代表人/负责人姓名"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>单位联系方式</label>
+                                    <input class="form-control" id="defendant_unit_content"
+                                           name="defendant_unit_content"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>行政主体证明</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                        <ul class="mailbox-attachments clearfix" id="ul_defendant_file_1">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_1"/>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>法定代表人证明书</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                        <ul class="mailbox-attachments clearfix" id="ul_defendant_file_2">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_2"/>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group no-margin">
+                                    <label>法定代表人证件信息</label>
+                                    <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                        <ul class="mailbox-attachments clearfix" id="ul_defendant_file_3">
+                                            <li style="width: auto;">
+                                                <div class="mailbox-attachment-info">
+                                                    <div class="mailbox-attachment-name"
+                                                         style="overflow: hidden;height: 25px;"><i
+                                                            class="fa fa-paperclip"></i> 选择文件
+                                                    </div>
+                                                    <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_3"/>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-skin" id="btn_clear_defendant">清空</button>
+                <button type="button" class="btn btn-primary btn-skin" id="btn_submit_defendant">确定</button>
+                <button type="button" class="btn btn-primary btn-skin" id="btn_next_defendant" style="display: none;">
+                    下一个
+                </button>
+            </div>
+            <div class="loading" style="display: none" id="loading_defendant">
+                <i class="fa fa-spin fa-refresh loading-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加被申请人模态框 结束 -->
+
+<!-- 添加委托代理人信息视图模态框 开始 -->
+<div class="modal fade" id="agentViewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-user"></i> 委托代理人</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee;">
+                    <div class="box-body">
+                        <div class='row'>
+                            <div class='col-lg-3'>
+                                <strong><i class='fa fa-user margin-r-5'></i> 姓名</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_name"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-9'>
+                                <strong><i class='fa fa-briefcase margin-r-5'></i> 工作单位</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_unit_name"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-2'>
+                                <strong><i class='fa fa-intersex margin-r-5'></i> 性别</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_gender"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-3'>
+                                <strong><i class='fa fa-calendar margin-r-5'></i> 出生日期</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_birthday"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-3'>
+                                <strong><i class='fa fa-mobile margin-r-5'></i> 手机号码</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_phone"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-4'>
+                                <strong><i class='fa fa-phone margin-r-5'></i> 其他联系方式</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_contact"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-12'>
+                                <strong><i class='fa fa-map-marker margin-r-5'></i> 通讯地址</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_address"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-12'>
+                                <strong><i class='fa fa-clone margin-r-5'></i> 证件信息</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_id_file"></p>
+                                <hr style='margin: 10px 0;'>
+                            </div>
+                            <div class='col-lg-12'>
+                                <strong><i class='fa fa-book margin-r-5'></i> 委托代理书</strong>
+                                <p style='margin: 10px 0 0;' id="label_agent_file"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="div_delete_agent" style="display: none;">
+                <button type="submit" class="btn btn-primary btn-skin btn-personnel-delete" id="btn_agent_delete">删除
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加委托代理人模态框 结束 -->
+
+<!-- 重命名模态框 开始 -->
+<div class="modal fade" id="modal_rename">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-edit"></i> 重命名</h4>
+            </div>
+            <form id="form_rename">
+                <input type="hidden" id="rename_id" name="rename_id"/>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>原文件名</label>
+                        <div class="form-control bg-gray-light rename-name"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>重命名文件名</label>
+                        <input class="form-control" id="rename_name" name="rename_name"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-skin" id="btn_submit_rename">确定</button>
+                </div>
+                <div class="loading" style="display: none" id="loading_rename">
+                    <i class="fa fa-spin fa-refresh loading-icon"></i>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 重命名模态框 结束 -->
+
+<!-- 错误信息模态框 开始 -->
+<div class="modal fade" id="modal_msg">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 id="font_msg" style="font-weight: bold;color: red;"></h4>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 错误信息模态框 结束 -->
+
+<!-- jQuery 2.1.4 -->
+<script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 3.3.5 -->
+<script src="res/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="res/plugins/iCheck/icheck.min.js"></script>
+<!-- Select2 -->
+<script src="res/plugins/select2/select2.min.js"></script>
+<script src="res/plugins/select2/i18n/zh-CN.js"></script>
+<!-- datetimepicker -->
+<script src="res/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="res/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- ckeditor -->
+<script src="res/plugins/ckeditor4/ckeditor.js"></script>
+<!-- fileupload -->
+<script src="res/plugins/fileupload/jquery.ui.widget.js"></script>
+<script src="res/plugins/fileupload/jquery.fileupload.js"></script>
+<!-- switch -->
+<script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+<!-- AdminLTE App -->
+<script src="res/dist/js/app.min.js"></script>
+<!-- 自定义 -->
+<script src="self/js/head.js"></script>
+<script src="self/js/self.js"></script>
+<script src="self/js/sidebar.js"></script>
+<script>
+    var agent_type = "0";
+
+    var addApplyType = "";//录入人员类型 1：个人 2：法人组织
+    $(function () {
+        initAccount("894e615ba8be4ae59c83807d55145fa0");
+
+        //初始化请求类别多选表单
+        initCheckBox4RequestGateGategory();
+
+        // 添加建议第三人 显示/隐藏事件
+        $("#addThirdPersonYes").on("ifClicked", function () {
+            $("#addThirdPersonDiv").removeClass("hidden");
+        });
+        $("#addThirdPersonNo").on("ifClicked", function () {
+            $("#addThirdPersonDiv").addClass("hidden");
+        });
+
+        //填充案件申请时间
+        $("#apply_time").on("changeDate", function (event) {
+            $("#font_date").html($("#apply_time").val());
+        });
+
+        //初始化DatetimePicker日期选择器
+        initDatetimePicker("apply_time");
+
+        //填充案件申请方式  默认为收件
+        $("#font_apply_mode").html("收件");
+
+        $("#apply_mode_1").on("ifClicked", function () {
+            $("#font_apply_mode").html($(this).parent().parent().text());
+        })
+        $("#apply_mode_2").on("ifClicked", function () {
+            $("#font_apply_mode").html($(this).parent().parent().text());
+        })
+        $("#apply_mode_3").on("ifClicked", function () {
+            $("#font_apply_mode").html($(this).parent().parent().text());
+        })
+        $("#apply_mode_4").on("ifClicked", function () {
+            $("#font_apply_mode").html("");
+        });
+
+        //开启申请方式其他备注
+        $("input[name='apply_mode']").on("ifChanged", function (event) {
+            $("#apply_mode_another").val(null);
+            if ($("input[name='apply_mode']:checked").val() == "3") {
+                $("#apply_mode_another").attr("disabled", false);
+            } else {
+                $("#apply_mode_another").attr("disabled", true);
+            }
+        });
+
+        //初始化年号
+        initSelect2WithData("year_no", yearNoArr);
+        $("#year_no").val("2019").trigger("change");
+
+        $("#year_no").on("change", function () {
+            $("#font_years_no").html($("#year_no").val());
+        });
+
+        //加载行政管理类别下拉框数据
+        loadData4Select2("administrative_category", "administrative_category/get_choose_list", null, true);
+        //加载案由下拉框数据
+        loadData4Select2("reason", "cases_reason/get_choose_list", null, true);
+
+        //自定义案由
+        $("#reason").on("change", function () {
+            $("#reason_another").val(null);
+            if ($("#reason").val() == "-2") {
+                $("#reason_another").attr("disabled", false);
+            } else {
+                $("#reason_another").attr("disabled", true);
+            }
+        });
+
+        // 监控“行政复议请求”，更新右侧文档
+        $("#apply_request").on("change", function () {
+            $("#font_apply_request").html($("#apply_request").val());
+        });
+
+        /*
+         * 使用CK编辑器初始化编辑框
+         * 参数(元素名，高度)
+         */
+        //事实与理由编辑框
+        var factsReasonsEditor = createCKEditor("facts_reasons", 600);//事实与理由初始化编辑器
+        factsReasonsEditor.on("change", function (event) {
+            $("#font_facts_reasons").html(factsReasonsEditor.getData());
+        });
+
+        //关键字
+        $("#labels").on("input", function () {
+            initLabels("div_labels", $(this).val(), "，");
+        });
+
+        initFormList();
+
+        /*
+         *规范性文件审查上传组件
+         *按钮点击(显示/隐藏)事件
+         */
+        $("#addNormativeDocYes").on("ifClicked", function () {
+            $("#addNormativeDocDiv").removeClass("hidden");
+        });
+        $("#addNormativeDocNo").on("ifClicked", function () {
+            $("#addNormativeDocDiv").addClass("hidden");
+        });
+
+
+        //选择第三人类型
+        $("#choose_third_for_person").on("ifChecked", function () {
+            $(".form-third-unit").addClass("hidden");
+        });
+        $("#choose_third_for_legal").on("ifChecked", function () {
+            $(".form-third-unit").removeClass("hidden");
+        });
+
+        //是否为草稿
+        var casesId = getParameter("cases");
+        if (casesId == null || casesId == "") {
+            casesId = getActId();
+        } else {
+            getCases();
+        }
+
+        //选择案件申请行政复议类型(个人，多人，法人，混合)
+        $(".btn-cases-type").on("click", function () {
+            casesType = $(this).data("type");
+            if (casesType == "1" || casesType == "2") {
+                addApplyType = "1";
+            } else if (casesType == "3") {
+                addApplyType = "2";
+            } else if (casesType == "4") {
+                addApplyType = "1";
+                $("#person-radio").on("ifChecked", function () {
+                    addApplyType = "1";
+                });
+                $("#legal-radio").on("ifChecked", function () {
+                    addApplyType = "2";
+                });
+            }
+            initCasesType();
+        });
+
+        //填充文书案件编号
+        $("#no").on("change", function () {
+            $("#font_case_no").html($("#no").val());
+        });
+        $("#no_min").on("change", function () {
+            $("#font_case_no").html($("#no_min").val() + "-" + $("#no_max").val());
+        });
+        $("#no_max").on("change", function () {
+            $("#font_case_no").html($("#no_min").val() + "-" + $("#no_max").val());
+        });
+
+        initUpload("table_loading", "cases_file_9", "li-cases-file-9", "temp/files?mode=9&res=" + casesId);
+        initUpload("modal_file_choose", "cases_file_1", "li-cases-file-1", "temp/files?mode=1&res=" + casesId);
+        initUpload("", "normativeDoc_file", "li-normativeDoc_file", "temp/files?mode=13&res=" + casesId);
+
+        //初始化重命名模态框
+        initModal4Rename();
+
+        //案件提交
+        $(".btn-submit-cases").on("click", function () {
+            onCasesSubmit(false);
+        });
+        //案件草稿提交
+        $(".btn-submit-cases-draft").on("click", function () {
+            onCasesSubmit(true);
+        });
+
+        //初始化申请人
+        $(".btn-add-apply").on("click", function () {
+            initModal4Apply();
+            $("#modal_add_apply").modal("show");
+        });
+        initModalEvent4Apply();
+
+        //保存当事人
+        //TODO 初始化提交当事人
+        initSubmit4Personnel(casesId, true);
+
+        //初始化行政复议代表
+        $(".btn-add-apply-representative").on("click", function () {
+            initModal4ApplyRepresentative(casesId);
+            $("#modal_add_apply_representative").modal("show");
+        });
+        initModalEvent4ApplyRepresentative();
+        savePersonnel4ApplyRepresentative(casesId);
+        //委托代理人
+        initModalEvent4Agent();
+        initModal4AgentView();
+
+
+        //TODO 建议第三人模态框按钮事件
+        $(".btn-add-third-party").on("click", function () {
+            casesPersonnelType = $(this).data("type");
+            initModal4ThirdParty();
+            $("#modal_advice_third_party").modal("show");
+        });
+        initModalEvent4ThirdParty();
+        //被申请人
+        $(".btn-add-defendant").on("click", function () {
+            initModal4Defendant();
+            $("#modal_add_defendant").modal("show");
+            $("input[name='defendant_legal_person_type']").get(0).checked = true;
+        });
+        initModalEvent4Defendant();
+
+        /*
+        方法:获得案件信息
+        参数：()
+        */
+        function getCases() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "cases/get_draft",
+                dataType: "JSON",
+                data: {
+                    id: casesId,
+                },
+                success: function (data) {
+                    if (data.result == 1) {
+                        casesType = data.data.type;
+                        initCasesType();
+
+                        $("#year_no").val(data.data.year_no).trigger("change");
+                        if (casesType == "1" || casesType == "3") {
+                            $("#no").val(data.data.no);
+                        } else {
+                            var noArr = data.data.no.split("-");
+                            $("#no_min").val(noArr[0]);
+                            $("#no_max").val(noArr[1]);
+                        }
+                        $("#administrative_category").val(data.data.administrative_category_id).trigger("change");
+                        $("#reason").val(data.data.reason_id).trigger("change");
+                        $("#reason_another").val(data.data.reason_another);
+                        $("#specific_behavior").val(data.data.specific_behavior);
+                        $("#apply_request").val(data.data.apply_request);
+                        $("#font_apply_request").html(data.data.apply_request);
+                        factsReasonsEditor.setData(data.data.facts_reasons);
+                        $("#font_facts_reasons").html(data.data.facts_reasons);
+                        $("#apply_mode_" + data.data.apply_mode).iCheck("check");
+                        $("#apply_mode_another").val(data.data.apply_mode_another);
+                        $("#apply_time").val(data.data.apply_time);
+                        $("#labels").val(data.data.labels);
+                        $("#font_case_no").text(data.data.no);
+                        $("#font_date").text(data.data.apply_time);
+                        getCasesPersonnelList(true, "table_loading", casesId, "1");
+                        if (casesType == "2") {
+                            getCasesPersonnelList4Representative(casesId, true);
+                        }
+                        getCasesPersonnelList(true, "table_loading", casesId, "2");
+                        getCasesPersonnelList(true, "table_loading", casesId, "7");
+
+                        getFileList("table_loading", "ul_cases_file_9", "li-cases-file-9", "temp/get_list?mode=9&res=" + casesId);
+                        getFileList("table_loading", "ul_cases_file_1", "li-cases-file-1", "temp/get_list?mode=1&res=" + casesId);
+                        return;
+                    }
+                    window.location.href = "case_draft_list.html";
+                },
+                error: function (xhr, type) {
+                    showMsg("系统繁忙");
+                }
+            });
+        }
+
+
+        /*
+        方法:案件提交
+        参数：(是否为草稿,是否为下一个)
+
+        */
+
+        //TODO 案件及草稿保存
+        function onCasesSubmit(isDraft, isNext) {
+            isDraft = isDraft || false;
+            isNext = isNext || false;
+
+            /*
+             * 案件编号
+             * 如果案件类型为1或3则编号为复合型(按人员数量，例如：有三个人申请则为：101-103)
+             */
+            var no = "";
+            if (casesType == "1" || casesType == "3") {
+                no = $("#no").val().trim();
+            } else {
+                no = $("#no_min").val().trim() + "-" + $("#no_max").val().trim();
+            }
+
+            //请求类别数组
+            var requestCategoryArr = new Array();
+            $("input[name='request_category_opt']:checked").each(function (index, value) {
+                requestCategoryArr[index] = $(value).val();
+            });
+
+            var url = "cases/save";//保存
+            if (isDraft) {
+                url = "cases/save_draft";//保存到草稿
+            }
+            $("#table_loading").show();
+            $.ajax({
+                url: url,
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: casesId,//案件id
+                    type: casesType,//案件类型
+                    year_no: $("#year_no").val(),//案件年份
+                    no: no,//案件编号
+                    administrative_category_id: $("#administrative_category").val(),//行政管理类别
+                    reason_id: $("#reason").val(),//案由
+                    reason_another: $("#reason_another").val(),//自定义案由
+                    request_category: requestCategoryArr,//请求类别{测试数据}
+                    normative_doc: $("#review_articles").val(),//规范性文件审查{测试数据}
+                    specific_behavior: $("#specific_behavior").val(),//不服具体行政行为
+                    apply_request: $("#apply_request").val(),//行政复议请求
+                    facts_reasons: factsReasonsEditor.getData(),//事实和理由
+                    apply_mode: $("input[name='apply_mode']:checked").val(),//申请方式
+                    apply_mode_another: $("#apply_mode_another").val(),//其他申请方式
+                    apply_time: $("#apply_time").val(),//申请时间
+                    labels: $("#labels").val(),//关键字
+                    html: $("#div_file").html()//预览文书
+                },
+                success: function (data) {
+                    if (data.result != 1) {
+                        $("#table_loading").hide();
+                        showMsg(data.error_msg);
+                        return;
+                    }
+                    if (isDraft) {
+                        window.location.href = "case_draft_list.html?mode=1&web=b96acaf495134d80bc0a6459ed55579c";
+                        return;
+                    }
+                    if (isNext) {
+                        window.location.href = "case_add.html";
+                        return;
+                    }
+                    window.location.href = "case_success.html?web=894e615ba8be4ae59c83807d55145fa0&cases=" + casesId;
+                },
+                error: function (xhr, type) {
+                    $("#table_loading").hide();
+                    showMsg("系统繁忙");
+                }
+            });
+        }
+    });
+
+    //
+    $("#btn_submit_file_rename").click(function () {
+        var casesId = getParameter("cases");
+        if (casesId == null || casesId == "") {
+            casesId = getActId();
+        } else {
+            getCases();
+        }
+        initUpload("modal_file_choose", "cases_file_1", "li-cases-file-1", "temp/files?mode=1&res=" + casesId);
+    });
+
+
+    function download1(fileName) {
+        downloadTemplate('cases/dowload', 'filename', fileName);
+    }
+
+    function downloadTemplate(action, type, value) {
+        var form = document.createElement('form');
+        document.body.appendChild(form);
+        form.style.display = "none";
+        form.action = action;
+        form.id = 'doc';
+        form.method = 'post';
+
+        var newElement = document.createElement("input");
+        newElement.setAttribute("type", "hidden");
+        newElement.name = type;
+        newElement.value = value;
+        form.appendChild(newElement);
+
+        form.submit();
+    }
+
+    //申请人信息切换
+    function applicat() {
+        $("#append_element_btn button[data-toggle]").click(function () {
+            $(".collapse").collapse('hide');
+            var thisId = $(this).attr("aria-controls");
+            $("#" + thisId).collapse('show');
+        });
+    }
+
+    //第三人信息切换
+    function thirdpartycat() {
+        $("#thirdpartyappend_element_btn button[data-toggle]").click(function () {
+            $(".collapse").collapse('hide');
+            var thisId = $(this).attr("aria-controls");
+            $("#" + thisId).collapse('show');
+        });
+    }
+
+    //被申请人切换
+    function defendantcat() {
+        $("#defendantappend_element_btn button[data-toggle]").click(function () {
+            $(".collapse").collapse('hide');
+            var thisId = $(this).attr("aria-controls");
+            $("#" + thisId).collapse('show');
+        });
+    }
+
+    //input输入框实时监控
+    function inputRealTimeEvent(sourceId, targetId) {
+        var x = document.getElementById(sourceId).value;
+        document.getElementById(targetId).innerHTML = x;
+    }
+
+</script>
+</body>
+
+</html>

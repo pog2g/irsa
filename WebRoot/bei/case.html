@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>案件详情</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header" id="topAnchor"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu">
+                        <li class='active'>
+                            <a href="index.html">
+                                <i class="fa fa-th"></i> <span>我的案件</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content">
+                    <a id="arrow_left" class="btn btn-flat btn-skin btn-primary" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display: none;"><i class="fa fa-arrow-left"></i></a>
+                    <div id="form_list" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;">
+                        <div class="btn-group-vertical">
+                            <!--
+                              <a class="btn btn-flat btn-skin btn-primary" href="#box_apply_agent">申请人委托代理人</a>
+                              <a class="btn btn-flat btn-skin btn-primary" href="#box_third_party_agent">第三人委托代理人</a>
+                              <a class="btn btn-flat btn-skin btn-primary" href="#box_defendant_agent">被申请人委托代理人</a>
+                            -->
+                            <a class="btn btn-flat btn-skin btn-primary" href="#box_apply">申请人</a>
+                            <a class="btn btn-flat btn-skin btn-primary" href="#box_third_party">第三人</a>
+                            <a class="btn btn-flat btn-skin btn-primary" href="#box_defendant">被申请人</a>
+                            <a class="btn btn-flat btn-skin btn-primary" href="#topAnchor"><i class="fa fa-arrow-circle-o-up"></i> 返回顶部</a>
+                            <button class="btn btn-flat btn-skin btn-primary" id="arrow_right"><i class="fa fa-arrow-circle-o-right"></i>
+                            收起</button>
+                        </div>
+                    </div>
+                    <div class="callout callout-info" style="display: none;">
+                        <strong style="font-size: 20px;"><i class="fa fa-info-circle"></i> 距离案件处理期限还有 <span class="font-day"></span>天 <span class="font-hour"></span>小时 <span class="font-minute"></span>分钟 <span class="font-second"></span>秒</strong>
+                    </div>
+                    <div class="callout callout-danger" style="display: none;">
+                        <strong style="font-size: 20px;"><i class="fa fa-info-circle"></i> 案件超出处理期限已有 <span class="font-day"></span>天 <span class="font-hour"></span>小时 <span class="font-minute"></span>分钟 <span class="font-second"></span>秒</strong>
+                    </div>
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body">
+                            <div class="btn-group">
+                                <!--
+                                  <button class="btn btn-skin btn-primary" data-toggle="modal" data-target="#modal_remark_list" style="display: none;"><i class="fa fa-tags"></i> 案件备注</button>
+                                  <button class="btn btn-skin btn-primary btn-handle" data-toggle="modal" data-target="#modal_file" style="display: none;"><i class="fa fa-clone"></i> 证据目录/证据增补</button>
+                                  <button class="btn btn-skin btn-primary btn-handle" data-toggle="modal" data-target="#modal_party" style="display: none;"><i class="fa fa-user-plus"></i> 当事人追加</button>
+                                  <button class="btn btn-skin btn-primary" data-toggle="modal" data-target="#modal_dossier" style="display: none;"><i class="fa fa-book"></i> 电子卷宗</button>
+                                -->
+                                <button class="btn btn-skin btn-primary" data-toggle="modal" data-target="#modal_step"><i class="fa fa-search"></i> 进度查询</button>
+                                <button class="btn btn-skin btn-primary" data-toggle="modal" data-target="#modal_document"><i class="fa fa-file-text-o"></i> 涉案文书</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="box box-solid no-shadow">
+                                <div class="box-body" style="border-bottom: 1px solid #eee;padding: 10px 20px;">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <strong>案件年号</strong>
+                                            <p style='margin: 10px 0 0;' id="label_year_no"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案件年号</strong>
+                                            <p style='margin: 10px 0 0;' id="label_no"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案件状态</strong>
+                                            <p style='margin: 10px 0 0;' id="label_state"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案件类型</strong>
+                                            <p style='margin: 10px 0 0;' id="label_type"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>申请时间</strong>
+                                            <p style='margin: 10px 0 0;' id="label_apply_time"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>申请方式</strong>
+                                            <p style='margin: 10px 0 0;' id="label_apply_mode"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>行政类别</strong>
+                                            <p style='margin: 10px 0 0;' id="label_administrative_category"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案由</strong>
+                                            <p style='margin: 10px 0 0;' id="label_reason"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>被诉具体行政行为</strong>
+                                            <p style='margin: 10px 0 0;' id="label_specific_behavior"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>行政复议请求</strong>
+                                            <p style='margin: 10px 0 0;' id="label_apply_request"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>事实和理由</strong>
+                                            <p style='margin: 10px 0 0;' id="label_facts_reasons"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>案件标签</strong>
+                                            <p style='margin: 10px 0 0;line-height: 2rem;' id="labels"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>录入时间</strong>
+                                            <p style='margin: 10px 0 0;' id="label_create_time"></p>
+                                        </div>
+                                        <!--
+                                        <div class="col-lg-6">
+                                            <strong>最后修改时间</strong>
+                                            <p style='margin: 10px 0 0;' id="label_last_time"></p>
+                                        </div>
+                                        -->
+                                    </div>
+                                </div>
+                                <div class="box-body" style="border-bottom: 1px solid #eee;padding: 10px 20px;">
+                                    <strong>申请人证据</strong>
+                                    <p style='margin: 10px 0 0;line-height: 1.8em;' id="label_cases_file_1"></p>
+                                </div>
+                                <div class="box-body" style="border-bottom: 1px solid #eee;padding: 10px 20px;">
+                                    <strong>第三人证据</strong>
+                                    <p style='margin: 10px 0 0;' id="label_cases_file_3"></p>
+                                </div>
+                                <div class="box-body" style="padding: 10px 20px;">
+                                    <strong>被申请人答复书</strong>
+                                    <p style='margin: 10px 0 0;' id="label_defendant_reply"></p>
+                                    <hr style='margin: 10px 0;'>
+                                    <strong>被申请人答复书照片</strong>
+                                    <p style='margin: 10px 0 0;' id="label_cases_file_7"></p>
+                                    <hr style='margin: 10px 0;'>
+                                    <strong>被申请人证据和其他相关材料</strong>
+                                    <p style='margin: 10px 0 0;' id="label_cases_file_2"></p>
+                                    <hr style='margin: 10px 0;'>
+                                    <strong>被申请人备注</strong>
+                                    <p style='margin: 10px 0 0;' id="label_defendant_remark"></p>
+                                </div>
+                                <div class="overlay" id="loading_info">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="box box-solid no-shadow" id="box_apply">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 申请人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="padding: 10px 10px 0;" id="row_apply"></div>
+                                <div class="overlay" id="loading_row_apply">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="box box-solid no-shadow" id="box_apply_agent">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 申请人委托代理人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="padding: 10px 10px 0;" id="row_apply_agent"></div>
+                                <div class="overlay" id="loading_row_apply_agent">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                            -->
+                            <div class="box box-solid no-shadow" id="box_third_party">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 第三人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="padding: 10px 10px 0;" id="row_third_party"></div>
+                                <div class="overlay" id="loading_row_third_party">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="box box-solid no-shadow" id="box_third_party_agent">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 第三人委托代理人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="padding: 10px 10px 0;" id="row_third_party_agent"></div>
+                                <div class="overlay" id="loading_row_third_party_agent">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                            -->
+                            <div class="box box-solid no-shadow" id="box_defendant">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 被申请人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="padding: 10px 10px 0;" id="row_defendant"></div>
+                                <div class="overlay" id="loading_row_defendant">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="box box-solid no-shadow" id="box_defendant_agent">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 被申请人委托代理人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="padding: 10px 10px 0;" id="row_defendant_agent"></div>
+                                <div class="overlay" id="loading_row_defendant_agent">
+                                    <i class="fa fa-spin fa-refresh"></i>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+        </div>
+
+        <div class="modal fade" id="modal_step">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> 进度查询</h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="timeline" id="ul_step"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_document">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-file-text-o"></i> 涉案文书</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered" id="table_cases_file_6"></table>
+                    </div>
+                </div>
+                <div class="loading" id="loading_document">
+                    <i class="fa fa-spin fa-refresh loading-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="agentViewModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-user"></i> 委托代理人</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee;">
+                            <div class="box-body">
+                                <div class='row'>
+                                    <div class='col-lg-3'>
+                                        <strong><i class='fa fa-user margin-r-5'></i>  姓名</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_name"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-9'>
+                                        <strong><i class='fa fa-briefcase margin-r-5'></i>  工作单位</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_unit_name"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-2'>
+                                        <strong><i class='fa fa-intersex margin-r-5'></i>  性别</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_gender"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-3'>
+                                        <strong><i class='fa fa-calendar margin-r-5'></i>  出生日期</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_birthday"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-3'>
+                                        <strong><i class='fa fa-mobile margin-r-5'></i>  手机号码</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_phone"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-4'>
+                                        <strong><i class='fa fa-phone margin-r-5'></i>  其他联系方式</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_contact"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-12'>
+                                        <strong><i class='fa fa-map-marker margin-r-5'></i>  通讯地址</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_address"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-12'>
+                                        <strong><i class='fa fa-map-marker margin-r-5'></i>  证件信息</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_id_file"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-12'>
+                                        <strong><i class='fa fa-book margin-r-5'></i>  委托代理书</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_file"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="div_delete_agent" style="display: mone;">
+                        <button type="submit" class="btn btn-primary btn-skin btn-personnel-delete" id="btn_agent_delete">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_view">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span
+                            data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-eye"></i> 预览</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 15px 40px;" id="font_content"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initFormList();
+                initAccount();
+                var casesId = getParameter("cases");
+                getCasesPersonnelList("loading_row_apply", casesId, "1");
+                getCasesPersonnelList("loading_row_third_party", casesId, "3");
+                getCasesPersonnelList("loading_row_defendant", casesId, "2");
+                initToolBar(casesId);
+                initModal4AgentView();
+                getCases("loading_info", casesId, true, true);
+
+                getFileList("loading_info", "label_cases_file_1", "label-cases-file-1", "cases_file/files?mode=1&cases_id=" + casesId, true);
+                getFileList("loading_info", "label_cases_file_3", "label-cases-file-3", "cases_file/files?mode=3&cases_id=" + casesId, true);
+                getFileList("loading_info", "label_cases_file_7", "label-cases-file-7", "cases_file/files?mode=7&cases_id=" + casesId, true);
+                getFileList("loading_info", "label_cases_file_2", "label-cases-file-2", "cases_file/files?mode=2&cases_id=" + casesId, true);
+            })
+        </script>
+    </body>
+
+</html>

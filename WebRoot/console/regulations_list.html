@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>法律法规库</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- datetimepicker -->
+        <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu"></ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>研判资料库 <small>法律法规库</small></h1>
+                </section>
+                <section class="content">
+                    <div class="box box-solid">
+                        <div class="box-body" style="border-bottom: 1px solid #eee;">
+                            <div class="row">
+                                <div class="col-lg-4" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">名称</div>
+                                        <input type="text" class="form-control" id="search_title" placeholder="资料标题">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">颁布文号</div>
+                                        <input type="text" class="form-control" id="search_publish_number" placeholder="颁布文号">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">制定机关</div>
+                                        <input type="text" class="form-control" id="search_department" placeholder="制定机关">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">类型</div>
+                                        <select style="width: 100%;" id="search_type"></select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">颁布日期</div>
+                                        <input type="text" class="form-control" id="search_publish_time" placeholder="颁布日期">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">施行日期</div>
+                                        <input type="text" class="form-control" id="search_execute_time" placeholder="施行日期">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <button class="btn btn-skin btn-primary" id="btn_search"><i class="fa fa-search"></i> 查询</button>
+                            <button class="btn btn-skin btn-primary" id="btn_refresh"><i class="fa fa-list-alt"></i> 查询全部</button>
+                            <button class="btn btn-skin btn-primary" id="btn_add" data-type="1"><i class="fa fa-plus"></i> 添加</button>
+                            <button class="btn btn-skin btn-primary" id="btn_delete"><i class="fa fa-trash"></i> 删除</button>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <div class="btn-group">
+                                <button class="btn btn-default btn-sm page-info" id="btn_home_page">首页</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_upper_page">上一页</button>
+                                <button class="btn btn-default btn-sm" id="btn_page_total" disabled="disabled">0/0</button>
+                                <button class="btn btn-default btn-sm" id="btn_data_total" disabled="disabled">总数：0</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_next_page">下一页</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_last_page">末页</button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered" id="table_data">
+                                <tr>
+                                    <th style="width: 10px"><input type="checkbox" class="minimal total-checkbox"></th>
+                                    <th style="width: 50px;">序号</th>
+                                    <th>名称</th>
+                                    <th>类型</th>
+                                    <th>制定机关</th>
+                                    <th>颁布文号</th>
+                                    <th>颁布日期</th>
+                                    <th>施行日期</th>
+                                    <th style="width: 125px">操作</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="overlay" id="table_loading">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <div class="modal fade" id="modal_save">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="font_title"></h4>
+                    </div>
+                    <input type="hidden" id="id" name="id">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>类型 <font class="text-primary">*</font></label>
+                                    <select style="width: 100%;" id="type_id" name="type_id"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>颁布文号 <font class="text-primary">*</font></label>
+                                    <input type="text" class="form-control" id="publish_number" name="publish_number" placeholder="颁布文号">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>颁布时间 <font class="text-primary">*</font></label>
+                                    <input type="text" class="form-control" id="publish_time" name="publish_time" placeholder="颁布时间">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>施行时间 <font class="text-primary">*</font></label>
+                                    <input type="text" class="form-control" id="execute_time" name="execute_time" placeholder="施行时间">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>制定机关 <font class="text-primary">*</font></label>
+                                    <input type="text" class="form-control" id="department" name="department" placeholder="制定机关">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>名称 <font class="text-primary">*</font></label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="标题">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group no-margin">
+                                    <label>内容 <font class="text-primary">*</font></label>
+                                    <textarea id="content"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-skin" id="btn_submit">确定</button>
+                    </div>
+                    <div class="loading" style="display: none" id="loading_save">
+                        <i class="fa fa-spin fa-refresh loading-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_view">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-eye"></i> 预览</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 15px 40px;font-family: '仿宋';font-size: 21px;line-height: 37px;" id="font_content"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>确定 <label class="text-red"> 删除 </label> 选中数据？</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-skin" id="btn_confirm">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- datetimepicker -->
+        <script src="res/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="res/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+        <!-- ckeditor -->
+        <script src="res/plugins/ckeditor4/ckeditor.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initDatetimePicker("search_publish_time");
+                initDatetimePicker("search_execute_time");
+                initDatetimePicker("publish_time");
+                initDatetimePicker("execute_time");
+                var editor = createCKEditor4Content("content", 450);
+
+                initAccount("92ae79b10bfa4d4da7acf06fc2b321ef");
+                initCheckBox4Total("total-checkbox", "td-checkbox");
+
+                initSearch();
+
+                function initSearch() {
+                    loadData4Select2("search_type", "regulations_type/get_choose_list");
+                    $("#search_publish_number").val(null);
+                    $("#search_department").val(null);
+                    $("#search_title").val(null);
+                    $("#search_publish_time").val(null);
+                    $("#search_execute_time").val(null);
+                }
+
+                var isSearch = 0; //是否查询模式
+                var page = 1; //当前页
+                var pageTotal = 1; //总页数
+
+                initData();
+                //加载数据
+                function initData() {
+                    var searchTypeId = "";
+                    var searchPublishNumber = "";
+                    var searchDepartment = "";
+                    var searchTitle = "";
+                    var searchPublishTime = "";
+                    var searchExecuteTime = "";
+                    if(isSearch == 1) {
+                        searchTypeId = $("#search_type").val();
+                        searchPublishNumber = $("#search_publish_number").val();
+                        searchDepartment = $("#search_department").val();
+                        searchTitle = $("#search_title").val();
+                        searchPublishTime = $("#search_publish_time").val();
+                        searchExecuteTime = $("#search_execute_time").val();
+                    }
+                    $("#table_loading").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "regulations/get_list",
+                        dataType: "JSON",
+                        data: {
+                            page: page,
+                            search_type_id: searchTypeId,
+                            search_publish_number: searchPublishNumber,
+                            search_department: searchDepartment,
+                            search_title: searchTitle,
+                            search_publish_time: searchPublishTime,
+                            search_execute_time: searchExecuteTime,
+                        },
+                        success: function(data) {
+                            $("#table_loading").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".tr-data").remove(); //清除数据
+                            var dataTotal = data.data.data_total;
+                            if(dataTotal == 0) {
+                                $(".page-info").attr("disabled", true);
+                                return;
+                            }
+
+                            pageTotal = data.data.page_total;
+                            $("#btn_page_total").html(page + "/" + pageTotal);
+                            $("#btn_data_total").html("总数：" + dataTotal);
+                            $.each(data.data.data_list, function(index, value) {
+                                $td_data = $("<tr class='tr-data'>" +
+                                    "<td><input type='checkbox' class='minimal td-checkbox' data-id='" + value.id + "'></td>" +
+                                    "<td>" + ((page - 1) * 10 + index + 1) + ".</td>" +
+                                    "<td>" + value.title + "</td>" +
+                                    "<td>" + value.label_type + "</td>" +
+                                    "<td>" + value.department + "</td>" +
+                                    "<td>" + value.publish_number + "</td>" +
+                                    "<td>" + value.publish_time + "</td>" +
+                                    "<td>" + value.execute_time + "</td>" +
+                                    "<td>" +
+                                    "<button class='btn btn-xs " + btnSkin + " btn-view' data-id='" + value.id + "'><i class='fa fa-eye'></i> 预览</button> " +
+                                    "<button class='btn btn-xs " + btnSkin + " btn-edit' data-id='" + value.id + "'><i class='fa fa-edit'></i> 编辑</button>" +
+                                    "</td>" +
+                                    "</tr>");
+                                $("#table_data").append($td_data);
+                            });
+
+                            if(page == 1) {
+                                if(page == pageTotal) {
+                                    $(".page-info").attr("disabled", true);
+                                } else {
+                                    $("#btn_home_page").attr("disabled", true); //首页
+                                    $("#btn_upper_page").attr("disabled", true); //上一页
+
+                                    $("#btn_next_page").attr("disabled", false); //下一页
+                                    $("#btn_last_page").attr("disabled", false); //末页
+                                }
+                            } else {
+                                if(page == pageTotal) {
+                                    $("#btn_home_page").attr("disabled", false); //首页
+                                    $("#btn_upper_page").attr("disabled", false); //上一页
+
+                                    $("#btn_next_page").attr("disabled", true); //下一页
+                                    $("#btn_last_page").attr("disabled", true); //末页
+                                } else {
+                                    $(".page-info").attr("disabled", false);
+                                }
+                            }
+                            initCheckBoxByClassName("td-checkbox");
+                            initEvent();
+                        },
+                        error: function(xhr, type) {
+                            $("#table_loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                //首页
+                $("#btn_home_page").click(function() {
+                    page = 1;
+                    initData();
+                })
+                //上一页
+                $("#btn_upper_page").click(function() {
+                    page--;
+                    initData();
+                })
+                //下一页
+                $("#btn_next_page").click(function() {
+                    page++;
+                    initData();
+                })
+                //末页
+                $("#btn_last_page").click(function() {
+                    page = pageTotal;
+                    initData();
+                })
+
+                //刷新
+                $("#btn_refresh").click(function() {
+                    loadData(false);
+                })
+                //查询
+                $("#btn_search").click(function() {
+                    loadData(true);
+                })
+
+                function loadData(arg) {
+                    if(!arg) {
+                        initSearch();
+                        isSearch = 0;
+                        page = 1;
+                    } else {
+                        isSearch = 1;
+                        page = 1;
+                    }
+                    initData();
+                }
+
+                $("#btn_add").on("click", function() {
+                    $("#font_title").html("<i class='fa fa-plus'></i> 添加");
+                    initModal4Save();
+                    $("#modal_save").modal("show");
+                })
+
+                function initEvent() {
+                    $(".btn-view").on("click", function() {
+                        initModal4View("table_loading", $(this).data("id"), 2);
+                    })
+                    $(".btn-edit").on("click", function() {
+                        $("#table_loading").show();
+                        $.ajax({
+                            type: "POST",
+                            url: "regulations/get_object",
+                            dataType: "JSON",
+                            data: {
+                                id: $(this).data("id"),
+                            },
+                            success: function(data) {
+                                $("#table_loading").hide();
+                                if(data.result != 1) {
+                                    showMsg(data.error_msg);
+                                    return;
+                                }
+
+                                $("#font_title").html("<i class='fa fa-edit'></i> 编辑");
+                                initModal4Save(data.data.content);
+
+                                $("#id").val(data.data.id);
+                                $("#type_id").val(data.data.type_id).trigger("change");
+                                $("#department").val(data.data.department);
+                                $("#publish_number").val(data.data.publish_number);
+                                $("#publish_time").val(data.data.publish_time);
+                                $("#execute_time").val(data.data.execute_time);
+                                $("#title").val(data.data.title);
+                                $("#modal_save").modal("show");
+                            },
+                            error: function(xhr, type) {
+                                $("#table_loading").hide();
+                                showMsg("系统繁忙");
+                            }
+                        });
+                    })
+                }
+
+                $("#btn_submit").on("click", function() {
+                    $("#loading_save").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "regulations/save",
+                        dataType: "JSON",
+                        data: {
+                            id: $("#id").val(),
+                            type_id: $("#type_id").val(),
+                            department: $("#department").val(),
+                            publish_number: $("#publish_number").val(),
+                            publish_time: $("#publish_time").val(),
+                            execute_time: $("#execute_time").val(),
+                            title: $("#title").val(),
+                            content: editor.getData(),
+                        },
+                        success: function(data) {
+                            $("#loading_save").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $("#modal_save").modal("hide");
+                            initData();
+                        },
+                        error: function(xhr, type) {
+                            $("#loading_save").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                })
+
+                //删除
+                var idArr = [];
+                $("#btn_delete").click(function() {
+                    idArr = [];
+                    $(".td-checkbox:checked").each(function() {
+                        idArr.push($(this).data("id"));
+                    });
+                    if(idArr.length == 0) {
+                        showMsg("请选择数据");
+                        return;
+                    }
+
+                    $("#modal_confirm").modal("show");
+                })
+                //确定
+                $("#btn_confirm").click(function() {
+                    $("#table_loading").show();
+                    $.ajax({
+                        url: "regulations/delete",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            ids: idArr.join(",")
+                        },
+                        success: function(data) {
+                            $("#modal_confirm").modal("hide");
+                            $("#table_loading").hide();
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            initData();
+                        },
+                        error: function(xhr, type) {
+                            $("#table_loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+
+                function initModal4Save(content) {
+                    content = content || "";
+                    $("#id").val(null);
+                    loadData4Select2("type_id", "regulations_type/get_choose_list");
+                    $("#department").val(null);
+                    $("#number").val(null);
+                    $("#publish_time").val(null);
+                    $("#execute_time").val(null);
+                    $("#title").val(null);
+                    editor.setData(content);
+                }
+            })
+        </script>
+    </body>
+
+</html>

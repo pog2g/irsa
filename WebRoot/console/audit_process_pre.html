@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>案件处理</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- datetimepicker -->
+        <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu"></ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>审理系统<small>案件处理</small></h1>
+                </section>
+                <section class="content">
+                    <a id="arrow_left" class="btn btn-flat btn-skin btn-primary" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display: none;"><i class="fa fa-arrow-left"></i></a>
+                    <div id="form_list" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;">
+                        <div class="btn-group-vertical">
+                            <a class="btn btn-flat btn-skin btn-primary" href="#box_apply">申请人</a>
+                            <a class="btn btn-flat btn-skin btn-primary" href="#box_defendant">被申请人</a>
+                            <a class="btn btn-flat btn-skin btn-primary" href="#topAnchor"><i class="fa fa-arrow-circle-o-up"></i> 返回顶部</a>
+                            <button class="btn btn-flat btn-skin btn-primary" id="arrow_right"><i class="fa fa-arrow-circle-o-right"></i> 收起</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- 左侧部分开始 -->
+                        <div class="col-lg-6">
+
+                            <div class="row process-pre-mode-31" style="display: none;">
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center process-pre-desc">
+                                            <h3>延期</h3>
+                                            <h5 class="text-left process-pre-desc-font">因情况复杂不能在规定期限内作出行政复议决定的，经批准，适当延长最多不超过三十日的审理期限并以书面形式通知当事人。流程启动后，系统将自动生成延期审理通知书。相关资料将自动保存并添加系统提醒标识。您可在案审程序主界面待审理列表中查询并根据实际情况恢复案件审理。</h5>
+                                        </div>
+                                        <div class="box-body text-center">
+                                            <button class="btn btn-skin btn-primary margin-bottom-20" data-state="13">启动流程</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center process-pre-desc">
+                                            <h3>中止</h3>
+                                            <h5 class="text-left process-pre-desc-font">因特殊情形影响案件审理的，以书面形式通知行政复议中止。流程启动后，系统将自动生成中止通知书。相关资料将自动保存并添加系统提醒标识。您可在案审程序主界面待审理列表中查询并根据实际情况恢复案件审理。</h5>
+                                        </div>
+                                        <div class="box-body text-center">
+                                            <button class="btn btn-skin btn-primary margin-bottom-20" data-state="14">启动流程</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center process-pre-desc">
+                                            <h3>听证</h3>
+                                            <h5 class="text-left process-pre-desc-font">本流程仅供回传行政复议当事人在听证过程中另行提交的证据、听证视音频资料以及听证笔录等相关材料，可自动审查听证审理通知书。</h5>
+                                        </div>
+                                        <div class="box-body text-center">
+                                            <button class="btn btn-skin btn-primary margin-bottom-20" data-state="20" disabled="disabled">启动流程</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center process-pre-desc">
+                                            <h3>责令停止</h3>
+                                            <h5 class="text-left process-pre-desc-font">本流程仅供回传行政复议当事人在听证过程中另行提交的证据、听证视音频资料以及听证笔录等相关材料，可自动审查听证审理通知书。</h5>
+                                        </div>
+                                        <div class="box-body text-center">
+                                            <button class="btn btn-skin btn-primary margin-bottom-20" data-state="28">启动流程</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center process-pre-desc">
+                                            <h3>恢复审理</h3>
+                                            <h5 class="text-left process-pre-desc-font">本流程仅供回传行政复议当事人在听证过程中另行提交的证据、听证视音频资料以及听证笔录等相关材料，可自动审查听证审理通知书。</h5>
+                                        </div>
+                                        <div class="box-body text-center">
+                                            <button class="btn btn-skin btn-primary margin-bottom-20" data-state="29">启动流程</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="row process-pre-mode-32" style="display: none;">
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center" style="padding: 10px 20px;height: 200px;">
+                                            <h3>支持性决定</h3>
+                                            <h5 class="text-left process-pre-desc-font">
+                                              启动本流程，操作人可<font class="text-red">直接或经选择搭配</font>依法作出变更、撤销、确认违法、责令限期履行等<font class="text-red">支持复议请求</font>的行政复议决定。流程启动后研判系统自动开启， 辅助您完成案件审理工作的同时生成行政复议决定书拟定稿，流转至审批系统等待最终审核。
+                                            </h5>
+                                        </div>
+                                        <div class="box-body text-center" style="padding: 10px 20px 30px;">
+                                            <a class="btn btn-skin btn-primary" data-toggle="collapse" href="#div_process_mode_yes">启动流程</a>
+                                            <div class="collapse" id="div_process_mode_yes" style="margin-top: 10px;">
+                                                <div class="well" style="margin-bottom: 0px;padding-bottom: 0;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="21">撤销</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="22">确认违法</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="23">责令限期履行</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="26">自定义决定</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="17">变更</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="24">确认无效</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="25">调解与决定</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center" style="padding: 10px 20px;height: 200px;">
+                                            <h3>否定性决定</h3>
+                                            <h5 class="text-left process-pre-desc-font">
+                                              启动本流程，将依法作出<font class="text-red">维持、驳回</font>行政复议申请决定。流程启动后研判系统自动开启， 辅助您完成案件审理工作的同时生成行政复议决定书拟定稿，流转至审批系统等待最终审核。
+                                            </h5>
+                                        </div>
+                                        <div class="box-body text-center" style="padding: 10px 20px 30px;;">
+                                            <a class="btn btn-skin btn-primary" data-toggle="collapse" href="#div_process_mode_no">启动流程</a>
+                                            <div class="collapse" id="div_process_mode_no" style="margin-top: 10px;">
+                                                <div class="well" style="margin-bottom: 0px;padding-bottom: 0px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="19">维持</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="18">驳回</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center" style="padding: 10px 20px;height: 200px;">
+                                            <h3>终止决定</h3>
+                                            <h5 class="text-left process-pre-desc-font">出现申请人要求撤回行政复议申请等法定情形的，以书面形式通知行政复议终止。流程启动后，系统将自动生成终止决定书。相关资料将自动保存后列入系统数据归档，如有需要可增加电子卷宗数据。</h5>
+                                        </div>
+                                        <div class="box-body text-center" style="padding: 10px 20px 30px;;">
+                                            <a class="btn btn-skin btn-primary" data-toggle="collapse" href="#div_process_mode_end">启动流程</a>
+                                            <div class="collapse" id="div_process_mode_end" style="margin-top: 10px;">
+                                                <div class="well" style="margin-bottom: 0px;padding-bottom: 0px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="15">撤回终止</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="16">法定/其他</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="27">改变后撤回</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button class="btn btn-skin btn-primary btn-block margin-bottom-20" data-state="28">准许和解</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-body text-center" style="padding: 10px 20px;height: 200px;">
+                                            <h3>调解协议</h3>
+                                            <h5 class="text-left process-pre-desc-font">行政复议当事人经复议机关调解，就自由裁量、行政赔偿或者行政补偿协商达成调解协议。启动流程后，系统可自动生成《行政复议调解书》，生效后可径自结案或返回继续处理。</h5>
+                                        </div>
+                                        <div class="box-body text-center" style="padding: 10px 20px 30px;;">
+                                            <a class="btn btn-skin btn-primary" data-toggle="collapse" href="#" onclick="todevelopment()">启动流程</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 左侧部分结束 -->
+                        <!-- 右侧部分开始 -->
+                        <div class="col-lg-6">
+                            <!-- 复议申请详情开始 -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="box box-solid no-shadow">
+                                        <div class="box-header with-border text-blue">
+                                            <i class="fa fa-hourglass"></i>
+                                            <h3 class="box-title" id="box_case_detail">复议申请详情</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body no-border-radius info-block-with-border">
+                                            <div class="row">
+                                                <div class="col-lg-12" id="box_apply_specific_behavior">
+                                                    <strong>不服具体行政行为</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_specific_behavior"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                </div>
+                                                <div class="col-lg-12" id="box_apply_request">
+                                                    <strong>行政复议请求</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_apply_request"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                </div>
+                                                <div class="col-lg-12" id="box_facts_reasons">
+                                                    <strong>事实和理由</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_facts_reasons"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <strong>关键字标签</strong>
+                                                    <p style='margin: 10px 0 0;line-height: 2rem;' id="labels"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <strong>录入时间</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_create_time"></p>
+                                                </div>
+                                                <div class="col-lg-6" style="display: none;">
+                                                    <strong>最后修改时间</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_last_time"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 复议申请详情结束 -->
+
+                            <!-- 被申请人答复开始 -->
+                            <div class="box box-solid no-shadow">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 被申请人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <!-- Custom Tabs -->
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#defendant_name_1" data-toggle="tab">被申请人姓名 1</a></li>
+                                            <li><a href="#defendant_name_2" data-toggle="tab">被申请人姓名 2</a></li>
+                                            <li><a href="#defendant_name_3" data-toggle="tab">被申请人姓名 3</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="defendant_name_1">
+                                                <div class="box-body no-border-radius info-block-with-border">
+                                                    <strong id="box_defendant_reply">被申请人答复书</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_defendant_reply"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong id="box_cases_file_7">被申请人答复书照片</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_cases_file_7"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong id="box_cases_file_2">被申请人证据和其他相关材料</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_cases_file_2"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong id="box_defendant_remark">被申请人备注</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_defendant_remark"></p>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="defendant_name_2">
+                                                <div class="box-body no-border-radius info-block-with-border">
+                                                    <strong>被申请人答复书</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_defendant_reply1"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>被申请人答复书照片</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_cases_file_71"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>被申请人证据和其他相关材料</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_cases_file_21"></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>被申请人备注</strong>
+                                                    <p style='margin: 10px 0 0;' id="label_defendant_remark1"></p>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="defendant_name_3">
+
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                            </div>
+                            <!-- 被申请人答复结束 -->
+
+                            <!-- 第三人答复开始 -->
+                            <div class="box box-solid no-shadow">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-user"></i> 第三人
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <!-- Custom Tabs -->
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#third_party_name_1" data-toggle="tab">第三人姓名 1</a></li>
+                                            <li><a href="#defendant_name_2" data-toggle="tab">第三人姓名 2</a></li>
+                                            <li><a href="#defendant_name_3" data-toggle="tab">第三人姓名 3</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="third_party_name_1">
+                                                <div class="box-body no-border-radius info-block-with-border">
+                                                    <strong>第三人答复书</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>第三人答复书照片</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>第三人证据和其他相关材料</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>第三人备注</strong>
+                                                    <p style='margin: 10px 0 0;'"></p>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="third_party_name_2">
+                                                <div class="box-body no-border-radius info-block-with-border">
+                                                    <strong>第三人答复书</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>第三人答复书照片</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>第三人证据和其他相关材料</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                    <hr style='margin: 10px 0;'>
+                                                    <strong>第三人备注</strong>
+                                                    <p style='margin: 10px 0 0;'></p>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="third_party_name_3">
+
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                            </div>
+                            <!-- 第三人答复结束 -->
+
+
+
+
+
+                        </div>
+                        <!-- 右侧部分结束 -->
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <div class="modal fade" id="modal_process">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-gavel"></i> 处理</h4>
+                    </div>
+                    <div class="modal-body" style="padding-bottom: 0;">
+                        <div class="form-group state-refine-17" style="display: none;">
+                            <div class="form-control" style="height: auto;">
+                                <label><input type="checkbox" class="minimal" name="state_refine_17" data-refine="一并决定给予赔偿"/> 一并决定给予赔偿</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_17" data-refine="同时责令返还财产"/> 同时责令返还财产</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_17" data-refine="解除查封、扣押、冻结"/> 解除查封、扣押、冻结</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_17" data-refine="同时赔偿相应价款"/> 同时赔偿相应价款</label>
+                            </div>
+                        </div>
+                        <div class="form-group state-refine-21" style="display: none;">
+                            <div class="form-control" style="height: auto;">
+                                <label><input type="checkbox" class="minimal" name="state_refine_21" data-refine="责令限期重做"/> 责令限期重做</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_21" data-refine="一并决定给予赔偿"/> 一并决定给予赔偿</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_21" data-refine="同时责令返还财产"/> 同时责令返还财产</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_21" data-refine="解除查封、扣押、冻结"/> 解除查封、扣押、冻结</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_21" data-refine="同时赔偿相应价款"/> 同时赔偿相应价款</label>
+                            </div>
+                        </div>
+                        <div class="form-group state-refine-22" style="display: none;">
+                            <div class="form-control" style="height: auto;">
+                                <label><input type="checkbox" class="minimal" name="state_refine_22" data-refine="责令限期重做"/> 责令限期重做</label><br/>
+                                <label><input type="checkbox" class="minimal" name="state_refine_22" data-refine="一并决定给予赔偿"/> 一并决定给予赔偿</label><br/>
+                            </div>
+                        </div>
+                        <div class="form-group state-refine-remark" style="display: none;">
+                            <textarea class="form-control" name="state_refine_remark" id="state_refine_remark"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-skin btn-primary btn-process">启动流程</button>
+                    </div>
+                    <div class="loading" style="display: none" id="loading_state_refine">
+                        <i class="fa fa-spin fa-refresh loading-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="agentViewModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-user"></i> 委托代理人</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box box-solid no-shadow no-margin" style="border: 1px solid #eee;">
+                            <div class="box-body">
+                                <div class='row'>
+                                    <div class='col-lg-3'>
+                                        <strong><i class='fa fa-user margin-r-5'></i>  姓名</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_name"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-9'>
+                                        <strong><i class='fa fa-briefcase margin-r-5'></i>  工作单位</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_unit_name"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-2'>
+                                        <strong><i class='fa fa-intersex margin-r-5'></i>  性别</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_gender"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-3'>
+                                        <strong><i class='fa fa-calendar margin-r-5'></i>  出生日期</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_birthday"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-3'>
+                                        <strong><i class='fa fa-mobile margin-r-5'></i>  手机号码</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_phone"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-4'>
+                                        <strong><i class='fa fa-phone margin-r-5'></i>  其他联系方式</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_contact"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-12'>
+                                        <strong><i class='fa fa-map-marker margin-r-5'></i>  通讯地址</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_address"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-12'>
+                                        <strong><i class='fa fa-clone margin-r-5'></i>  证件信息</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_id_file"></p>
+                                        <hr style='margin: 10px 0;'>
+                                    </div>
+                                    <div class='col-lg-12'>
+                                        <strong><i class='fa fa-book margin-r-5'></i>  委托代理书</strong>
+                                        <p style='margin: 10px 0 0;' id="label_agent_file"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="div_delete_agent" style="display: none;">
+                        <button type="submit" class="btn btn-primary btn-skin btn-personnel-delete" id="btn_agent_delete">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_view">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span
+                            data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-eye"></i> 预览</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 15px 40px;padding: 15px 40px;font-family: '仿宋';font-size: 21px;line-height: 37px;" id="font_content"></div>
+                    <div class="loading" style="display: none" id="loading_view">
+                        <i class="fa fa-spin fa-refresh loading-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="msg_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="msg_content" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <script src="res/plugins/select2/i18n/zh-CN.js"></script>
+        <!-- datetimepicker -->
+        <script src="res/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="res/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+        <!-- Chart 2.7.2 -->
+        <script src="res/plugins/chart/Chart.bundle.min.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initFormList();
+                
+                var view = getParameter("view");
+                var isView = false;
+                if(view != null && view != "") {
+                    isView = true;
+                }
+
+                var web = getParameter("web");
+                initAccount(web);
+
+                var casesId = getParameter("cases");
+                var mode = getParameter("mode");
+
+                getCasesPersonnelList(false, "loading_row_apply", casesId, "1");
+                getCasesPersonnelList(false, "loading_row_defendant", casesId, "2");
+                initModal4AgentView();
+                initTabs4Refence(casesId, "0");
+                /* getCases("loading_info", casesId, false, false, false, mode); */                
+                getCases("loading_info", casesId, true, true, false, mode, isView);
+                
+                getFileList("loading_info", "label_cases_file_1", "label-cases-file-1", "cases_file/files?mode=1&cases_id=" + casesId, true);
+
+                function initStateRefine() {
+                    $("input[name='state_refine_17']").iCheck("uncheck");
+                    $("input[name='state_refine_21']").iCheck("uncheck");
+                    $("input[name='state_refine_22']").iCheck("uncheck");
+                    $("#state_refine_remark").val(null);
+
+                    if(state == "17") {
+                        $(".state-refine-17").show();
+                        $(".state-refine-21").hide();
+                        $(".state-refine-22").hide();
+                        $(".state-refine-remark").hide();
+                        return;
+                    }
+                    if(state == "21") {
+                        $(".state-refine-17").hide();
+                        $(".state-refine-21").show();
+                        $(".state-refine-22").hide();
+                        $(".state-refine-remark").hide();
+                        return;
+                    }
+                    if(state == "22") {
+                        $(".state-refine-17").hide();
+                        $(".state-refine-21").hide();
+                        $(".state-refine-22").show();
+                        $(".state-refine-remark").hide();
+                        return;
+                    }
+                    if(state == "24") {
+                        $(".state-refine-17").hide();
+                        $(".state-refine-21").hide();
+                        $(".state-refine-22").hide();
+                        $(".state-refine-remark").show();
+                        return;
+                    }
+                    if(state == "26") {
+                        $(".state-refine-17").hide();
+                        $(".state-refine-21").hide();
+                        $(".state-refine-22").hide();
+                        $(".state-refine-remark").show();
+                        return;
+                    }
+                }
+
+                var state = "";
+                $(".margin-bottom-20").on("click", function() {
+                    state = $(this).data("state");
+                    if(state == "17" || state == "21" || state == "22" || state == "24" || state == "26") {
+                        initStateRefine();
+                        $("#modal_process").modal("show");
+                        return;
+                    }
+                    window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + $(this).data("state");
+                });
+
+                $(".btn-process").on("click", function() {
+                    $("#loading_state_refine").show();
+                    var refineArr = [];
+                    $("input[name='state_refine_" + state + "']:checked").each(function() {
+                        refineArr.push($(this).data("refine"));
+                    })
+
+                    if(state == "24" || state == "26") {
+                        window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + state + "&refine=" + escape($("#state_refine_remark").val());
+                    } else {
+                        window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + state + "&refine=" + escape(refineArr.join("，"));
+                    }
+                });
+            });
+            function todevelopment(){
+            	window.location.href="development.html";
+            }
+        </script>
+    </body>
+
+</html>

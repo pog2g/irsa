@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>首页</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu">
+                        <li class='active'>
+                            <a href="index.html">
+                                <i class="fa fa-th"></i> <span>我的案件</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content">
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <button class="btn btn-primary btn-skin" id="btn_refresh"><i class="fa fa-refresh"></i> 刷新</button>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <table class="table table-bordered table-striped table-hover" id="table_data">
+                                <tr>
+                                    <th>年号</th>
+                                    <th>编号</th>
+                                    <th>类型</th>
+                                    <th>申请人</th>
+                                    <th>被申请人</th>
+                                    <th>行政管理类别</th>
+                                    <th>案由</th>
+                                    <th>状态</th>
+                                    <th>申请时间</th>
+                                    <th>预计结案时间</th>
+                                    <th>承办单位</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="overlay" id="table_loading" style="display: none;">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initAccount();
+
+                initData();
+                //加载数据
+                function initData() {
+                    $("#table_loading").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "cases/get_list",
+                        dataType: "JSON",
+                        success: function(data) {
+                            $("#table_loading").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".tr-data").remove(); //清除数据
+                            if(data.data == null || data.data.length == 0) {
+                                return;
+                            }
+                            $.each(data.data, function(index, value) {
+                                var btn = "";
+                                $td_data = $("<tr class='tr-data' data-id='" + value.id + "' data-state='" + value.state + "' style='cursor: pointer;'>" +
+                                    "<td>" + value.year_no + "</td>" +
+                                    "<td>" + value.no + "</td>" +
+                                    "<td>" + value.label_type + "</td>" +
+                                    "<td>" + value.apply + "</td>" +
+                                    "<td>" + value.defendant + "</td>" +
+                                    "<td>" + value.label_administrative_category + "</td>" +
+                                    "<td>" + value.label_reason + "</td>" +
+                                    "<td>" + getStateLabel(value.state) + "</td>" +
+                                    "<td>" + value.apply_time + "</td>" +
+                                    "<td>" + value.expected_time + "</td>" +
+                                    "<td>" + value.create_department + "</td>" +
+                                    "</tr>");
+                                $("#table_data").append($td_data);
+                            });
+
+                            onEvent();
+                        },
+                        error: function(xhr, type) {
+                            $("#table_loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                //刷新
+                $("#btn_refresh").click(function() {
+                    initData();
+                })
+
+                function onEvent() {
+                    $(".tr-data").on("click", function() {
+                        if($(this).data("state") == "9" ||$(this).data("state") == "32") {
+                            window.location.href = "case_process_exchange.html?cases=" + $(this).data("id");
+                        } else {
+                            window.location.href = "audit_case.html?cases=" + $(this).data("id");
+                        }
+                    })
+                }
+            })
+        </script>
+    </body>
+
+</html>

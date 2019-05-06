@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>法眼慧心网 被申请人操作平台</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/login.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition login-page" id="particles-js">
+        <div class="login-box login">
+            <div class="login-main">
+                <div class="login-top">
+                    <img src="self/img/logo-login.png" />
+                    <span style="margin-left: 2vh;margin-top: 0;">行政复议智能研判系统<br />
+                      <!--<p style="margin: 0 ;padding: 0 ;font-weight: 100;font-size: 18px;">-->
+                        被申请人操作平台
+                      <!--</p>-->
+                    </span>
+                </div>
+                <div class="login-center">
+                    <div class="login-center-img"><img src="self/img/zh.png" /></div>
+                    <div class="login-center-input">
+                        <input class="login-input" type="text" id="user_name" name="user_name" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'" />
+                        <div class="login-center-input-text">用户名</div>
+                    </div>
+                </div>
+                <div class="login-center">
+                    <div class="login-center-img"><img src="self/img/mm.png" /></div>
+                    <div class="login-center-input">
+                        <input class="login-input" type="password" id="user_pwd" name="user_pwd" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'" />
+                        <div class="login-center-input-text">密码</div>
+                    </div>
+                </div>
+                <div class="login-center" style="margin-bottom: 0;height: 30px;">
+                    <a href="" style="display: none;">忘记密码？</a>
+                    <a href="" style="float: right;cursor: pointer;padding-right: 40px;" data-toggle="modal" data-target="#modal_save">点击注册</a>
+                </div>
+                <div class="login-button" style="margin: 2vh auto 4vh;">
+                    登录
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="modal_save">
+            <div class="modal-dialog" style="width: 980px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-user-plus"></i> 注册 <font class="text-red">（请准确上传下列注册信息以备今后长期使用）</font></h4>
+                    </div>
+                    <form id="form_add">
+                        <input type="hidden" id="id" name="id" />
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>单位名称 <font class="text-primary">*</font></label>
+                                        <input type="text" class="form-control" id="unit_name" name="unit_name" placeholder="请准确填写您所在单位的全称，例如：郑州市金水区城市管理行政执法局">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="radio"
+                                               name="defendant_legal_person_type" class="minimal" value="1" checked="checked"> 负责人
+                                        <input type="radio"  id="defendant_legal_person_type_2"
+                                               name="defendant_legal_person_type" class="minimal" value="2"> 法定代表人<font class="text-primary">*</font>
+                                        <input style="margin-top: 4px" class="form-control" id="name" name="name" placeholder="请填写法定代表人/负责人姓名" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>单位地址 <font class="text-primary">*</font></label>
+                                        <input type="text" class="form-control" id="unit_abode" name="unit_abode" placeholder="请准确填写您所在单位对外公开的地址">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>单位联系方式 </label>
+                                        <input type="text" class="form-control" id="unit_content" name="unit_content" placeholder="请填写您所在单位对外公开的联系方式">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>用户名 <small>（6-18位字符）</small><font class="text-primary">*</font></label>
+                                        <input type="text" class="form-control" id="account" name="account" placeholder="请输入用户名">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>密码 <small>（6-18位字符，只能包含数字、字母或下划线）</small><font class="text-primary">*</font></label>
+                                        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="请输入密码">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>密码确认 <font class="text-primary">*</font></label>
+                                        <input type="password" class="form-control" id="pwd_confirm" name="pwd_confirm" placeholder="请再次输入密码">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>社会统一信用代码证</label>
+                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                            <ul class="mailbox-attachments clearfix" id="ul_defendant_file_1">
+                                                <li style="width: auto;">
+                                                    <div class="mailbox-attachment-info">
+                                                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>
+                                                        <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_1" />
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>法定代表人证明书</label>
+                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                            <ul class="mailbox-attachments clearfix" id="ul_defendant_file_2">
+                                                <li style="width: auto;">
+                                                    <div class="mailbox-attachment-info">
+                                                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>
+                                                        <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_2" />
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group no-margin">
+                                        <label>法定代表人证件信息</label>
+                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                            <ul class="mailbox-attachments clearfix" id="ul_defendant_file_3">
+                                                <li style="width: auto;">
+                                                    <div class="mailbox-attachment-info">
+                                                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>
+                                                        <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_3" />
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <font class="pull-left text-bold" style="padding: 3px 0;">技术支持电话：13523565413</font>
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_form">确定</button>
+                        </div>
+                        <div class="loading" style="display: none" id="loading_save">
+                            <i class="fa fa-spin fa-refresh loading-icon"></i>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_success">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 class="text-success" style="font-weight: bold;"><i class="fa fa-check-circle-o"></i> 注册成功</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- fileupload -->
+        <script src="res/plugins/fileupload/jquery.ui.widget.js"></script>
+        <script src="res/plugins/fileupload/jquery.fileupload.js"></script>
+        <!-- particles -->
+        <script src="res/plugins/particles/particles.min.js"></script>
+        <script src="res/plugins/particles/particles-app.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/self.js"></script>
+        <script>
+            $(function() {
+                $(".login-button").on("click", function() {
+                    login();
+                });
+
+                $(".login-input").keydown(function(e) {
+                    if(e.which == "13") {
+                        login();
+                    }
+                })
+
+                function login() {
+                    $.ajax({
+                        type: "POST",
+                        url: "logon",
+                        dataType: "JSON",
+                        data: {
+                            user_name: $("#user_name").val(),
+                            user_pwd: $("#user_pwd").val(),
+                        },
+                        success: function(data) {
+                            if(data.result == 1) {
+                                window.location.href = "index.html";
+                                return;
+                            }
+                            showMsg(data.error_msg);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                $("#modal_save").on("show.bs.modal", function() {
+                    var resId = getActId();
+                    $("#id").val(resId);
+                    $("#name").val(null);
+                    $("#legal_person").val(null);
+                    $("#address").val(null);
+                    $("#account").val(null);
+                    $("#pwd").val(null);
+                    $("#pwd_confirm").val(null);
+
+                    $(".li-defendant-file-1").remove();
+                    $(".li-defendant-file-2").remove();
+                    $(".li-defendant-file-3").remove();
+
+                    initUpload("loading_save", "defendant_file_1", "li-defendant-file-1", "temp/img?mode=1&res=" + resId);
+                    initUpload("loading_save", "defendant_file_2", "li-defendant-file-2", "temp/img?mode=2&res=" + resId);
+                    initUpload("loading_save", "defendant_file_3", "li-defendant-file-3", "temp/img?mode=3&res=" + resId);
+                })
+
+                $("#btn_submit_form").on("click", function() {
+                    var data = $("#form_add").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "register",
+                        dataType: "JSON",
+                        data: data,
+                        success: function(data) {
+                            if(data.result == 1) {
+                                $("#modal_save").modal("hide");
+                                $("#modal_success").modal("show");
+                                return;
+                            }
+                            showMsg(data.error_msg);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+
+</html>

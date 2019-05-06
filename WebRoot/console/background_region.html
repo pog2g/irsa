@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>行政区划管理</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu"></ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>当事人管理 <small>行政区划管理</small></h1>
+                </section>
+                <section class="content">
+                    <div class="box box-solid">
+                        <div class="box-body" style="border-bottom: 1px solid #eee;">
+                            <div class="row">
+                                <div class="col-lg-6" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">类型</div>
+                                        <div class="form-control">
+                                            <label style="padding-right: 7px;"><input type="radio" class="minimal" name="search_grade" data-grade="0" checked> 全部</label>
+                                            <label style="padding-right: 7px;"><input type="radio" class="minimal" name="search_grade" data-grade="1"> 省</label>
+                                            <label style="padding-right: 7px;"><input type="radio" class="minimal" name="search_grade" data-grade="2"> 市</label>
+                                            <label style="padding-right: 7px;"><input type="radio" class="minimal" name="search_grade" data-grade="3"> 区/县</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">省</div>
+                                        <select class="select2 search-region" style="width: 100%;" id="search_province"></select>
+                                        <div class="input-group-addon">市</div>
+                                        <select class="select2 search-region" style="width: 100%;" id="search_city"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <button class="btn btn-skin btn-primary" id="btn_search"><i class="fa fa-search"></i> 查询</button>
+                            <button class="btn btn-skin btn-primary" id="btn_refresh"><i class="fa fa-list-alt"></i> 查询全部</button>
+                            <button class="btn btn-skin btn-primary btn-add" data-type="1" data-grade="1"><i class="fa fa-plus"></i> 添加省</button>
+                            <button class="btn btn-skin btn-primary btn-add" data-type="1" data-grade="2"><i class="fa fa-plus"></i> 添加市</button>
+                            <button class="btn btn-skin btn-primary btn-add" data-type="1" data-grade="3"><i class="fa fa-plus"></i> 添加区/县</button>
+                            <button class="btn btn-skin btn-primary" id="btn_sort_province"><i class="fa fa-sort-amount-asc"></i> 排序省</button>
+                            <button class="btn btn-skin btn-primary" id="btn_sort_city"><i class="fa fa-sort-amount-asc"></i> 排序市</button>
+                            <button class="btn btn-skin btn-primary" id="btn_sort_county"><i class="fa fa-sort-amount-asc"></i> 排序区/县</button>
+                            <button class="btn btn-skin btn-primary" id="btn_delete"><i class="fa fa-trash"></i> 删除</button>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <div class="btn-group">
+                                <button class="btn btn-default btn-sm page-info" id="btn_home_page">首页</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_upper_page">上一页</button>
+                                <button class="btn btn-default btn-sm" id="btn_page_total" disabled="disabled">0/0</button>
+                                <button class="btn btn-default btn-sm" id="btn_data_total" disabled="disabled">总数：0</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_next_page">下一页</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_last_page">末页</button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered" id="table_data">
+                                <tr>
+                                    <th style="width: 10px"></th>
+                                    <th style="width: 10px"><input type="checkbox" class="minimal total-checkbox"></th>
+                                    <th>省</th>
+                                    <th>市</th>
+                                    <th>区/县</th>
+                                    <th style="width: 200px">操作</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="overlay" id="table_loading">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <!-- 省框 -->
+        <div class="modal fade" id="modal_province">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-plus"></i> 添加 - 省</h4>
+                    </div>
+                    <form id="form_province">
+                        <input type="hidden" id="province_id" name="province_id">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>省名称 <font class="text-primary">*</font></label>
+                                <input type="text" class="form-control" id="province_title" name="province_title" placeholder="省名称">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_province">确定</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 市框 -->
+        <div class="modal fade" id="modal_city">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-plus"></i> 添加 - 市</h4>
+                    </div>
+                    <form id="form_city">
+                        <input type="hidden" id="city_id" name="city_id">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>所属省 <font class="text-primary">*</font></label>
+                                <select class="form-control select2" style="width: 100%;" id="city_province" name="city_province"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>市名称 <font class="text-primary">*</font></label>
+                                <input type="text" class="form-control" id="city_title" name="city_title" placeholder="市名称">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_city">确定</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 区县框 -->
+        <div class="modal fade" id="modal_county">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-plus"></i> 添加</h4>
+                    </div>
+                    <form id="form_county">
+                        <input type="hidden" id="county_id" name="county_id">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>所属省 <font class="text-primary">*</font></label>
+                                <select class="form-control select2" style="width: 100%;" id="county_province" name="county_province"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>所属市 <font class="text-primary">*</font></label>
+                                <select class="form-control select2" style="width: 100%;" id="county_city" name="county_city"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>区/县名称 <font class="text-primary">*</font></label>
+                                <input type="text" class="form-control" id="county_title" name="county_title" placeholder="区/县名称">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_county">确定</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 排序框 -->
+        <div class="modal fade" id="modal_sort_province">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-sort-amount-asc"></i> 排序 - 省</h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="todo-list ul-province"></ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-skin btn-primary" id="btn_submit_sort_province">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_sort_city">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-sort-amount-asc"></i> 排序 - 市</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box box-solid no-shadow" style="border: 1px solid #eee;">
+                            <div class="box-body">
+                                <div class="input-group">
+                                    <div class="input-group-addon">省</div>
+                                    <select style="width: 100%;" id="sort_city_province"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="todo-list ul-city"></ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-skin btn-primary" id="btn_submit_sort_city">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_sort_county">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-sort-amount-asc"></i> 排序 - 区/县</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box box-solid no-shadow" style="border: 1px solid #eee;">
+                            <div class="box-body">
+                                <div class="input-group">
+                                    <div class="input-group-addon">省</div>
+                                    <select style="width: 100%;" id="sort_county_province"></select>
+                                    <div class="input-group-addon">市</div>
+                                    <select style="width: 100%;" id="sort_county_city"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="todo-list ul-county"></ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-skin btn-primary" id="btn_submit_sort_county">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 确定框 -->
+        <div class="modal fade" id="modal_confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>确定 <label class="text-red"> 删除 </label> 选中数据？</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-skin btn-primary" id="btn_confirm">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initAccount("31488579a85e481e9ae23aca6f1c73b0");
+                initCheckBox4Total("total-checkbox", "td-checkbox");
+
+                initSearch();
+
+                function initSearch() {
+                    $("input[name='search_grade']:first").iCheck("check");
+                    loadData4Select2("search_province", "region/get_choose_list_4_parent");
+                    initSelect2("search_city");
+                }
+                onChange4Select("search_province", "search_city", "region/get_choose_list_by_parent");
+                //查询类型变化
+                $("input[name='search_grade']").on("ifChecked", function() {
+                    if($("input[name='search_grade']:checked").data("grade") == 0) {
+                        $(".search-region").prop("disabled", false);
+                    } else {
+                        $(".search-region").prop("disabled", true);
+                        $(".search-region").val("-1").trigger("change");
+                    }
+                });
+
+                var isSearch = 0; //是否查询模式
+                var page = 1; //当前页
+                var pageTotal = 1; //总页数
+
+                initData();
+                //加载数据
+                function initData() {
+                    var grade = "";
+                    var province = "";
+                    var city = "";
+                    if(isSearch == 1) {
+                        grade = $("input[name='search_grade']:checked").data("grade");
+                        province = $("#search_province").val();
+                        city = $("#search_city").val();
+                    }
+
+                    $("#table_loading").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "region/get_list",
+                        dataType: "JSON",
+                        data: {
+                            page: page,
+                            search_grade: grade,
+                            search_province: province,
+                            search_city: city
+                        },
+                        success: function(data) {
+                            $("#table_loading").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".tr_data").remove(); //清除数据
+                            var dataTotal = data.data.data_total;
+                            if(dataTotal == 0) {
+                                $(".page-info").attr("disabled", true);
+                                return;
+                            }
+
+                            pageTotal = data.data.page_total;
+                            $("#btn_page_total").html(page + "/" + pageTotal);
+                            $("#btn_data_total").html("总数：" + dataTotal);
+                            $.each(data.data.data_list, function(index, value) {
+                                var province = "";
+                                var city = "";
+                                var county = "";
+                                if(value.grade == "1") {
+                                    province = value.title;
+                                } else if(value.grade == "2") {
+                                    city = value.title;
+                                    province = value.ptitle;
+                                } else if(value.grade == "3") {
+                                    county = value.title;
+                                    city = value.ptitle;
+                                    province = value.pptitle;
+                                }
+
+                                $td_data = $("<tr class='tr_data'>" +
+                                    "<td>" + ((page - 1) * 10 + index + 1) + ".</td>" +
+                                    "<td><input type='checkbox' class='minimal td-checkbox' data-id='" + value.id + "'></td>" +
+                                    "<td>" + province + "</td>" +
+                                    "<td>" + city + "</td>" +
+                                    "<td>" + county + "</td>" +
+                                    "<td><button class='btn btn-skin " + btnSkin + " btn-xs btn-edit' " +
+                                    "data-id='" + value.id + "' data-grade='" + value.grade + "' data-title='" + value.title + "' " +
+                                    "data-pid='" + value.pid + "' data-ppid='" + value.ppid + "'><i class='fa fa-edit'></i> 编辑</button></td>" +
+                                    "</tr>");
+                                $("#table_data").append($td_data);
+                            });
+
+                            if(page == 1) {
+                                if(page == pageTotal) {
+                                    $(".page-info").attr("disabled", true);
+                                } else {
+                                    $("#btn_home_page").attr("disabled", true); //首页
+                                    $("#btn_upper_page").attr("disabled", true); //上一页
+
+                                    $("#btn_next_page").attr("disabled", false); //下一页
+                                    $("#btn_last_page").attr("disabled", false); //末页
+                                }
+                            } else {
+                                if(page == pageTotal) {
+                                    $("#btn_home_page").attr("disabled", false); //首页
+                                    $("#btn_upper_page").attr("disabled", false); //上一页
+
+                                    $("#btn_next_page").attr("disabled", true); //下一页
+                                    $("#btn_last_page").attr("disabled", true); //末页
+                                } else {
+                                    $(".page-info").attr("disabled", false);
+                                }
+                            }
+
+                            initCheckBoxByClassName("td-checkbox");
+                            onEdit();
+                        },
+                        error: function(xhr, type) {
+                            $("#table_loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                //首页
+                $("#btn_home_page").click(function() {
+                    page = 1;
+                    initData();
+                });
+                //上一页
+                $("#btn_upper_page").click(function() {
+                    page--;
+                    initData();
+                });
+                //下一页
+                $("#btn_next_page").click(function() {
+                    page++;
+                    initData();
+                });
+                //末页
+                $("#btn_last_page").click(function() {
+                    page = pageTotal;
+                    initData();
+                });
+
+                //刷新
+                $("#btn_refresh").click(function() {
+                    loadData(false);
+                });
+                //查询
+                $("#btn_search").click(function() {
+                    loadData(true);
+                });
+
+                function loadData(arg) {
+                    if(!arg) {
+                        initSearch();
+                        isSearch = 0;
+                        page = 1;
+                    } else {
+                        isSearch = 1;
+                        page = 1;
+                    }
+                    initData();
+                }
+
+                onChange4Select("county_province", "county_city", "region/get_choose_list_by_parent");
+                $(".btn-add").on("click", function() {
+                    if($(this).data("grade") == 1) {
+                        $(".modal-title").html("<i class='fa fa-plus'></i> 添加 - 省");
+                        $("#province_id").val("");
+                        $("#province_title").val("");
+                        $("#modal_province").modal("show");
+                    } else if($(this).data("grade") == 2) {
+                        $(".modal-title").html("<i class='fa fa-plus'></i> 添加 - 市");
+                        loadData4Select2("city_province", "region/get_choose_list_4_parent");
+                        $("#city_id").val("");
+                        $("#city_title").val("");
+                        $("#modal_city").modal("show");
+                    } else if($(this).data("grade") == 3) {
+                        $(".modal-title").html("<i class='fa fa-plus'></i> 添加 - 区/县");
+                        $("#county_id").val("");
+                        $("#county_title").val("");
+                        loadData4Select2("county_province", "region/get_choose_list_4_parent");
+                        initSelect2("county_city");
+                        $("#modal_county").modal("show");
+                    }
+                });
+
+                function onEdit() {
+                    $(".btn-edit").on("click", function() {
+                        var id = $(this).data("id");
+                        var title = $(this).data("title");
+                        var province = "";
+                        var city = "";
+                        if($(this).data("grade") == 1) {
+                            $(".modal-title").html("<i class='fa fa-plus'></i> 编辑 - 省");
+                            $("#province_id").val(id);
+                            $("#province_title").val(title);
+                            $("#modal_province").modal("show");
+                        } else if($(this).data("grade") == 2) {
+                            $(".modal-title").html("<i class='fa fa-plus'></i> 编辑 - 市");
+                            province = $(this).data("pid");
+                            $("#city_id").val(id);
+                            $("#city_title").val(title);
+                            loadData4Select2("city_province", "region/get_choose_list_4_parent", province);
+                            $("#modal_city").modal("show");
+                        } else if($(this).data("grade") == 3) {
+                            $(".modal-title").html("<i class='fa fa-plus'></i> 编辑 - 区/县");
+                            province = $(this).data("ppid");
+                            city = $(this).data("pid");
+                            $("#county_id").val(id);
+                            $("#county_title").val(title);
+                            loadData4Select2("county_province", "region/get_choose_list_4_parent", province);
+                            $("#county_city").val(city).trigger("change");
+                            $("#modal_county").modal("show");
+                        }
+                    });
+                }
+                //省
+                $("#modal_province").on("show.bs.modal", function(event) {
+                    var button = $(event.relatedTarget);
+                    if(button != null) {
+                        $(".modal-title").html("<i class='fa fa-plus'></i> 编辑 - 省");
+                        $("#province_id").val(button.data("id"));
+                        $("#province_title").val(button.data("title"));
+                    }
+                });
+
+                $("#btn_submit_province").click(function() {
+                    var data = $("#form_province").serialize();
+                    $.ajax({
+                        url: "region/save1",
+                        type: "post",
+                        dataType: "json",
+                        data: data,
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_province").modal("hide");
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+                //市
+                $("#btn_submit_city").click(function() {
+                    var data = $("#form_city").serialize();
+                    $.ajax({
+                        url: "region/save2",
+                        type: "post",
+                        dataType: "json",
+                        data: data,
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_city").modal("hide");
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+                //区县
+                $("#btn_submit_county").click(function() {
+                    var data = $("#form_county").serialize();
+                    $.ajax({
+                        url: "region/save3",
+                        type: "post",
+                        dataType: "json",
+                        data: data,
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_county").modal("hide");
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+
+                $("#btn_sort_province").on("click", function() {
+                    $.ajax({
+                        url: "region/get_choose_list_4_parent",
+                        type: "post",
+                        dataType: "json",
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".li-province").remove(); //清除数据
+                            $.each(data.data, function(index, value) {
+                                if(index != 0) {
+                                    var $li = $("<li class='li-province' data-id='" + value.id + "'>" +
+                                        "<span class='handle'><i class='fa fa-ellipsis-v'></i> <i class='fa fa-ellipsis-v'></i></span>" +
+                                        "<span class='text' style='font-weight:bold;'>" + value.text + "</span>" +
+                                        "</li>");
+                                    $(".ul-province").append($li);
+                                }
+                            });
+                            $("#modal_sort_province").modal("show");
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+                //确定
+                $("#btn_submit_sort_province").click(function() {
+                    var idArr = [];
+                    $(".li-province").each(function(index) {
+                        idArr.push($(this).data("id"));
+                    });
+                    $.ajax({
+                        url: "region/sort.do",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            ids: idArr.join(",")
+                        },
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_sort_province").modal("hide");
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+
+                $("#btn_sort_city").on("click", function() {
+                    $(".li-city").remove();
+                    loadData4Select2("sort_city_province", "region/get_choose_list_4_parent");
+                    $("#modal_sort_city").modal("show");
+                });
+                $("#sort_city_province").on("change", function() {
+                    var id = $("#sort_city_province option:selected").val();
+                    $.ajax({
+                        url: "region/get_choose_list_by_parent",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            parent: id
+                        },
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".li-city").remove(); //清除数据
+                            $.each(data.data, function(index, value) {
+                                if(index != 0) {
+                                    var $li = $("<li class='li-city' data-id='" + value.id + "'>" +
+                                        "<span class='handle'><i class='fa fa-ellipsis-v'></i> <i class='fa fa-ellipsis-v'></i></span>" +
+                                        "<span class='text' style='font-weight:bold;'>" + value.text + "</span>" +
+                                        "</li>");
+                                    $(".ul-city").append($li);
+                                }
+                            });
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+                //确定
+                $("#btn_submit_sort_city").click(function() {
+                    var idArr = [];
+                    $(".li-city").each(function(index) {
+                        idArr.push($(this).data("id"));
+                    });
+                    $.ajax({
+                        url: "region/sort.do",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            ids: idArr.join(",")
+                        },
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_sort_city").modal("hide");
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+
+                onChange4Select("sort_county_province", "sort_county_city", "region/get_choose_list_by_parent");
+                $("#btn_sort_county").on("click", function() {
+                    $(".li-county").remove();
+                    loadData4Select2("sort_county_province", "region/get_choose_list_4_parent");
+                    initSelect2("sort_county_city");
+                    $("#modal_sort_county").modal("show");
+                });
+                $("#sort_county_province").on("change", function() {
+                    $(".li-county").remove();
+                });
+                $("#sort_county_city").on("change", function() {
+                    var id = $("#sort_county_city option:selected").val();
+                    $.ajax({
+                        url: "region/get_choose_list_by_parent",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            parent: id
+                        },
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".li-county").remove(); //清除数据
+                            $.each(data.data, function(index, value) {
+                                if(index != 0) {
+                                    var $li = $("<li class='li-county' data-id='" + value.id + "'>" +
+                                        "<span class='handle'><i class='fa fa-ellipsis-v'></i> <i class='fa fa-ellipsis-v'></i></span>" +
+                                        "<span class='text' style='font-weight:bold;'>" + value.text + "</span>" +
+                                        "</li>");
+                                    $(".ul-county").append($li);
+                                }
+                            });
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+                //确定
+                $("#btn_submit_sort_county").click(function() {
+                    var idArr = [];
+                    $(".li-county").each(function(index) {
+                        idArr.push($(this).data("id"));
+                    });
+                    $.ajax({
+                        url: "region/sort.do",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            ids: idArr.join(",")
+                        },
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_sort_county").modal("hide");
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+
+                //删除
+                var idArr = [];
+                $("#btn_delete").on("click", function() {
+                    idArr = [];
+                    $(".td-checkbox:checked").each(function() {
+                        idArr.push($(this).data("id"));
+                    });
+                    if(idArr.length == 0) {
+                        showMsg("请选择数据");
+                        return;
+                    }
+                    $("#modal_confirm").modal("show");
+                });
+                //确定
+                $("#btn_confirm").click(function() {
+                    $.ajax({
+                        url: "region/delete",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            ids: idArr.join(",")
+                        },
+                        success: function(data) {
+                            $("#modal_confirm").modal("hide");
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            loadData(false);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+
+</html>

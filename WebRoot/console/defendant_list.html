@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>被申请人管理</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu"></ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>当事人管理 <small>被申请人管理</small></h1>
+                </section>
+                <section class="content">
+                    <div class="box box-solid">
+                        <div class="box-body" style="border-bottom: 1px solid #eee;">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-top: 7px;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">关键字</div>
+                                        <input class="form-control" id="search_key" name="search_key" placeholder="请输入查询关键字" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <button class="btn btn-skin btn-primary" id="btn_search"><i class="fa fa-search"></i> 查询</button>
+                            <button class="btn btn-skin btn-primary" id="btn_refresh"><i class="fa fa-list-alt"></i> 查询全部</button>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <div class="btn-group">
+                                <button class="btn btn-default btn-sm page-info" id="btn_home_page">首页</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_upper_page">上一页</button>
+                                <button class="btn btn-default btn-sm" id="btn_page_total" disabled="disabled">0/0</button>
+                                <button class="btn btn-default btn-sm" id="btn_data_total" disabled="disabled">总数：0</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_next_page">下一页</button>
+                                <button class="btn btn-default btn-sm page-info" id="btn_last_page">末页</button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered" id="table_data">
+                                <tr>
+                                    <th style="width: 10px"><input type="checkbox" class="minimal total-checkbox"></th>
+                                    <th style="width: 10px"></th>
+                                    <th>类型</th>
+                                    <th>用户名</th>
+                                    <th>单位名称</th>
+                                    <th>单位地址</th>
+                                    <th>法定代表人</th>
+                                    <th>社会统一信用代码证</th>
+                                    <th>法定代表人证明书</th>
+                                    <th>法定代表人证件信息</th>
+                                    <th>添加时间</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="overlay" id="table_loading">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <div class="modal fade" id="modal_save">
+            <div class="modal-dialog" style="width: 980px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-edit"></i> 编辑</h4>
+                    </div>
+                    <form id="form_save">
+                        <input type="hidden" id="id" name="id" />
+                        <input type="hidden" id="res_id" name="res_id" />
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>主体类型<font class="text-primary">*</font></label>
+                                        <select class="form-control" style="width: 100%;" id="type_id" name="type_id"></select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>单位名称 <font class="text-primary">*</font></label>
+                                        <input type="text" class="form-control" id="unit_name" name="unit_name" placeholder="请输入您所在单位全称">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>单位联系方式 </label>
+                                        <input type="text" class="form-control" id="unit_content" name="unit_content" placeholder="请输入您所在单位联系方式">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <div class="form-control">
+                                            <label style="padding-left: 7px"><input type="radio" class="minimal"
+                                                                                    name="legal_person_type" value="1" checked="checked"> 法定代表人</label>
+                                            <label style="padding-left: 7px"><input type="radio" class="minimal"
+                                                                                    name="legal_person_type" value="2"> 负责人</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="defendant_name" name="name" placeholder="请输入法人姓名">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>单位地址 <font class="text-primary">*</font></label>
+                                        <input type="text" class="form-control" id="unit_abode" name="unit_abode" placeholder="请输入您所在单位地址">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="display: none;">
+                                    <div class="form-group">
+                                        <label>用户名 <small>（6-18位字符）</small><font class="text-primary">*</font></label>
+                                        <input type="text" class="form-control" id="account" name="account" placeholder="请输入用户名">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>密码 <small>（6-18位字符，只能包含数字、字母或下划线）</small><font class="text-primary">*</font></label>
+                                        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="请输入密码">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>密码确认 <font class="text-primary">*</font></label>
+                                        <input type="password" class="form-control" id="pwd_confirm" name="pwd_confirm" placeholder="请再次输入密码">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>社会统一信用代码证</label>
+                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                            <ul class="mailbox-attachments clearfix" id="ul_defendant_file_1">
+                                                <li style="width: auto;">
+                                                    <div class="mailbox-attachment-info">
+                                                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>
+                                                        <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_1" />
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>法定代表人证明书</label>
+                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                            <ul class="mailbox-attachments clearfix" id="ul_defendant_file_2">
+                                                <li style="width: auto;">
+                                                    <div class="mailbox-attachment-info">
+                                                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>
+                                                        <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_2" />
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group no-margin">
+                                        <label>法定代表人证件信息</label>
+                                        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">
+                                            <ul class="mailbox-attachments clearfix" id="ul_defendant_file_3">
+                                                <li style="width: auto;">
+                                                    <div class="mailbox-attachment-info">
+                                                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>
+                                                        <span class="mailbox-attachment-size">
+                                                            <button class="btn btn-primary btn-skin btn-xs btn-file">
+                                                                <i class="fa fa-plus"></i> 添加
+                                                                <input type="file" id="defendant_file_3" />
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_form">确定</button>
+                        </div>
+                        <div class="loading" style="display: none" id="loading_save">
+                            <i class="fa fa-spin fa-refresh loading-icon"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- fileupload -->
+        <script src="res/plugins/fileupload/jquery.ui.widget.js"></script>
+        <script src="res/plugins/fileupload/jquery.fileupload.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initAccount("a2bcf791003b49c6a01d7e394de8a911");
+                initCheckBox4Total("total-checkbox", "td-checkbox");
+
+                initSearch();
+
+                function initSearch() {
+                    $("#search_key").val(null);
+                }
+
+                var isSearch = 0; //是否查询模式
+                var page = 1; //当前页
+                var pageTotal = 1; //总页数
+
+                initData();
+                //加载数据
+                function initData() {
+                    var searchKey = "";
+                    if(isSearch == 1) {
+                        searchKey = $("#search_key").val();
+                    }
+
+                    $("#table_loading").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "defendant/get_list",
+                        dataType: "JSON",
+                        data: {
+                            page: page,
+                            search_key: searchKey,
+                        },
+                        success: function(data) {
+                            $("#table_loading").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".tr-data").remove(); //清除数据
+                            var dataTotal = data.data.data_total;
+                            if(dataTotal == 0) {
+                                $(".page-info").attr("disabled", true);
+                                return;
+                            }
+
+                            pageTotal = data.data.page_total;
+                            $("#btn_page_total").html(page + "/" + pageTotal);
+                            $("#btn_data_total").html("总数：" + dataTotal);
+                            $.each(data.data.data_list, function(index, value) {
+                                $td_data = $("<tr class='tr-data'>" +
+                                    "<td><input type='checkbox' class='minimal td-checkbox' data-id='" + value.id + "'></td>" +
+                                    "<td>" + ((page - 1) * 10 + index + 1) + ".</td>" +
+                                    "<td>" + value.label_type + "</td>" +
+                                    "<td>" + value.account + "</td>" +
+                                    "<td><a style='cursor: pointer;' class='btn-edit' " +
+                                    "data-id='" + value.id + "' data-typeid='" + value.type + "' data-unitname='" + value.unit_name + "'data-name='" + value.name + "' data-unitabode='" + value.unit_abode + "' " +
+                                    "data-unitcontent='" + value.unit_content + "' data-account='" + value.account + "'>" + value.unit_name + "</a></td>" +
+                                    "<td>" + value.unit_abode + "</td>" +
+                                    "<td>" + value.name + "</td>" +
+                                    "<td><a target='_blank' href='" + value.file_1 + "'><i class='fa fa-file-picture-o'></i> " + value.file_name_1 + "</a></td>" +
+                                    "<td><a target='_blank' href='" + value.file_2 + "'><i class='fa fa-file-picture-o'></i> " + value.file_name_2 + "</a></td>" +
+                                    "<td><a target='_blank' href='" + value.file_3 + "'><i class='fa fa-file-picture-o'></i> " + value.file_name_3 + "</a></td>" +
+                                    "<td>" + value.createtime + "</td>" +
+                                    "</tr>");
+                                $("#table_data").append($td_data);
+                            });
+
+                            if(page == 1) {
+                                if(page == pageTotal) {
+                                    $(".page-info").attr("disabled", true);
+                                } else {
+                                    $("#btn_home_page").attr("disabled", true); //首页
+                                    $("#btn_upper_page").attr("disabled", true); //上一页
+
+                                    $("#btn_next_page").attr("disabled", false); //下一页
+                                    $("#btn_last_page").attr("disabled", false); //末页
+                                }
+                            } else {
+                                if(page == pageTotal) {
+                                    $("#btn_home_page").attr("disabled", false); //首页
+                                    $("#btn_upper_page").attr("disabled", false); //上一页
+
+                                    $("#btn_next_page").attr("disabled", true); //下一页
+                                    $("#btn_last_page").attr("disabled", true); //末页
+                                } else {
+                                    $(".page-info").attr("disabled", false);
+                                }
+                            }
+
+                            initCheckBoxByClassName("td-checkbox");
+                            onEvent();
+                        },
+                        error: function(xhr, type) {
+                            $("#table_loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                //首页
+                $("#btn_home_page").click(function() {
+                    page = 1;
+                    initData();
+                })
+                //上一页
+                $("#btn_upper_page").click(function() {
+                    page--;
+                    initData();
+                })
+                //下一页
+                $("#btn_next_page").click(function() {
+                    page++;
+                    initData();
+                })
+                //末页
+                $("#btn_last_page").click(function() {
+                    page = pageTotal;
+                    initData();
+                })
+
+                //刷新
+                $("#btn_refresh").click(function() {
+                    loadData(false);
+                })
+                //查询
+                $("#btn_search").click(function() {
+                    loadData(true);
+                })
+
+                function loadData(arg) {
+                    if(!arg) {
+                        initSearch();
+                        isSearch = 0;
+                        page = 1;
+                    } else {
+                        isSearch = 1;
+                        page = 1;
+                    }
+                    initData();
+                }
+
+                function onEvent() {
+                    $(".btn-edit").off().on("click", function() {
+                        $("#pwd").val(null);
+                        $("#pwd_confirm").val(null);
+                        
+                        var resId = getActId();
+                        $("#res_id").val(resId);
+                        initUpload("loading_save", "defendant_file_1", "li-defendant-file-1", "temp/img?mode=1&res=" + resId);
+                        initUpload("loading_save", "defendant_file_2", "li-defendant-file-2", "temp/img?mode=2&res=" + resId);
+                        initUpload("loading_save", "defendant_file_3", "li-defendant-file-3", "temp/img?mode=3&res=" + resId);
+
+                        $("#id").val($(this).data("id"));
+                        $("#unit_name").val($(this).data("unitname"));
+                        $("#unit_abode").val($(this).data("unitabode"));
+                        $("#defendant_name").val($(this).data("name"));
+                        $("#unit_content").val($(this).data("unitcontent"));
+                        $("#defendant_duty").val($(this).data("duty"));
+                        $("#account").val($(this).data("account"));
+                        loadData4Select2("type_id", "defendant_type/get_choose_list", $(this).data("typeid"));
+
+                        $("#modal_save").modal("show");
+                    })
+                }
+
+                //TODO 修改被申请人
+                $("#btn_submit_form").on("click", function() {
+                    var data = $("#form_save").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "defendant/update",
+                        dataType: "JSON",
+                        data: data,
+                        success: function(data) {
+                            if(data.result == 1) {
+                                $("#modal_save").modal("hide");
+                                initData();
+                                return;
+                            }
+                            showMsg(data.error_msg);
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+
+            })
+        </script>
+    </body>
+
+</html>

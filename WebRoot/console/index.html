@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>首页</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style type="text/css">
+
+        </style>
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu"></ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content" style="padding-top: 0px;">
+                    <div class="row navShadowBox">
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="pinpu1">
+                                <div class="pinpuiImg"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="small-box  navShadow">
+                                <div class="navData">
+                                    <h3 id="number_new">&nbsp;</h3>
+                                    <p>今日新案</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="icon icon-img03"></i>
+                                </div>
+                                <a href="#" class="small-box-footer navDataTo">&nbsp;</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="small-box navShadow">
+                                <div class="navData">
+                                    <h3 id="number_process_1">&nbsp;</h3>
+                                    <p>受理中案件</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="icon icon-img02"></i>
+                                </div>
+                                <a href="#" class="small-box-footer navDataTo">&nbsp;</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="small-box navShadow">
+                                <div class="navData">
+                                    <h3 id="number_process_2">&nbsp;</h3>
+                                    <p>审理中案件</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="icon icon-img04"></i>
+                                </div>
+                                <a href="#" class="small-box-footer navDataTo">&nbsp;</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="small-box  navShadow">
+                                <div class="navData">
+                                    <h3 id="number_total">&nbsp;</h3>
+                                    <p>案件总数</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="icon icon-img01"></i>
+                                </div>
+                                <a href="#" class="small-box-footer navDataTo">&nbsp;</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="pinpu2">
+                                <div class="pinpuiImg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 15px;">
+                        <div class="col-lg-12" style="display: none;">
+                            <div id="timelineChart" style="height: 400px"></div>
+                        </div>
+                        <div class="col-lg-12" style="padding-top: 20px;">
+                            <div id="lineChart" style="height: 400px"></div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="padding-top: 20px;">
+                                            <div id="barChart3" style="height: 400px"></div>
+                                        </div>
+                                        <div class="col-lg-12" style="padding-top: 20px;">
+                                            <div id="pieChart4" style="height: 400px"></div>
+                                        </div>
+                                        <div class="col-lg-12" style="padding-top: 20px;">
+                                            <div id="pieChart5" style="height: 400px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="padding-top: 20px;">
+                                            <div id="pieChart1" style="height: 400px"></div>
+                                        </div>
+                                        <div class="col-lg-12 pie-chart-2" style="padding-top: 20px;">
+                                            <div id="pieChart2" style="height: 400px"></div>
+                                        </div>
+                                        <div class="col-lg-12" style="padding-top: 20px;">
+                                            <div id="pieChart3" style="height: 400px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="display: none;">
+                            <div class="box box-solid no-shadow bg-gray-light">
+                                <div class="box-body">
+                                    <div id="bar3dChart" style="height: 600px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <div class="modal fade" id="msg_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="msg_content" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- EChart 4.2.0 -->
+        <script src="res/plugins/echart4.2.0/echarts.min.js"></script>
+        <script src="res/plugins/echart4.2.0/echarts-gl.min.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script src="self/js/total.js"></script>
+        <!-- demo 
+        <script src="self/demo/pie-nest.js"></script>
+        <script src="self/demo/pie.js"></script>
+        <script src="self/demo/line.js"></script>
+        <script src="self/demo/radar.js"></script>
+        <script src="self/demo/bar.js"></script>
+        <script src="self/demo/timeline.js"></script>
+        <script src="self/demo/bar1.js"></script>
+        <script src="self/demo/bar3d.js"></script>
+        -->
+        <script>
+            $(function() {
+                initAccount(-1);
+            })
+        </script>
+    </body>
+
+</html>

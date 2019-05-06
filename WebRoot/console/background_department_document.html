@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>文号管理</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="res/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="res/plugins/iCheck/all.css">
+        <!-- switch -->
+        <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="res/dist/css/skins/_all-skins.min.css">
+        <!-- 自定义 -->
+        <link rel="shortcut icon" href="self/img/logo.png">
+        <link rel="stylesheet" href="self/css/self.css">
+        <link rel="stylesheet" href="self/css/add.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header"></header>
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <ul class="sidebar-menu" id="ul_menu"></ul>
+                </section>
+            </aside>
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>文号管理 <small id="header_deparment"></small></h1>
+                </section>
+                <section class="content">
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <table class="table table-bordered" id="table_data_title">
+                                <tr>
+                                    <th>文号抬头</th>
+                                    <th>操作</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="overlay" style="display: none;">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <table class="table table-bordered" id="table_data">
+                                <tr>
+                                    <th>流程</th>
+                                    <th>文号</th>
+                                    <th>操作</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="overlay" style="display: none;">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="main-footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li class="active">
+                        <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+                    </li>
+                    <li>
+                        <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_skin">
+                        <h4 class="control-sidebar-heading">皮肤</h4>
+                    </div>
+                    <div class="tab-pane" id="tab_contactbook">
+                        <h4 class="control-sidebar-heading">通讯录</h4>
+                        <ul class="control-sidebar-menu">
+                            <li style="display: none;">
+                                <a href="javascript:void(0)">
+                                    <i class="menu-icon fa fa-user bg-gray"></i>
+                                    <div class="menu-info">
+                                        <h4 class="control-sidebar-subheading">张三</h4>
+                                        <p>18712345678</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="tab_notice">
+                        <h4 class="control-sidebar-heading">版本更新公告</h4>
+                        <div class="form-group" style="display: none;">
+                            <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i> 修复挺里面可能会遇到的多处bug</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <div class="modal fade" id="modal_save_number">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-edit"></i> 编辑</h4>
+                    </div>
+                    <form data-role="form" id="form_data_number">
+                        <input type="hidden" id="number_id" name="number_id">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>流程 <font class="text-blue">*</font></label>
+                                <div class="form-control bg-gray-light" id="font_state"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>字号 <font class="text-blue">*</font></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="number_1" name="number_1">
+                                    <div class="input-group-addon">﹝2xx8﹞</div>
+                                    <input type="text" class="form-control form-input" id="number_2" name="number_2">
+                                    <div class="input-group-addon">00x</div>
+                                    <input type="text" class="form-control form-input" id="number_3" name="number_3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_number">确定</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_save_title">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span data-aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-edit"></i> 编辑</h4>
+                    </div>
+                    <form data-role="form" id="form_data_title">
+                        <input type="hidden" id="title_id" name="title_id">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>文号抬头 <font class="text-blue">*</font></label>
+                                <input class="form-control" id="title" name="title">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-skin btn-primary" id="btn_submit_title">确定</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_msg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4 id="font_msg" style="font-weight: bold;color: red;">错误信息</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 2.1.4 -->
+        <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="res/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!-- Bootstrap 3.3.5 -->
+        <script src="res/bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="res/plugins/iCheck/icheck.min.js"></script>
+        <!-- Select2 -->
+        <script src="res/plugins/select2/select2.full.min.js"></script>
+        <!-- switch -->
+        <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="res/dist/js/app.min.js"></script>
+        <!-- 自定义 -->
+        <script src="self/js/head.js"></script>
+        <script src="self/js/self.js"></script>
+        <script src="self/js/sidebar.js"></script>
+        <script>
+            $(function() {
+                initAccount("33c1183382ee46879e7a9ccbbaed0b3a");
+                initCheckBox4Total("total-checkbox", "td-checkbox");
+
+                var departmentId = getParameter("department");
+                $.ajax({
+                    type: "POST",
+                    url: "department/get_object",
+                    dataType: "JSON",
+                    data: {
+                        id: departmentId
+                    },
+                    success: function(data) {
+                        $(".loading").hide();
+                        if(data.result != 1) {
+                            showMsg(data.error_msg);
+                            return;
+                        }
+                        $("#header_deparment").html(data.data.text);
+                        initData4Title();
+                        initData();
+                    },
+                    error: function(xhr, type) {
+                        $(".loading").hide();
+                        showMsg("系统繁忙");
+                    }
+                });
+
+                //加载数据
+                function initData4Title() {
+                    $(".loading").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "department_document_title/get_list",
+                        dataType: "JSON",
+                        data: {
+                            department_id: departmentId
+                        },
+                        success: function(data) {
+                            $(".loading").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".tr_data_title").remove(); //清除数据
+                            $.each(data.data, function(index, value) {
+                                $td_data = $("<tr class='tr_data_title'>" +
+                                    "<td>" + value.title + "</td>" +
+                                    "<td>" +
+                                    "<button class='btn btn-xs btn-skin " + btnSkin + "' data-toggle='modal' data-target='#modal_save_title' " +
+                                    "data-id='" + value.id + "' data-title='" + value.title + "'><i class='fa fa-edit'></i> 编辑</button>" +
+                                    "</td>" +
+                                    "</tr>");
+                                $("#table_data_title").append($td_data);
+                            });
+                        },
+                        error: function(xhr, type) {
+                            $(".loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                function initData() {
+                    $(".loading").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "department_document_number/get_list",
+                        dataType: "JSON",
+                        data: {
+                            department_id: departmentId
+                        },
+                        success: function(data) {
+                            $(".loading").hide();
+                            if(data.result != 1) {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+
+                            $(".tr_data").remove(); //清除数据
+                            $.each(data.data, function(index, value) {
+                                var state = value.state;
+                                if(state == "9" || state == "10") {
+                                    state = "12";
+                                }
+                                $td_data = $("<tr class='tr_data'>" +
+                                    "<td>" + getStateLabel(state) + "</td>" +
+                                    "<td>" + value.number_1 + "﹝2xx8﹞" + value.number_2 + "00x" + value.number_3 + "</td>" +
+                                    "<td>" +
+                                    "<button class='btn btn-xs btn-skin " + btnSkin + "' data-toggle='modal' data-target='#modal_save_number' " +
+                                    "data-id='" + value.id + "' data-state='" + value.state + "' " +
+                                    "data-number1='" + value.number_1 + "' data-number2='" + value.number_2 + "' data-number3='" + value.number_3 + "'><i class='fa fa-edit'></i> 编辑</button>" +
+                                    "</td>" +
+                                    "</tr>");
+                                $("#table_data").append($td_data);
+                            });
+                        },
+                        error: function(xhr, type) {
+                            $(".loading").hide();
+                            showMsg("系统繁忙");
+                        }
+                    });
+                }
+
+                $("#modal_save_number").on("show.bs.modal", function(event) {
+                    var button = $(event.relatedTarget)
+                    $("#number_id").val(button.data("id"));
+                    var state = button.data("state");
+                    if(state == "9" || state == "10") {
+                        state = "12";
+                    }
+                    $("#font_state").html(getStateLabel(state + ""));
+                    $("#number_1").val(button.data("number1"));
+                    $("#number_2").val(button.data("number2"));
+                    $("#number_3").val(button.data("number3"));
+                })
+                $("#btn_submit_number").click(function() {
+                    var data = $("#form_data_number").serialize();
+                    $.ajax({
+                        url: "department_document_number/save",
+                        type: "post",
+                        dataType: "json",
+                        data: data,
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_save_number").modal("hide");
+                            initData();
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+                $("#modal_save_title").on("show.bs.modal", function(event) {
+                    var button = $(event.relatedTarget)
+                    $("#title_id").val(button.data("id"));
+                    $("#title").val(button.data("title"));
+                })
+                $("#btn_submit_title").click(function() {
+                    var data = $("#form_data_title").serialize();
+                    $.ajax({
+                        url: "department_document_title/save",
+                        type: "post",
+                        dataType: "json",
+                        data: data,
+                        success: function(data) {
+                            if(data.result != "1") {
+                                showMsg(data.error_msg);
+                                return;
+                            }
+                            $("#modal_save_title").modal("hide");
+                            initData4Title();
+                        },
+                        error: function(xhr, type) {
+                            showMsg("系统繁忙");
+                        }
+                    });
+                    return false;
+                });
+            })
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>PDF模板</title>
+        <style type="text/css">
+            body {
+                font-family: FangSong;
+                line-height: 37px;
+                font-size: 21px;
+            }
+            
+            .as-title {
+                padding: 3px 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="as-title">案件年号：${year_no}</div>
+        <div class="as-title">案件编号：${no}</div>
+        <div class="as-title">案件类型：${label_type}</div>
+        <div class="as-title">申请时间：${apply_time}</div>
+        <div class="as-title">申请方式：${apply_mode}</div>
+        <div class="as-title">行政类别：${label_administrative_category}</div>
+        <div class="as-title">案由：${label_reason}</div>
+        <div class="as-title">被诉具体行政行为：</div>
+        <div class="as-title" style="text-indent: 2rem;">${specific_behavior}</div>
+        <div class="as-title">行政复议请求：</div>
+        <div class="as-title" style="text-indent: 2rem;">${apply_request}</div>
+        <div class="as-title">事实和理由：</div>
+        <div class="as-title" style="text-indent: 2rem;">${facts_reasons}</div>
+        <div class="as-title">申请人：</div>
+        <div class="as-title" style="text-indent: 2rem;">${apply}</div>
+        <div class="as-title">第三人：</div>
+        <div class="as-title" style="text-indent: 2rem;">${third_party}</div>
+        <div class="as-title">被申请人：</div>
+        <div class="as-title" style="text-indent: 2rem;">${defendant}</div>
+    </body>
+
+</html>
