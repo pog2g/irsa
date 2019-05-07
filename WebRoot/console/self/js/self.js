@@ -2518,6 +2518,7 @@ function initCasesType() {
 }
 
 var applyId = "";
+var addApplyType = "";//录入人员类型 1：个人 2：法人组织
 
 //清除申请人表单
 function clearModal4Apply() {
@@ -3865,7 +3866,7 @@ function getCases(loadingId, casesId, isWithDetail, isWithToolbar, isWithDocumen
                     if (value.zip_code != null && value.zip_code != "" && value.zip_code != "无") {
                         zipCode = "，邮编，" + value.zip_code
                     }
-                    var $apply = $("<div style='text-indent: 2em;'>申请人：" + name + "，证件号码，" + value.id_no +
+                    var $apply = $("<div style='text-indent: 2em;'>申请人111：" + name + "，证件号码，" + value.id_no +
                         "，手机号码，" + value.phone + zipCode +
                         "，通讯地址，" + value.province + value.city + value.county + value.address + "。</div>")
                     $(".div-apply").append($apply);
