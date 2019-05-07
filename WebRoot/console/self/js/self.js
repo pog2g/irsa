@@ -3580,7 +3580,7 @@ function initSubmit4Personnel(casesId, isTemp, isReload) {
         savePersonnel(isTemp, false, "loading_apply", "loading_row_apply", casesId, "1", isReload);
     })
     //  建议第三人
-    $("#btn_submit_apply_third_party").on("click", function () {
+    $("#btn_submit_advice_third_party").on("click", function () {
         /*savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, casesPersonnelType, isReload)*/
         savePersonnel(isTemp, false, "loading_advice_third_party", "loading_row_third_party", casesId, "7", isReload);
     })
