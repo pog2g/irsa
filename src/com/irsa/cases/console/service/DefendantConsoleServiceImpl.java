@@ -103,6 +103,7 @@ public class DefendantConsoleServiceImpl implements DefendantConsoleService {
             } else {
                 personnelId = Utils.getId();
                 /*insert into irsa_defendant(id,createtime,type_id,unit_name,unit_content,unit_abode,name,legal_person_type,duty,account,pwd)*/
+                // 修改:原sql ps字段对应不上导致被申请人插入错误：defendantManager.executeSQL(Defendant.INSERT, new Object[]{personnelId, Utils.getCreateTime(), type , unit_name, name, unit_contact, unit_abode, name, legal_person_type, duty, "", ""});
                 defendantManager.executeSQL(Defendant.INSERT, new Object[]{personnelId, Utils.getCreateTime(), type, unit_name, unit_contact, unit_abode, name, legal_person_type, duty, "", ""});
             }
 
