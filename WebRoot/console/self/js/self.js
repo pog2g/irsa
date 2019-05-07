@@ -3858,23 +3858,20 @@ function getCases(loadingId, casesId, isWithDetail, isWithToolbar, isWithDocumen
                 //					}
                 //				}
                 $.each(data.data.apply_list, function (index, value) {
-                    console.log(JSON.stringify(value))
-                    alert(JSON.stringify(value))
                     var name = "";
                     if (value.type == "1") {
                         if (value.other_name != null && value.other_name != "" && value.other_name != "无") {
                             name += value.name + "，英文名/其他语种名/化名/曾用名，" + value.other_name;
                         }
                     } else {
-                        name += value.unit_name + "，法定代表人（负责人），" + value.name;
+                        name += value.unit_name;
                     }
-                    var zipCode = "";
-                    if (value.zip_code != null && value.zip_code != "" && value.zip_code != "无") {
-                        zipCode = "，邮编，" + value.zip_code
+                    var birthdars = value.birthday.split("-");
+                    if (birthdars.length == 3) {
+                        birthdars = birthdars[0] + "年" + birthdars[1] + "月" + birthdars[2] + "日";
                     }
-                    var $apply = $("<div style='text-indent: 2em;'>申请人111：" + name + "，证件号码，" + value.id_no +
-                        "，手机号码，" + value.phone + zipCode +
-                        "，通讯地址，" + value.province + value.city + value.county + value.address + "。</div>")
+                    var $apply = $("<div style='text-indent: 2em;'>申请人：" + name + "," + value.label_gender + value.nature
+                        + "族," + birthdars + "出生,户籍所在地" + value.domicile + "。</div>");
                     $(".div-apply").append($apply);
                 })
                 $.each(data.data.third_party_list, function (index, value) {
@@ -3905,7 +3902,10 @@ function getCases(loadingId, casesId, isWithDetail, isWithToolbar, isWithDocumen
                 //					})
                 //				}
                 $.each(data.data.defendant_list, function (index, value) {
-                    var $defendant = $("<div style='text-indent: 2em;'>被申请人：" + value.name + "，法定代表人，" + value.legal_person + "，住所，" + value.address + "。</div>")
+                    var $defendant = $("<div style='text-indent: 2em;'>被申请人：" + value.name + "。</div>" +
+                        "<div style='text-indent: 2em;'>住所：" + value.address + "。</div>" +
+                        "<div style='text-indent: 2em;'>负责人(法定代表人)：" + value.legal_person + "。</div>"
+                    )
                     $(".div-defendant").append($defendant);
                 })
             }
