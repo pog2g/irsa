@@ -3534,11 +3534,11 @@ function initToolBar(casesId, isReload) {
         } else if (casesPersonnelType == "3") {
             initModal4ThirdParty();
             $("#modal_add_third_party").modal("show");
-        } else if (casesPersonnelType == "4" || casesPersonnelType == "5" || casesPersonnelType == "6") {
+        } else if (casesPersonnelType == "4") {
             client = "1";
             clientId = "";
             initModal4Agent(casesId);
-            $("#modal_add_agent2").modal("show");
+            $("#modal_add_agent").modal("show");
         } else if (casesPersonnelType == "5") {
             client = "3";
             clientId = "";
