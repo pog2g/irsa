@@ -2026,7 +2026,6 @@ function initData4PersonnelFont(parentId, childClassName, data) {
 //getCasesPersonnelList(isTemp, loadingId, casesId, casesPersonnelType, isReference)
 function onDelete4Personel(casesId) {
     $(".btn-personnel-delete").off().on("click", function () {
-        debugger;
         var agent = $(this).data("agent");
 
         var id = $(this).data("id");
@@ -2105,7 +2104,6 @@ function getPersonnelInfoList(loadingId, casesId, casesPersonnelType) {
 
 
 function getCasesPersonnelList(isTemp, loadingId, casesId, casesPersonnelType, isReference, id) {
-    debugger;
     isReference = isReference || "1";
     $("#" + loadingId).show();
     var url = "";
@@ -2186,7 +2184,6 @@ function getCasesPersonnelList(isTemp, loadingId, casesId, casesPersonnelType, i
 
 
 function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, casesPersonnelType, isReload) {
-    debugger;
     isReload = isReload || false;
     $("#" + saveLoadingId).show();
     var url = "";
