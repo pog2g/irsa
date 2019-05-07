@@ -2465,6 +2465,7 @@ function initCasesType() {
         $("#person-radio").attr("checked", "checked");
         $("#legal-radio").removeAttr("checked");
         $(".form-unit").addClass("hidden");
+        $(".form-third-unit").addClass("hidden");
         $(".person-needs").addClass("has-error");
     } else if (casesType == "2") {
         $("#font_cases_type").html("多人申请行政复议");
@@ -2476,17 +2477,18 @@ function initCasesType() {
         $("#person-radio").attr("checked", "checked");
         $("#legal-radio").removeAttr("checked");
         $(".form-unit").addClass("hidden");
+        $(".form-third-unit").addClass("hidden");
         $(".person-needs").addClass("has-error");
     } else if (casesType == "3") {
         $("#font_cases_type").html("法人组织申请行政复议");
         $("#col_no").show();
         $("#col_no_more").hide();
-
         $(".case-type-2").hide();
         $("#blend_type_radio").hide();
         $("#legal-radio").attr("checked", "checked");
         $("#person-radio").removeAttr("checked");
         $(".form-unit").removeClass("hidden");
+        $(".form-third-unit").removeClass("hidden");
         $(".legal-needs").addClass("has-error");
     } else {
         $("#font_cases_type").html("其他申请行政复议");
@@ -2498,6 +2500,7 @@ function initCasesType() {
         $(".case-type-2").hide();
         $("#blend_type_radio").show();
         $(".form-unit").addClass("hidden");
+        $(".form-third-unit").addClass("hidden");
         $(".person-needs").addClass("has-error");
         $("#person-radio").on("ifChecked", function () {
             $(".form-unit").addClass("hidden");
