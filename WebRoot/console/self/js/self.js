@@ -2363,8 +2363,11 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
         dataType: "json",
         data: data,
         success: function (result) {
+            // ajax回调后就关闭加载框
+            $("#" + saveLoadingId).hide();
             if (result.result == 1) {
-
+                // 成功回调关闭模态框
+                $("#loading_apply").hide();
                 //追加当事人按钮
                 if (casesPersonnelType == "1") {
                     $("#" + saveLoadingId).hide();
@@ -2386,16 +2389,11 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
                         "                        <div class='well'></div>" +
                         "                    </div>");
                 }
-                $("#" + saveLoadingId).hide();
-                $("#loading_apply").hide();
-
             }
             if (result.result != 1) {
+                // 失败回调显示错误信息，但不关闭模态框
                 showMsg(result.error_msg);
-                // 如果是错误信息不应该关闭模特框，同时必须关闭加载框
-                // $("#" + saveLoadingId).hide();
-                $("#loading_apply").hide();
-                return;
+                return true;
             }
 
             var element = initModal(casesPersonnelType);

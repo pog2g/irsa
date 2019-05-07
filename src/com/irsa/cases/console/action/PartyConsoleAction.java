@@ -3,7 +3,6 @@ package com.irsa.cases.console.action;
 import com.common.utils.Utils;
 import com.irsa.cases.console.service.PartyConsoleService;
 import com.irsa.cases.model.CasesPersonnel;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,29 +49,6 @@ public class PartyConsoleAction {
                                     @RequestParam(required = false, name = "unit_abode") String unit_abode,
                                     @RequestParam(required = false, name = "legal_person_type") String legal_person_type
     ) {
-        // 必填字段数据验证
-        if (StringUtils.isBlank(name)) {
-            return Utils.getErrorMap("姓名不能为空");
-        }
-        String regex = "^(19|20)\\d{2}-(1[0-2]|0?[1-9])-(0?[1-9]|[1-2][0-9]|3[0-1])$";
-        if (!birthday.matches(regex)) {
-            return Utils.getErrorMap("出生日期格式不对");
-        }
-        if (StringUtils.isBlank(id_type_id) || "-1".equalsIgnoreCase(id_type_id)) {
-            return Utils.getErrorMap("证件类型不能为空");
-        }
-        if (StringUtils.isBlank(id_no)) {
-            return Utils.getErrorMap("证件号码不能为空");
-        }
-        if (StringUtils.isBlank(phone)) {
-            return Utils.getErrorMap("电话号码不能为空");
-        }
-        if (StringUtils.isBlank(domicile)) {
-            return Utils.getErrorMap("户籍所在地不能为空");
-        }
-        if (StringUtils.isBlank(abode)) {
-            return Utils.getErrorMap("法律文书送达地址不能为空");
-        }
         Map<String, Object> result = partyConsoleService.save(id, CasesPersonnel.PERSONNEL_TYPE_1, casesId, personnelId, type, Utils.toString(name), Utils.toString(other_name), nature, gender, Utils.toString(birthday), id_type_id, Utils.toString(id_no), Utils.toString(phone), Utils.toString(domicile), Utils.toString(zip_code), Utils.toString(contact), abode,
                 unit_name, Utils.toString(unit_contact), unit_id_type_id, Utils.toString(unit_id_no), unit_abode, legal_person_type);
         log.info("[/console/party/save] {}", result);
