@@ -95,9 +95,10 @@ public class Utils4JDBC {
     public static int getListCount(String sql, Object[] params) {
         sql = "select count(*) total from (" + sql + ") totaltmp";
         Map<String, Object> result = getMap(sql, params);
-        // 解决空指针异常(源代码:return Integer.parseInt(result.get("total").toString());)
+        // 修改:解决空指针异常(源代码:return Integer.parseInt(result.get("total").toString());)
         int flag = 0;
         Object obj = result.get("total");
+        System.out.println("obj======" + obj);
         if (obj != null) {
             flag = Integer.valueOf(obj.toString());
         }
