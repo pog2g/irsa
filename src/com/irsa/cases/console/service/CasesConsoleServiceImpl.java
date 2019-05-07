@@ -1,34 +1,26 @@
 package com.irsa.cases.console.service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.rmi.CORBA.Util;
-import javax.servlet.http.HttpServletRequest;
-
+import com.common.utils.Utils;
+import com.common.utils.Utils4PDF;
+import com.irsa.cases.manager.CasesFileManager;
+import com.irsa.cases.manager.CasesManager;
+import com.irsa.cases.manager.CasesPersonnelManager;
 import com.irsa.cases.manager.RequestCategoryManager;
 import com.irsa.cases.model.*;
+import com.irsa.console.model.Account;
+import com.jdbc.utils.Utils4JDBC;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.common.utils.Utils;
-import com.common.utils.Utils4PDF;
-import com.irsa.cases.manager.CasesFileManager;
-import com.irsa.cases.manager.CasesManager;
-import com.irsa.cases.manager.CasesPersonnelManager;
-import com.irsa.console.model.Account;
-import com.jdbc.utils.Utils4JDBC;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
-public class CasesConsoleServiceImpl implements CasesConsoleService{
+public class CasesConsoleServiceImpl implements CasesConsoleService {
     Logger log = LoggerFactory.getLogger(CasesConsoleServiceImpl.class);
     @Autowired
     CasesManager casesManager;
@@ -38,7 +30,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
     CasesPersonnelManager casesPersonnelManager;
     @Autowired
     RequestCategoryManager requestCategoryManager;
-    
+
     @Override
     public Map<String, Object> getDraftList(String accountId, String mode, String page) {
         try {
@@ -77,10 +69,10 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
-    public Map<String, Object> draft(String id, String type, String yearNo, String no, String administrativeCategoryId, String reasonId, String reasonAnother, String specificBehavior, String applyRequest, String factsReasons, 
-            String applyMode, String applyModeAnother, String applyTime, String labels, String accountId, String[] requestCategoryArr) {
+    public Map<String, Object> draft(String id, String type, String yearNo, String no, String administrativeCategoryId, String reasonId, String reasonAnother, String specificBehavior, String applyRequest, String factsReasons,
+                                     String applyMode, String applyModeAnother, String applyTime, String labels, String accountId, String[] requestCategoryArr) {
         try {
             if (StringUtils.isBlank(accountId)) {
                 return Utils.getErrorMap("登陆已过期，请重新登陆");
@@ -95,18 +87,18 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             if (StringUtils.isBlank(no) || "-".equals(no)) {
                 return Utils.getErrorMap("请填写案件编号");
             }
-            
+
             num = casesManager.getListCount(CasesTemp.SELECT_EXIST_BY_ID, new Object[]{id});
             if (num == 0) {
-                casesManager.executeSQL(CasesTemp.INSERT, new Object[]{Utils.getCreateTime(), id, type, yearNo, no, administrativeCategoryId, reasonId, reasonAnother, specificBehavior, applyRequest, factsReasons, 
+                casesManager.executeSQL(CasesTemp.INSERT, new Object[]{Utils.getCreateTime(), id, type, yearNo, no, administrativeCategoryId, reasonId, reasonAnother, specificBehavior, applyRequest, factsReasons,
                         applyMode, applyModeAnother, StringUtils.isBlank(applyTime) ? Utils.getCreateTime() : applyTime, labels, accountId});
             } else {
-                casesManager.executeSQL(CasesTemp.UPDATE, new Object[]{yearNo, no, administrativeCategoryId, reasonId, reasonAnother, specificBehavior, applyRequest, factsReasons, 
+                casesManager.executeSQL(CasesTemp.UPDATE, new Object[]{yearNo, no, administrativeCategoryId, reasonId, reasonAnother, specificBehavior, applyRequest, factsReasons,
                         applyMode, applyModeAnother, StringUtils.isBlank(applyTime) ? Utils.getCreateTime() : applyTime, labels, id});
             }
 
             // 保存请求类别
-            updateCasesRequestCategory(id,requestCategoryArr);
+            updateCasesRequestCategory(id, requestCategoryArr);
 
             return Utils.getSuccessMap(null);
         } catch (Exception e) {
@@ -114,7 +106,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> deleteDraft(String id, String mode) {
         try {
@@ -129,7 +121,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> existDraft(String id, String mode) {
         try {
@@ -150,7 +142,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> getDraft(String id) {
         try {
@@ -164,18 +156,19 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
+
     @Override
     public int getSwitchState(String id) {
-    	int count=0;
-    	try {
-    		 count= casesManager.getListCount(CasesTemp.SELECT_SWITCH_STATE_BY_ID, new Object[]{id});
-    		return count;
-    	} catch (Exception e) {
-    		log.error(e.getMessage(), e);
-    		return count;
-    	}
+        int count = 0;
+        try {
+            count = casesManager.getListCount(CasesTemp.SELECT_SWITCH_STATE_BY_ID, new Object[]{id});
+            return count;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return count;
+        }
     }
-    
+
     @Override
     public Map<String, Object> getList(String accountId, String page, String yearNo, String no, String apply, String defendant, String state, String applyTime1, String applyTime2, String key, String mode) {
         try {
@@ -183,19 +176,19 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             if (account == null) {
                 return Utils.getErrorMap("登陆已过期，请重新登陆");
             }
-            Map<String,Object> resultMap=this.getListSql(accountId, page, yearNo, no, apply, defendant, state, applyTime1, applyTime2, key, mode,account);
-            String sql=resultMap.get("sql").toString();
-            Object[] param=(Object[]) resultMap.get("param");
+            Map<String, Object> resultMap = this.getListSql(accountId, page, yearNo, no, apply, defendant, state, applyTime1, applyTime2, key, mode, account);
+            String sql = resultMap.get("sql").toString();
+            Object[] param = (Object[]) resultMap.get("param");
             return Utils.getSuccessMap(casesManager.getPageList(sql.toString(), param, Integer.parseInt(page), 10, "data_list"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Utils.getErrorMap(null);
         }
     }
-   
-    public Map<String,Object> getListSql(String accountId, String page, String yearNo, String no, String apply, String defendant, String state, String applyTime1, String applyTime2, String key, String mode,Map<String, Object> account) {
-    	Map<String,Object> resultMap=new HashMap<String,Object>();
-    	StringBuffer sql = new StringBuffer(Cases.SELECT);
+
+    public Map<String, Object> getListSql(String accountId, String page, String yearNo, String no, String apply, String defendant, String state, String applyTime1, String applyTime2, String key, String mode, Map<String, Object> account) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        StringBuffer sql = new StringBuffer(Cases.SELECT);
         sql.append("where 1=1 ");
         Object[] param = null;
         if (!"1".equals(account.get("department_id"))) {
@@ -210,7 +203,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_3, Cases.STATE_4, Cases.STATE_5, Cases.STATE_6, Cases.STATE_7, Cases.STATE_8});
         } else if (Cases.MODE_3.equals(mode)) {
             sql.append("and (c.state = ? or c.state = ? or c.state = ? or c.state = ?  ) ");
-            param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_9, Cases.STATE_10, Cases.STATE_11,Cases.STATE_32,});
+            param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_9, Cases.STATE_10, Cases.STATE_11, Cases.STATE_32,});
         } else if (Cases.MODE_4.equals(mode)) {
             sql.append("and (c.state = ? or c.state = ? or c.state = ? ) ");
             param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_12, Cases.STATE_13, Cases.STATE_14,});
@@ -219,18 +212,18 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_17, Cases.STATE_21, Cases.STATE_22, Cases.STATE_23, Cases.STATE_24, Cases.STATE_25, Cases.STATE_26, Cases.STATE_18, Cases.STATE_19, Cases.STATE_15, Cases.STATE_16});
         } else if (Cases.MODE_6.equals(mode)) {
             sql.append("and (c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ? or c.state = ?) ");
-            param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_3, Cases.STATE_4, Cases.STATE_5, Cases.STATE_6, Cases.STATE_7, Cases.STATE_8, 
-                    Cases.STATE_17,  Cases.STATE_21, Cases.STATE_22, Cases.STATE_23, Cases.STATE_24, Cases.STATE_25, Cases.STATE_26,
+            param = Utils4JDBC.mergeObjectArray(param, new Object[]{Cases.STATE_3, Cases.STATE_4, Cases.STATE_5, Cases.STATE_6, Cases.STATE_7, Cases.STATE_8,
+                    Cases.STATE_17, Cases.STATE_21, Cases.STATE_22, Cases.STATE_23, Cases.STATE_24, Cases.STATE_25, Cases.STATE_26,
                     Cases.STATE_18, Cases.STATE_19, Cases.STATE_15, Cases.STATE_16});
         }
-        
+
         if (StringUtils.isNotBlank(yearNo) && !"-1".equals(yearNo)) {
             sql.append("and c.year_no = ? ");
             param = Utils4JDBC.mergeObjectArray(param, new Object[]{yearNo});
         }
         if (StringUtils.isNotBlank(no)) {
-             sql.append("and c.no = ? ");
-             param = Utils4JDBC.mergeObjectArray(param, new Object[]{no});
+            sql.append("and c.no = ? ");
+            param = Utils4JDBC.mergeObjectArray(param, new Object[]{no});
         }
         if (StringUtils.isNotBlank(state) && !"-1".equals(state)) {
             sql.append("and c.state = ? ");
@@ -249,20 +242,23 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
         resultMap.put("param", param);
         return resultMap;
     }
-    /**导出功能获取数据list**/
+
+    /**
+     * 导出功能获取数据list
+     **/
     public List<Map<String, Object>> getCasesList(String accountId, String page, String yearNo, String no, String apply, String defendant, String state, String applyTime1, String applyTime2, String key, String mode) {
-    	List<Map<String, Object>> list=null;
-    	Map<String, Object> account = casesManager.getMap(Account.SELECT_BY_ID, new Object[]{accountId});
-    	Map<String,Object> resultMap=this.getListSql(accountId, page, yearNo, no, apply, defendant, state, applyTime1, applyTime2, key, mode,account);
-        String sql=resultMap.get("sql").toString();
-        Object[] param=(Object[]) resultMap.get("param");
-        list=casesManager.getList(sql, param);
-    	return list;
+        List<Map<String, Object>> list = null;
+        Map<String, Object> account = casesManager.getMap(Account.SELECT_BY_ID, new Object[]{accountId});
+        Map<String, Object> resultMap = this.getListSql(accountId, page, yearNo, no, apply, defendant, state, applyTime1, applyTime2, key, mode, account);
+        String sql = resultMap.get("sql").toString();
+        Object[] param = (Object[]) resultMap.get("param");
+        list = casesManager.getList(sql, param);
+        return list;
     }
-    
+
     @Override
-    public Map<String, Object> save(String id, String type, String yearNo, String no, String administrativeCategoryId, String reasonId, String reasonAnother, 
-            String specificBehavior, String applyRequest, String factsReasons, String applyMode, String applyModeAnother, String applyTime, String labels, String html, String accountId, String [] requestCategoryArr) {
+    public Map<String, Object> save(String id, String type, String yearNo, String no, String administrativeCategoryId, String reasonId, String reasonAnother,
+                                    String specificBehavior, String applyRequest, String factsReasons, String applyMode, String applyModeAnother, String applyTime, String labels, String html, String accountId, String[] requestCategoryArr) {
         try {
             Map<String, Object> account = casesManager.getMap(Account.SELECT_BY_ID, new Object[]{accountId});
             if (account == null) {
@@ -288,7 +284,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                 if (StringUtils.isBlank(reasonAnother)) {
                     return Utils.getErrorMap("请填写案由其他备注");
                 }
-                
+
                 Map<String, Object> data = casesManager.getMap(CasesReason.SELECT_BY_TITLE, new Object[]{reasonAnother});
                 if (data == null) {
                     reasonId = Utils.getId();
@@ -299,7 +295,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                 }
             }
 
-            if (requestCategoryArr.length < 0) {
+            if (requestCategoryArr.length < 0 || "-1".equalsIgnoreCase(requestCategoryArr[0])) {
                 return Utils.getErrorMap("请选择请求类别");
             }
             if (StringUtils.isBlank(specificBehavior)) {
@@ -329,7 +325,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             if (labelList.size() == 0) {
                 return Utils.getErrorMap("请填写案件标签");
             }
-            
+
             // 案件相关
             // 申请人
             List<Map<String, Object>> applyTempList = casesManager.getList(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_TYPE, new Object[]{id, CasesPersonnel.PERSONNEL_TYPE_1});
@@ -351,13 +347,13 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             if (defendantTemp == null) {
                 return Utils.getErrorMap("请添加被申请人");
             }
-            
+
             // 申请人证据信息
             List<Map<String, Object>> applyFileTempList = casesManager.getList(TempFile.SELECT_BY_RESID_MODE, new Object[]{id, CasesFile.MODE_1});
             if (applyFileTempList.size() == 0) {
                 return Utils.getErrorMap("请添加申请人证据信息");
             }
-            
+
             // 保存申请人
             for (Map<String, Object> apply : applyTempList) {
                 List<Map<String, Object>> agentList = casesManager.getList(CasesPersonnelTemp.SELECT_BY_CASESID_CLIENTID, new Object[]{id, apply.get("id")});
@@ -386,7 +382,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
 
             // 保存被申请人
             casesPersonnelManager.save4Defendant(id, Utils.toString(defendantTemp.get("personnel_id")));
-           
+
             // 保存证据信息
             for (Map<String, Object> data : applyFileTempList) {
                 casesFileManager.saveFile(id, CasesFile.MODE_1, data);
@@ -395,7 +391,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             casesFileManager.saveDocument(id, "行政复议申请书", html);
 
             // 保存请求类别
-            updateCasesRequestCategory(id,requestCategoryArr);
+            updateCasesRequestCategory(id, requestCategoryArr);
 
             // 保存案件标签
             saveLabels(id, labelList);
@@ -415,18 +411,18 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                 if (i == 1) {
                     continue;
                 }
-                limitTime =  Utils.modifyDate("+", "D", 60, applyTime);
+                limitTime = Utils.modifyDate("+", "D", 60, applyTime);
                 casesManager.executeSQL(CasesTime.INSERT, new Object[]{Utils.getId(), Utils.getCreateTime(), id, i + 1, limitTime,});
                 continue;
             }
             // 保存案件
             String time = Utils.getCreateTime();
-            casesManager.executeSQL(Cases.INSERT, new Object[]{time, id, Cases.STATE_1, type, yearNo, no, administrativeCategoryId, reasonId, specificBehavior, applyRequest, factsReasons, 
+            casesManager.executeSQL(Cases.INSERT, new Object[]{time, id, Cases.STATE_1, type, yearNo, no, administrativeCategoryId, reasonId, specificBehavior, applyRequest, factsReasons,
                     applyMode, applyModeAnother, applyTime, Utils.modifyDate("+", "D", 60, applyTime), accountId});
             int defendantTempCount = casesManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_TYPE, new Object[]{id, CasesPersonnel.PERSONNEL_TYPE_2});
             //更新案件表被申请人个数，用于判断案件状态是否为部分被申请人答复
-            if(defendantTempCount>1) {
-            	casesManager.executeSQL(Cases.UPDATE_DEFENDANT_REPLY_NUM, new Object[]{defendantTempCount, id});
+            if (defendantTempCount > 1) {
+                casesManager.executeSQL(Cases.UPDATE_DEFENDANT_REPLY_NUM, new Object[]{defendantTempCount, id});
             }
             casesManager.executeSQL(Cases.UPDATE_LASTTIME, new Object[]{time, id});
             // 删除草稿
@@ -441,7 +437,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                 casesManager.executeSQL(Cases.DELETE, new Object[]{id});
                 casesManager.executeSQL(CasesFile.DELETE, new Object[]{id});
                 casesManager.executeSQL(CasesLabels.DELETE, new Object[]{id});
-                List<Map<String, Object>> list = casesManager.getList(CasesPersonnel.SELECT_EXIST_BY_CASESID, new Object[]{id}); 
+                List<Map<String, Object>> list = casesManager.getList(CasesPersonnel.SELECT_EXIST_BY_CASESID, new Object[]{id});
                 for (Map<String, Object> data : list) {
                     casesManager.executeSQL(CasesPersonnel.DELETE, new Object[]{data.get("id")});
                     casesManager.executeSQL(CasesPersonnelFile.DELETE_BY_RESID, new Object[]{data.get("id")});
@@ -458,52 +454,53 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
 
      */
     /**
-       * 说明：本方法用于保存请求类别
-       *     1、先通过cases_id查询数据库中 请求类别id，如果没有数据，则直接插入前台传递的请求类别
-       *     2、与前台传的请求类别进行比对：相同，不做操作；不同，将之前cases_id相关联的数据删除，再进行关系添加
-       * @author 小曾
-       * @date 2019/4/22 0:28
-       * @param:本案件的"cases_id"和”请求类别“
-       * @return:
-       */
-    private void updateCasesRequestCategory(String id,String [] requestCategoryArr ){
-        List<Map<String, Object>> requestCategorys = requestCategoryManager.getList(CasesRequestCategory.SELECT,new Object[]{id});
+     * 说明：本方法用于保存请求类别
+     * 1、先通过cases_id查询数据库中 请求类别id，如果没有数据，则直接插入前台传递的请求类别
+     * 2、与前台传的请求类别进行比对：相同，不做操作；不同，将之前cases_id相关联的数据删除，再进行关系添加
+     *
+     * @author 小曾
+     * @date 2019/4/22 0:28
+     * @param:本案件的"cases_id"和”请求类别“
+     * @return:
+     */
+    private void updateCasesRequestCategory(String id, String[] requestCategoryArr) {
+        List<Map<String, Object>> requestCategorys = requestCategoryManager.getList(CasesRequestCategory.SELECT, new Object[]{id});
         // 如果数据库没有，说明是第一次添加，直接循环新增记录
-        try{
-            if(requestCategorys.size() == 0){
-                for(String requestCategory : requestCategoryArr){
-                    requestCategoryManager.executeSQL(CasesRequestCategory.INSERT,new Object[]{
-                            Utils.getId(),id,requestCategory,Utils.getCreateTime()
+        try {
+            if (requestCategorys.size() == 0) {
+                for (String requestCategory : requestCategoryArr) {
+                    requestCategoryManager.executeSQL(CasesRequestCategory.INSERT, new Object[]{
+                            Utils.getId(), id, requestCategory, Utils.getCreateTime()
                     });
                 }
-            }else{
+            } else {
                 // 如果有数据，直接删除，
-                requestCategoryManager.executeSQL(CasesRequestCategory.DELETE,new Object[]{id});
+                requestCategoryManager.executeSQL(CasesRequestCategory.DELETE, new Object[]{id});
                 // 然后再添加
-                for(String requestCategory : requestCategoryArr){
-                    requestCategoryManager.executeSQL(CasesRequestCategory.INSERT,new Object[]{
-                            Utils.getId(),id,requestCategory,Utils.getCreateTime()
+                for (String requestCategory : requestCategoryArr) {
+                    requestCategoryManager.executeSQL(CasesRequestCategory.INSERT, new Object[]{
+                            Utils.getId(), id, requestCategory, Utils.getCreateTime()
                     });
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Utils.getErrorMap(null);
             e.printStackTrace();
         }
     }
-    
+
     List<String> initLabelList(String labels) {
         List<String> labelList = new ArrayList<String>();
         String[] labelArr = labels.split("，");
         for (String str : labelArr) {
-            boolean isAdd = StringUtils.isNotBlank(str) && !labelList.contains(str); 
+            boolean isAdd = StringUtils.isNotBlank(str) && !labelList.contains(str);
             if (isAdd) {
                 labelList.add(str.trim());
             }
         }
         return labelList;
     }
-    
+
     void saveLabels(String casesId, List<String> labelList) {
         casesManager.executeSQL(CasesLabels.DELETE, new Object[]{casesId});
         if (labelList == null || labelList.size() == 0) {
@@ -521,34 +518,34 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             casesManager.executeSQL(CasesLabels.INSERT, new Object[]{Utils.getId(), Utils.getCreateTime(), casesId, labelId});
         }
     }
-    
+
     @Override
     public Map<String, Object> getMap(String id, String isWithPersonnel) {
-        try{
+        try {
             Map<String, Object> data = casesManager.getMap(Cases.SELECT_BY_ID, new Object[]{id});
             if (data == null) {
                 return Utils.getErrorMap(null);
             }
             data.put("apply", Utils.toString(data.get("apply")).replaceAll(",", "、"));
             data.put("third_party", Utils.toString(data.get("third_party")).replaceAll(",", "、"));
-            
+
             if ("1".equals(isWithPersonnel)) {
                 data.put("apply_list", casesManager.getList(CasesPersonnel.SELECT_BY_CASESID_TYPE137 + "order by p.createtime,p.id", new Object[]{id, CasesPersonnel.PERSONNEL_TYPE_1}));
                 data.put("defendant_list", casesManager.getList(CasesPersonnel.SELECT_BY_CASESID_TYPE2, new Object[]{id}));
                 data.put("third_party_list", casesManager.getList(CasesPersonnel.SELECT_BY_CASESID_TYPE137 + "order by p.createtime,p.id", new Object[]{id, CasesPersonnel.PERSONNEL_TYPE_3}));
             }
-            
+
             if (StringUtils.isBlank(Utils.toString(data.get("limit_time_1"))) || StringUtils.isBlank(Utils.toString(data.get("limit_time_2"))) || StringUtils.isBlank(Utils.toString(data.get("limit_time_3")))) {
                 return Utils.getSuccessMap(data);
             }
-            
+
             Date nowDate = new Date();
             String nowTime = Utils.SDF_YYYYMMDD.format(nowDate);
             String limitTime = "";
             if ("1".equals(data.get("state"))) {
                 limitTime = Utils.toString(data.get("limit_time_1"));
                 Date limitDate = Utils.SDF_YYYYMMDD_HHMMSS.parse(limitTime + " 23:59:59");
-                boolean isOver = nowDate.getTime() - limitDate.getTime() >= 0; 
+                boolean isOver = nowDate.getTime() - limitDate.getTime() >= 0;
                 if (isOver) {
                     data.put("is_over", "1");
                     data.put("limit_time", nowDate.getTime() - limitDate.getTime());
@@ -563,7 +560,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                                 i++;
                             }
                         }
-                        data.put("limit_time", limitDate.getTime() - nowDate.getTime() - i*1000*60*60*24);
+                        data.put("limit_time", limitDate.getTime() - nowDate.getTime() - i * 1000 * 60 * 60 * 24);
                     } else {
                         String nextTime = nowTime;
                         nextTime = Utils.modifyDate("+", "D", 1, nextTime);
@@ -576,7 +573,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             } else if ("9".equals(data.get("state")) || "11".equals(data.get("state"))) {
                 limitTime = Utils.toString(data.get("limit_time_2"));
                 Date limitDate = Utils.SDF_YYYYMMDD_HHMMSS.parse(limitTime + " 23:59:59");
-                boolean isOver = nowDate.getTime() - limitDate.getTime() >= 0; 
+                boolean isOver = nowDate.getTime() - limitDate.getTime() >= 0;
                 if (isOver) {
                     data.put("is_over", "1");
                     data.put("limit_time", nowDate.getTime() - limitDate.getTime());
@@ -587,7 +584,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             } else if ("12".equals(data.get("state"))) {
                 limitTime = Utils.toString(data.get("limit_time_3"));
                 Date limitDate = Utils.SDF_YYYYMMDD_HHMMSS.parse(limitTime + " 23:59:59");
-                boolean isOver = nowDate.getTime() - limitDate.getTime() >= 0; 
+                boolean isOver = nowDate.getTime() - limitDate.getTime() >= 0;
                 if (isOver) {
                     data.put("is_over", "1");
                     data.put("limit_time", nowDate.getTime() - limitDate.getTime());
@@ -602,22 +599,22 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> saveContent(String type, String id, String content) {
         try {
             int num = casesManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{id});
             if (num == 0) {
-                return Utils.getErrorMap("案件不存在");    
+                return Utils.getErrorMap("案件不存在");
             }
-            
+
             if (StringUtils.isBlank(content)) {
                 return Utils.getErrorMap("请填写内容");
             }
             if ("1".equals(type)) {
                 casesManager.executeSQL(Cases.UPDATE_CONTENT_1, new Object[]{content, id});
                 return Utils.getSuccessMap(null);
-            } 
+            }
             if ("2".equals(type)) {
                 casesManager.executeSQL(Cases.UPDATE_CONTENT_2, new Object[]{content, id});
                 casesManager.createDoc(id);
@@ -642,13 +639,13 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> saveLabels(String id, String labels) {
         try {
             int num = casesManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{id});
             if (num == 0) {
-                return Utils.getErrorMap("案件不存在");    
+                return Utils.getErrorMap("案件不存在");
             }
             if (StringUtils.isBlank(labels)) {
                 return Utils.getErrorMap("请填写标签");
@@ -657,7 +654,7 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             if (labelList == null || labelList.size() == 0) {
                 return Utils.getErrorMap("请填写标签");
             }
-            
+
             saveLabels(id, labelList);
             return Utils.getSuccessMap(null);
         } catch (Exception e) {
@@ -665,13 +662,13 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> getLabelList(String casesId) {
-    	try {
+        try {
             int num = casesManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
             if (num == 0) {
-                return Utils.getErrorMap("案件不存在");    
+                return Utils.getErrorMap("案件不存在");
             }
             return Utils.getSuccessMap(casesManager.getList(Cases.SELECT_LABELS, new Object[]{casesId}));
         } catch (Exception e) {
@@ -679,126 +676,126 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     @Override
     public Map<String, Object> total(HttpServletRequest request) {
         try {
             Map<String, Object> account = casesManager.getMap(Account.SELECT_BY_ID, new Object[]{request.getSession().getAttribute("account")});
             if (account == null) {
-                return Utils.getErrorMap(null);  
+                return Utils.getErrorMap(null);
             }
-            
+
             String sql = "select c.state,c.id,DATE_FORMAT(c.createtime,'%Y-%m-%d') date_time,DATE_FORMAT(c.createtime,'%Y-%m') month," +
                     "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
                     "from irsa_cases c where c.trash = '0' ";
             // 今日新案
-            int numberNew = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ? and a.date_time = ?", 
-            		new Object[]{account.get("department_id"), Utils.SDF_YYYYMMDD.format(new Date())}); 
+            int numberNew = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ? and a.date_time = ?",
+                    new Object[]{account.get("department_id"), Utils.SDF_YYYYMMDD.format(new Date())});
             // 受理中案件
-            int numberProcess1 = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ? and (a.state = ? or a.state = ?)", 
-            		new Object[]{account.get("department_id"), Cases.STATE_1, Cases.STATE_2}); 
+            int numberProcess1 = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ? and (a.state = ? or a.state = ?)",
+                    new Object[]{account.get("department_id"), Cases.STATE_1, Cases.STATE_2});
             // 审理中案件
-            int numberProcess2 = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ? and (a.state = ? or a.state = ? or a.state = ?)", 
-            		new Object[]{account.get("department_id"), Cases.STATE_12, Cases.STATE_13, Cases.STATE_14});
+            int numberProcess2 = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ? and (a.state = ? or a.state = ? or a.state = ?)",
+                    new Object[]{account.get("department_id"), Cases.STATE_12, Cases.STATE_13, Cases.STATE_14});
             // 总数案件
-            int numberTotal = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ?", 
-            		new Object[]{account.get("department_id")});
-            
+            int numberTotal = casesManager.getListCount("select a.id from (" + sql + ") a where a.department_id = ?",
+                    new Object[]{account.get("department_id")});
+
             // 受理结果
             String sql0 = "select count(*) value,a.name from (" +
-            		"select c.state name,c.id," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and (c.state = '3' or c.state = '4' or c.state = '5' or c.state = '6' or c.state = '7' or c.state = '8')" +
-            		") a where a.department_id = ? GROUP BY a.name";
+                    "select c.state name,c.id," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and (c.state = '3' or c.state = '4' or c.state = '5' or c.state = '6' or c.state = '7' or c.state = '8')" +
+                    ") a where a.department_id = ? GROUP BY a.name";
             Map<String, Object> pie1 = getChartData(sql0, new Object[]{account.get("department_id")}, true, true);
-            
+
             // 审理结果
             // 外圈：中止、支持性的7项、驳回、维持、支持性含有赔偿字眼 ，共11项 
             String sql1 = "select count(*) value,a.name from (" +
-            		"select c.state,c.id, '批准中止' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '14' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准变更）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '17' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准撤销）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '21' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准确认违法）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '22' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准责令履行）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '23' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准确认无效）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '24' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准调解与决定）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '25' " +
-            		"UNION " +
-            		"select c.state,c.id, '支持（批准其他决定）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '26' " +
-            		"UNION " +
-            		"select c.state,c.id, '否定（批准驳回）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '18' " +
-            		"UNION " +
-            		"select c.state,c.id, '否定（批准维持）' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and c.state = '19' " +
-            		"UNION " +
-            		"select c.state,c.id, '赔偿' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c,irsa_cases_step s where c.trash = '0' and (c.state = '17' or c.state = '21' or c.state = '22' or c.state = '23' or c.state = '24' or c.state = '25' or c.state = '26') " +
-            		"and s.cases_id = c.id and s.state = c.state and s.`mode` = '1' and s.refine like '%赔偿%' " +
-            		") a where a.department_id = ? GROUP BY a.name";
+                    "select c.state,c.id, '批准中止' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '14' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准变更）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '17' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准撤销）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '21' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准确认违法）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '22' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准责令履行）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '23' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准确认无效）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '24' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准调解与决定）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '25' " +
+                    "UNION " +
+                    "select c.state,c.id, '支持（批准其他决定）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '26' " +
+                    "UNION " +
+                    "select c.state,c.id, '否定（批准驳回）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '18' " +
+                    "UNION " +
+                    "select c.state,c.id, '否定（批准维持）' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and c.state = '19' " +
+                    "UNION " +
+                    "select c.state,c.id, '赔偿' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c,irsa_cases_step s where c.trash = '0' and (c.state = '17' or c.state = '21' or c.state = '22' or c.state = '23' or c.state = '24' or c.state = '25' or c.state = '26') " +
+                    "and s.cases_id = c.id and s.state = c.state and s.`mode` = '1' and s.refine like '%赔偿%' " +
+                    ") a where a.department_id = ? GROUP BY a.name";
             Map<String, Object> pie2 = getChartData(sql1, new Object[]{account.get("department_id")}, false, true);
             // 内圈：支持性、否定性、终止性
             String sql2 = "select count(*) value,a.name from (" +
-            		"select c.state,c.id, '支持性' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and (c.state = '17' or c.state = '21' or c.state = '22' or c.state = '23' or c.state = '24' or c.state = '25' or c.state = '26') " +
-            		"UNION " +
-            		"select c.state,c.id, '否定性' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and (c.state = '18' or c.state = '19') " +
-            		"UNION " +
-            		"select c.state,c.id, '终止性' name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c where c.trash = '0' and (c.state = '15' or c.state = '16') " +
-            		") a where a.department_id = ? GROUP BY a.name";
+                    "select c.state,c.id, '支持性' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and (c.state = '17' or c.state = '21' or c.state = '22' or c.state = '23' or c.state = '24' or c.state = '25' or c.state = '26') " +
+                    "UNION " +
+                    "select c.state,c.id, '否定性' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and (c.state = '18' or c.state = '19') " +
+                    "UNION " +
+                    "select c.state,c.id, '终止性' name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c where c.trash = '0' and (c.state = '15' or c.state = '16') " +
+                    ") a where a.department_id = ? GROUP BY a.name";
             List<Map<String, Object>> list2 = casesManager.getList(sql2, new Object[]{account.get("department_id")});
             if (pie2 != null) {
                 pie2.put("inner", list2);
             }
             // 案由分布
             Map<String, Object> pie3 = getChartData("select a.label_reason name,COUNT(*) value from (select c.id,c.reason_id,(select r.title from irsa_cases_reason r where r.id = c.reason_id) label_reason," +
-                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-                    "from irsa_cases c where c.trash = '0') a where a.department_id = ? GROUP BY a.label_reason order by value", 
+                            "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                            "from irsa_cases c where c.trash = '0') a where a.department_id = ? GROUP BY a.label_reason order by value",
                     new Object[]{account.get("department_id")}, false, true);
-            
+
             // 申请人排名
             String sql3 = "select count(*) value,a.name from(" +
-            		"select c.id,p.personnel_id,p.name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c,irsa_cases_personnel p where c.trash = '0' and p.cases_id = c.id and p.personnel_type = '1' " +
-            		") a where a.department_id = ? GROUP BY a.name order by value desc limit 10";
+                    "select c.id,p.personnel_id,p.name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c,irsa_cases_personnel p where c.trash = '0' and p.cases_id = c.id and p.personnel_type = '1' " +
+                    ") a where a.department_id = ? GROUP BY a.name order by value desc limit 10";
             Map<String, Object> bar3 = getChartData4Bar(sql3, new Object[]{account.get("department_id")});
-            
+
             // 被申请人类型
             String sql4 = "select count(*) value,a.name from(" +
-            		"select c.id,p.personnel_id,dt.title name," +
-            		"(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
-            		"from irsa_cases c,irsa_cases_personnel p,irsa_defendant_type dt where c.trash = '0' and p.cases_id = c.id and p.personnel_type = '2' and p.type = dt.id " +
-            		") a where a.department_id = ? GROUP BY a.name order by value desc limit 10";
+                    "select c.id,p.personnel_id,dt.title name," +
+                    "(select (select (select d.id from irsa_department d where d.id = r.department_id) from irsa_console_role r where r.id = a.role_id) from irsa_console_account a where a.id = c.entry_account_id) department_id " +
+                    "from irsa_cases c,irsa_cases_personnel p,irsa_defendant_type dt where c.trash = '0' and p.cases_id = c.id and p.personnel_type = '2' and p.type = dt.id " +
+                    ") a where a.department_id = ? GROUP BY a.name order by value desc limit 10";
             Map<String, Object> pie4 = getChartData4Funnel(sql4, new Object[]{account.get("department_id")});
             // 被申请人排名
             String sql5 = "select count(*) value,a.name from(" +
@@ -807,28 +804,28 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     "from irsa_cases c,irsa_cases_personnel p where c.trash = '0' and p.cases_id = c.id and p.personnel_type = '2' " +
                     ") a where a.department_id = ? GROUP BY a.name order by value desc,name desc limit 10";
             Map<String, Object> pie5 = getChartData4Funnel(sql5, new Object[]{account.get("department_id")});
-            
+
             // 案件处理统计，从当前月开始统计6个月
             SimpleDateFormat sdfMonth = new SimpleDateFormat("YYYY-MM");
             Date now = new Date();
             Calendar calendar = Calendar.getInstance();
-            String[] monthArr = new String[6]; 
-            for (int i = 0;i < 6;i ++) {
+            String[] monthArr = new String[6];
+            for (int i = 0; i < 6; i++) {
                 calendar.setTime(now);
                 calendar.add(Calendar.MONTH, -i);
                 String month = sdfMonth.format(calendar.getTime());
                 monthArr[i] = month;
             }
             // 录入，告知，转办，不予受理，受理中，审理中，已审结 
-            List<Map<String, Object>> itemList = new ArrayList<Map<String,Object>>();
-            String[] itemArr = new String[]{"录入","批准告知","批准受理转办","批准不予受理","受理中","审理中","已审结"}; 
-            for (String item : itemArr  ) {
+            List<Map<String, Object>> itemList = new ArrayList<Map<String, Object>>();
+            String[] itemArr = new String[]{"录入", "批准告知", "批准受理转办", "批准不予受理", "受理中", "审理中", "已审结"};
+            for (String item : itemArr) {
                 Map<String, Object> data = new HashMap<String, Object>();
                 data.put("type", "line");
                 data.put("name", item);
                 if ("录入".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
                         countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ?", new Object[]{account.get("department_id"), monthArr[i]});
                     }
                     data.put("data", countArr);
@@ -836,8 +833,8 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     continue;
                 }
                 if ("批准告知".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
                         countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and a.state = ?", new Object[]{account.get("department_id"), monthArr[i], Cases.STATE_3});
                     }
                     data.put("data", countArr);
@@ -845,8 +842,8 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     continue;
                 }
                 if ("批准受理转办".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
                         countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and a.state = ?", new Object[]{account.get("department_id"), monthArr[i], Cases.STATE_4});
                     }
                     data.put("data", countArr);
@@ -854,8 +851,8 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     continue;
                 }
                 if ("批准不予受理".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
                         countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and a.state = ?", new Object[]{account.get("department_id"), monthArr[i], Cases.STATE_6});
                     }
                     data.put("data", countArr);
@@ -863,9 +860,9 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     continue;
                 }
                 if ("受理中".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
-                        countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and (a.state = ? or a.state = ?)", 
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
+                        countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and (a.state = ? or a.state = ?)",
                                 new Object[]{account.get("department_id"), monthArr[i], Cases.STATE_1, Cases.STATE_2});
                     }
                     data.put("data", countArr);
@@ -873,9 +870,9 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     continue;
                 }
                 if ("审理中".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
-                        countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and (a.state = ? or a.state = ? or a.state = ? or a.state = ?)", 
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
+                        countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and (a.state = ? or a.state = ? or a.state = ? or a.state = ?)",
                                 new Object[]{account.get("department_id"), monthArr[i], Cases.STATE_12, Cases.STATE_13, Cases.STATE_14, Cases.STATE_20});
                     }
                     data.put("data", countArr);
@@ -883,14 +880,14 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
                     continue;
                 }
                 if ("已审结".equals(item)) {
-                    int[] countArr = new int[6];   
-                    for (int i = 0;i < 6;i++) {
+                    int[] countArr = new int[6];
+                    for (int i = 0; i < 6; i++) {
                         countArr[i] = casesManager.getListCount("select * from (" + sql + ") a where a.department_id = ? and a.month = ? and " +
-                        		"(a.state = ? or a.state = ? or a.state = ? or a.state = ? or a.state = ? or a.state = ? or a.state = ? " +
-                        		"or a.state = ? or a.state = ? or a.state = ? or a.state = ?)", 
-                                new Object[]{account.get("department_id"), monthArr[i], 
-                                Cases.STATE_17, Cases.STATE_21, Cases.STATE_22, Cases.STATE_23, Cases.STATE_24, Cases.STATE_25, Cases.STATE_26, 
-                                Cases.STATE_18, Cases.STATE_19, Cases.STATE_15, Cases.STATE_16});
+                                        "(a.state = ? or a.state = ? or a.state = ? or a.state = ? or a.state = ? or a.state = ? or a.state = ? " +
+                                        "or a.state = ? or a.state = ? or a.state = ? or a.state = ?)",
+                                new Object[]{account.get("department_id"), monthArr[i],
+                                        Cases.STATE_17, Cases.STATE_21, Cases.STATE_22, Cases.STATE_23, Cases.STATE_24, Cases.STATE_25, Cases.STATE_26,
+                                        Cases.STATE_18, Cases.STATE_19, Cases.STATE_15, Cases.STATE_16});
                     }
                     data.put("data", countArr);
                     itemList.add(data);
@@ -900,14 +897,14 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             Map<String, Object> line = new HashMap<String, Object>();
             line.put("x_data", monthArr);
             line.put("series", itemList);
-            
-            
+
+
             Map<String, Object> data = new HashMap<String, Object>();
             data.put("number_new", numberNew);
             data.put("number_process_1", numberProcess1);
             data.put("number_process_2", numberProcess2);
             data.put("number_total", numberTotal);
-            
+
             data.put("pie_1", pie1);
             data.put("pie_2", pie2);
             data.put("pie_3", pie3);
@@ -921,9 +918,9 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     Map<String, Object> getChartData(String sql, Object[] param, boolean isState, boolean isPie) {
-        List<Map<String, Object>> list = casesManager.getList(sql, param); 
+        List<Map<String, Object>> list = casesManager.getList(sql, param);
         if (list == null || list.size() == 0) {
             return null;
         }
@@ -950,13 +947,13 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
         }
         return pie;
     }
-    
+
     Map<String, Object> getChartData4Bar(String sql, Object[] param) {
-        List<Map<String, Object>> list = casesManager.getList(sql, param); 
+        List<Map<String, Object>> list = casesManager.getList(sql, param);
         if (list == null || list.size() == 0) {
             return null;
         }
-        List<Map<String, Object>> dataList = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
         String[] legend = new String[list.size()];
         for (int i = list.size(); i > 0; i--) {
             Map<String, Object> map = list.get(i - 1);
@@ -968,9 +965,9 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
         pie.put("data", dataList);
         return pie;
     }
-    
+
     Map<String, Object> getChartData4Funnel(String sql, Object[] param) {
-        List<Map<String, Object>> list = casesManager.getList(sql, param); 
+        List<Map<String, Object>> list = casesManager.getList(sql, param);
         if (list == null || list.size() == 0) {
             return null;
         }
@@ -987,51 +984,51 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
         pie.put("data", list);
         return pie;
     }
-    
+
     @Override
     public Map<String, Object> createPDF(String casesId) {
         try {
             int num = casesManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
             if (num == 0) {
-                return Utils.getErrorMap("案件不存在");    
+                return Utils.getErrorMap("案件不存在");
             }
-            
+
             // 案件详情
             Map<String, Object> cases = casesManager.getMap(Cases.SELECT_BY_ID, new Object[]{casesId});
             // 申请人
-            List<Map<String, Object>> personnelList1 = casesManager.getList(CasesPersonnel.SELECT_BY_CASESID_TYPE137 + "order by p.createtime,p.id", 
+            List<Map<String, Object>> personnelList1 = casesManager.getList(CasesPersonnel.SELECT_BY_CASESID_TYPE137 + "order by p.createtime,p.id",
                     new Object[]{casesId, CasesPersonnel.PERSONNEL_TYPE_1});
             // 第三人
             List<Map<String, Object>> personnelList3 = casesManager.getList(CasesPersonnel.SELECT_BY_CASESID_TYPE137 + "order by p.createtime,p.id",
                     new Object[]{casesId, CasesPersonnel.PERSONNEL_TYPE_3});
             // 被申请人
-            Map<String, Object> personnel2 = casesManager.getMap(CasesPersonnel.SELECT_BY_CASESID_TYPE2, 
+            Map<String, Object> personnel2 = casesManager.getMap(CasesPersonnel.SELECT_BY_CASESID_TYPE2,
                     new Object[]{casesId, CasesPersonnel.PERSONNEL_TYPE_2});
             // 委托代理人
 //            List<Map<String, Object>> personnelList6 = casesManager.getList(CasesPersonnel.SELECT_BY_CASESID + "where a.personnel_type = ? or a.personnel_type = ? order by a.a.personnel_type,a.createtime", 
 //                    new Object[]{casesId, CasesPersonnel.PERSONNEL_TYPE_4, CasesPersonnel.PERSONNEL_TYPE_5});
-            
+
             String sql = "select * from irsa_cases_file where res_id = ? and mode = ? and type = '1' order by createtime,real_name";
             // 代理人委托书
-            List<Map<String, Object>> casesFilelList4 = casesManager.getList(sql, 
+            List<Map<String, Object>> casesFilelList4 = casesManager.getList(sql,
                     new Object[]{casesId, CasesFile.MODE_4});
             // 申请人证据及其他相关材料
-            List<Map<String, Object>> casesFilelList1 = casesManager.getList(sql, 
+            List<Map<String, Object>> casesFilelList1 = casesManager.getList(sql,
                     new Object[]{casesId, CasesFile.MODE_1});
             // 第三人证据及其他相关材料
-            List<Map<String, Object>> casesFilelList3 = casesManager.getList(sql, 
+            List<Map<String, Object>> casesFilelList3 = casesManager.getList(sql,
                     new Object[]{casesId, CasesFile.MODE_3});
             // 被申请人答复书照片
-            List<Map<String, Object>> casesFilelList7 = casesManager.getList(sql, 
+            List<Map<String, Object>> casesFilelList7 = casesManager.getList(sql,
                     new Object[]{casesId, CasesFile.MODE_7});
             // 被申请人证据及其他相关材料
-            List<Map<String, Object>> casesFilelList2 = casesManager.getList(sql, 
+            List<Map<String, Object>> casesFilelList2 = casesManager.getList(sql,
                     new Object[]{casesId, CasesFile.MODE_2});
             // 涉案文书
-            List<Map<String, Object>> casesFilelList6 = casesManager.getList(sql, 
+            List<Map<String, Object>> casesFilelList6 = casesManager.getList(sql,
                     new Object[]{casesId, CasesFile.MODE_6});
-            
-            Utils4PDF.createPDF(cases, personnelList1, personnelList3, personnel2, null, 
+
+            Utils4PDF.createPDF(cases, personnelList1, personnelList3, personnel2, null,
                     casesFilelList4, casesFilelList1, casesFilelList3, casesFilelList7, casesFilelList2, casesFilelList6);
             return Utils.getSuccessMap(null);
         } catch (Exception e) {
@@ -1039,15 +1036,15 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
             return Utils.getErrorMap(null);
         }
     }
-    
+
     public static void main(String[] args) {
         SimpleDateFormat sdfMonth = new SimpleDateFormat("YYYY-MM");
-        List<String> monthList = new ArrayList<String>(); 
+        List<String> monthList = new ArrayList<String>();
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
-        for (int i = 0;i < 6;i ++) {
+        for (int i = 0; i < 6; i++) {
             calendar.setTime(now);
-            calendar.add(Calendar.MONTH, 0-i);
+            calendar.add(Calendar.MONTH, 0 - i);
             String month = sdfMonth.format(calendar.getTime());
             System.out.println(month);
             monthList.add(month);
@@ -1057,18 +1054,23 @@ public class CasesConsoleServiceImpl implements CasesConsoleService{
     public CasesManager getCasesManager() {
         return casesManager;
     }
+
     public void setCasesManager(CasesManager casesManager) {
         this.casesManager = casesManager;
     }
+
     public CasesFileManager getCasesFileManager() {
         return casesFileManager;
     }
+
     public void setCasesFileManager(CasesFileManager casesFileManager) {
         this.casesFileManager = casesFileManager;
     }
+
     public CasesPersonnelManager getCasesPersonnelManager() {
         return casesPersonnelManager;
     }
+
     public void setCasesPersonnelManager(CasesPersonnelManager casesPersonnelManager) {
         this.casesPersonnelManager = casesPersonnelManager;
     }

@@ -1889,7 +1889,7 @@
             }
 
             //请求类别数组
-            var requestCategoryArr = new Array();
+            var requestCategoryArr = [-1];
             $("input[name='request_category_opt']:checked").each(function (index, value) {
                 requestCategoryArr[index] = $(value).val();
             });

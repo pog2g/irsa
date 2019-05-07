@@ -1,34 +1,28 @@
 package com.common.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
-
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.apache.poi.poifs.filesystem.DirectoryNode;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils4Template {
     public static final String TEMPLATE_HTML_STATE_0 = "<div style=\"line-height: 37px;font-size: 29px;text-align: center;font-family: simsun;margin-bottom: 37px;\">行政复议申请书</div>" +
-    		        "<div style=\"font-family: '仿宋';line-height: 37px;font-size: 21px;\">" +
-    		        "<div>{0}</div>" +
-    				"<div>{1}</div>" +
-    				"<div>{2}</div>" +
-    				"<div style=\"text-indent: 2em;\">行政复议请求：{3}</div>" +
-    				"<div style=\"text-indent: 2em;\">事实与理由：{4}</div>" +
-    				"<div style=\"text-indent: 2em;\">此致</div>" +
-    				"<div style=\"text-indent: 2em;margin-bottom: 37px;\">{5}</div>" +
-    				"<div style=\"text-align: right;\">申请人：（签名或盖公章）</div>" +
-    				"<div style=\"text-align: right;margin-right: 4em;\">{6}</div>" +
-    				"</div>";
-    
+            "<div style=\"font-family: '仿宋';line-height: 37px;font-size: 21px;\">" +
+            "<div>{0}</div>" +
+            "<div>{1}</div>" +
+            "<div>{2}</div>" +
+            "<div style=\"text-indent: 2em;\">行政复议请求：{3}</div>" +
+            "<div style=\"text-indent: 2em;\">事实与理由：{4}</div>" +
+            "<div style=\"text-indent: 2em;\">此致</div>" +
+            "<div style=\"text-indent: 2em;margin-bottom: 37px;\">{5}</div>" +
+            "<div style=\"text-align: right;\">申请人：（签名或盖公章）</div>" +
+            "<div style=\"text-align: right;margin-right: 4em;\">{6}</div>" +
+            "</div>";
+
 //    public static final String TEMPLATE_HTML_STATE_4_1 = "<div style=\"line-height: 37px;font-size: 29px;text-align: center;font-family: simsun;color: red;font-weight: 100;\">{0}</div>" +
 //    		"<div style=\"line-height: 37px;font-size: 29px;text-align: center;font-family: simsun;color: red;font-weight: 100;margin-bottom: 37px;\">行政复议受理通知书</div>" +
 //    		"<div style=\"line-height: 37px;font-size: 21px;font-family: '仿宋';\">" +
@@ -80,19 +74,19 @@ public class Utils4Template {
 //            "<div>附：行政复议申请书副本一份</div>" +
 //            "</div>" +
 //            "</div>";
-    
+
     public static final String TEMPLATE_STATE_0 = "template_state_0.html";
     private static Configuration freemarkerCfg = null;
-    
+
     static {
-        freemarkerCfg =new Configuration();
+        freemarkerCfg = new Configuration();
         try {
             freemarkerCfg.setDirectoryForTemplateLoading(new File("d:/"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     public static void main(String[] args) throws IOException {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("apply", "<div>申请人：淡永强，证件号码，410121197110224810，手机号码，18538725570，邮编，450015，联系地址，河南省郑州市二七区，详细地址，华中路11号院</div>");
@@ -103,7 +97,6 @@ public class Utils4Template {
         data.put("department", "郑州市人民政府");
         data.put("date", "2018年10月18日");
         String content = freeMarkerRender(data, TEMPLATE_STATE_0);
-        System.out.println(content);
         StringBuffer buffer = new StringBuffer(content);
         File outFile = new File("D:/test1.doc");
         byte[] contentBytes = buffer.toString().getBytes();
@@ -111,14 +104,12 @@ public class Utils4Template {
         POIFSFileSystem poifSystem = new POIFSFileSystem();
         DirectoryNode root = poifSystem.getRoot();
         root.createDocument("WordDocument", byteStream);
-        FileOutputStream outStream = new FileOutputStream(outFile); 
+        FileOutputStream outStream = new FileOutputStream(outFile);
         poifSystem.writeFilesystem(outStream);
         byteStream.close();
         outStream.close();
-        
-        System.out.println("OK");
     }
-    
+
     /**
      * freemarker渲染html
      */
