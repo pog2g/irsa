@@ -147,7 +147,7 @@ public class Utils4JDBC {
                 int column = md.getColumnCount();
                 while (res.next()) {
                     Map<String, Object> data = new HashMap<>();
-                    for (int i = 1; i < column; i++) {
+                    for (int i = 1; i <= column; i++) {
                         data.put(md.getColumnName(i), res.getObject(i) == null ? "" : res.getObject(i).toString());
                     }
                     list.add(data);
