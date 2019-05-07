@@ -2349,10 +2349,10 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
             //$("#font_apply_agent").append(content);
         }
 
-        if (agent_cases_type.indexOf("个人") != -1 || agent_cases_type.indexOf("法人组织") != -1) {
-            $("#font_apply_agent").html("");
-            $("#font_apply_agent").append(agent_content);
-        }
+        // if (agent_cases_type.indexOf("个人") != -1 || agent_cases_type.indexOf("法人组织") != -1) {
+        //     $("#font_apply_agent").html("");
+        //     $("#font_apply_agent").append(agent_content);
+        // }
     }
     $.ajax({
         url: url,
@@ -2559,7 +2559,10 @@ function initModal4Apply() {
     //初始化日期选取框
     initDatetimePicker("apply_birthday");
     //初始化城市选择
-    /*loadData4Select2("apply_province", "region/get_choose_list_4_parent");*/
+    loadData4Select2("apply_province", "region/get_choose_list_4_parent");
+    // 注册城市切换监听
+    onChange4Province("apply_province", "apply_city", "region/get_choose_list_by_parent", "apply_county");
+    onChange4City("apply_city", "apply_county", "region/get_choose_list_by_parent");
     //初始化申请人证件类型下拉框
     loadData4Select2("apply_id_type", "id_type/get_choose_list");
 
@@ -2895,6 +2898,9 @@ function initModal4ThirdParty() {
     loadData4Select2("third_party_unit_id_type", "unit_id_type/get_choose_list");
     initDatetimePicker("third_party_birthday");
     loadData4Select2("third_party_province", "region/get_choose_list_4_parent");
+    // 注册城市切换监听
+    onChange4Province("third_party_province", "third_party_city", "region/get_choose_list_by_parent", "third_party_county");
+    onChange4City("third_party_city", "third_party_county", "region/get_choose_list_by_parent");
     loadData4Select2("third_party_id_type", "id_type/get_choose_list");
 
     clearModal4ThirdParty();
@@ -2942,9 +2948,6 @@ function initModalEvent4ThirdParty() {
 
         $("#search_third_party").select2("val", "");
     });
-
-    onChange4Province("third_party_province", "third_party_city", "region/get_choose_list_by_parent", "third_party_county");
-    onChange4City("third_party_city", "third_party_county", "region/get_choose_list_by_parent");
 
     $("input[name='third_party_type']").on("ifChanged", function () {
         $("#third_party_unit_id_type").val("-1").trigger("change");
@@ -3119,7 +3122,11 @@ function initModal4Agent(casesId) {
 
     initSelect2WithData("agent_type", agentTypeArr);
     initSelect2WithData("agent_identity", identityTypeArr);
-
+    //初始化城市选择
+    loadData4Select2("agent_province", "region/get_choose_list_4_parent");
+    // 注册城市切换监听
+    onChange4Province("agent_province", "agent_city", "region/get_choose_list_by_parent", "agent_county");
+    onChange4City("agent_city", "agent_county", "region/get_choose_list_by_parent");
     //agentTypeVal: 1、近亲属  2、律师/法律工作者  3、单位工作人员  4、其他公民
     $("#agent_type").on("select2:select", function (e) {
         agentTypeVal = String($("#agent_type").find("option:selected").val());
@@ -3851,6 +3858,8 @@ function getCases(loadingId, casesId, isWithDetail, isWithToolbar, isWithDocumen
                 //					}
                 //				}
                 $.each(data.data.apply_list, function (index, value) {
+                    console.log(JSON.stringify(value))
+                    alert(JSON.stringify(value))
                     var name = "";
                     if (value.type == "1") {
                         if (value.other_name != null && value.other_name != "" && value.other_name != "无") {
