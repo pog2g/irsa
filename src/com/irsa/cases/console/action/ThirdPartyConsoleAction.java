@@ -1,8 +1,6 @@
 package com.irsa.cases.console.action;
 
-import java.util.Map;
-
-import com.irsa.cases.model.CasesPersonnel;
+import com.irsa.cases.console.service.PartyConsoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.common.utils.Utils;
-import com.irsa.cases.console.service.PartyConsoleService;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/console/third_party")
@@ -47,25 +44,25 @@ public class ThirdPartyConsoleAction {
     @RequestMapping("/save")
     @ResponseBody
     public Map<String, Object> save(String id,
-                                    @RequestParam(required=true, name="cases_id") String casesId,
-                                    @RequestParam(required=true, name="personnel_id") String personnelId,
-                                    @RequestParam(required=true, name="cases_personnel_type") String cases_personnel_type,
+                                    @RequestParam(required = true, name = "cases_id") String casesId,
+                                    @RequestParam(required = true, name = "personnel_id") String personnelId,
+                                    @RequestParam(required = true, name = "cases_personnel_type") String cases_personnel_type,
                                     String type, String name,
-                                    @RequestParam(required=false, name="other_name")String other_name,
-                                    @RequestParam(required=false, name="nature")String nature,
+                                    @RequestParam(required = false, name = "other_name") String other_name,
+                                    @RequestParam(required = false, name = "nature") String nature,
                                     String gender, String birthday,
-                                    @RequestParam(required=false, name="id_type_id") String id_type_id,
-                                    @RequestParam(required=false, name="id_no") String id_no,
-                                    String phone,String domicile,
-                                    @RequestParam(required=false, name="zip_code") String zip_code,
+                                    @RequestParam(required = false, name = "id_type") String id_type,
+                                    @RequestParam(required = false, name = "id_no") String id_no,
+                                    String phone, String domicile,
+                                    @RequestParam(required = false, name = "zip_code") String zip_code,
                                     String contact,
-                                    @RequestParam(required=true, name="abode")String abode,
-                                    String unit_name, String unit_contact, String unit_id_type_id, String unit_id_no, String unit_abode, String legal_person_type ) {
-        Map<String, Object> result = partyConsoleService.save(id, cases_personnel_type, casesId, personnelId, unit_id_type_id, other_name, other_name, nature, gender, birthday, id_type_id, id_no, phone, domicile, zip_code, contact, abode, unit_name, unit_contact, unit_id_type_id, unit_id_no, unit_abode, legal_person_type);
+                                    @RequestParam(required = true, name = "abode") String abode,
+                                    String unit_name, String unit_contact, String unit_id_type_id, String unit_id_no, String unit_abode, String legal_person_type) {
+        Map<String, Object> result = partyConsoleService.save(id, cases_personnel_type, casesId, personnelId, unit_id_type_id, other_name, other_name, nature, gender, birthday, id_type, id_no, phone, domicile, zip_code, contact, abode, unit_name, unit_contact, unit_id_type_id, unit_id_no, unit_abode, legal_person_type);
         log.info("[/console/third_party/save] {}", result);
         return result;
     }
-    
+
     @RequestMapping("/get_choose_list")
     @ResponseBody
     public Map<String, Object> getChooseList(String page, String key) {
@@ -77,6 +74,7 @@ public class ThirdPartyConsoleAction {
     public PartyConsoleService getPartyConsoleService() {
         return partyConsoleService;
     }
+
     public void setPartyConsoleService(PartyConsoleService partyConsoleService) {
         this.partyConsoleService = partyConsoleService;
     }

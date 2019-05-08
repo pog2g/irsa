@@ -55,7 +55,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
     public Map<String, Object> save(String actId, String casesPersonnelType, String casesId, String personnelId,
                                     String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                     String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
-        // 必填字段数据验证
+        /*// 必填字段数据验证
         if (StringUtils.isBlank(name)) {
             return Utils.getErrorMap("请填写姓名");
         }
@@ -77,7 +77,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         }
         if (StringUtils.isBlank(abode)) {
             return Utils.getErrorMap("请填写法律文书送达地址");
-        }
+        }*/
         try {
             Map<String, Object> tempFile = partyManager.getMap(TempFile.SELECT_BY_RESID, new Object[]{actId});
 
