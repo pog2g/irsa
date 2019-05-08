@@ -86,6 +86,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                     type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                     domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
                     unitIdNo, unitAbode, legalPerson);
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Utils.getErrorMap(null);
