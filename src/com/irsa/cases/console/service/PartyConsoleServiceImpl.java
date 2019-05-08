@@ -1,10 +1,11 @@
 package com.irsa.cases.console.service;
 
 import com.common.utils.Utils;
-import com.common.utils.Utils4File;
 import com.irsa.cases.manager.CasesPersonnelManager;
 import com.irsa.cases.manager.PartyManager;
-import com.irsa.cases.model.*;
+import com.irsa.cases.model.CasesPersonnel;
+import com.irsa.cases.model.Party;
+import com.irsa.cases.model.TempFile;
 import com.jdbc.utils.Utils4JDBC;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -92,7 +93,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                     }
                 }
             }
-
+/*
             if (CasesPersonnel.PERSONNEL_TYPE_7.equals(casesPersonnelType)) {
                 if (StringUtils.isNotBlank(pid)) {
                     personnelId = pid;
@@ -101,8 +102,8 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                         return Utils.getErrorMap("当事人已存在");
                     }
 
-                    /*update irsa_party set type = ?,name = ?,other_name= ?, nature = ?,gender = ?,birthday = ?,id_type_id= ?,id_no= ?,phone = ?,domicile= ?,zip_code= ?,contact= ?,abode= ?," +
-                    "unit_name = ?,unit_contact = ?,unit_id_type_id = ?,unit_id_no = ?,unit_abode = ?,legal_person_type = ?  where id = ?"*/
+                    *//*update irsa_party set type = ?,name = ?,other_name= ?, nature = ?,gender = ?,birthday = ?,id_type_id= ?,id_no= ?,phone = ?,domicile= ?,zip_code= ?,contact= ?,abode= ?," +
+                    "unit_name = ?,unit_contact = ?,unit_id_type_id = ?,unit_id_no = ?,unit_abode = ?,legal_person_type = ?  where id = ?"*//*
                     partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                             unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});
                 } else {
@@ -124,14 +125,14 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
 
             // 案件是否存在
             int isCasesExist = partyManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
-            /*if (Party.TYPE_2.equals(type)) {
+            *//*if (Party.TYPE_2.equals(type)) {
                 if (StringUtils.isBlank(legalPerson)) {
                     return Utils.getErrorMap("请填写单位名称");
-                }*/
-                /*if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
+                }*//*
+             *//*if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
                     return Utils.getErrorMap("请选择单位证件类型");
-                }*/
-               /* Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
+                }*//*
+             *//* Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
                 if (unitIdType == null) {
                     return Utils.getErrorMap("证件类型不存在");
                 }
@@ -140,16 +141,16 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                 }
                 if (StringUtils.isBlank(unitContact)) {
                     return Utils.getErrorMap("请填写单位联系方式");
-                }*/
-            /*}*/
-            /*if (StringUtils.isBlank(idTypeId) || "-1".equals(idTypeId)) {
+                }*//*
+             *//*}*//*
+             *//*if (StringUtils.isBlank(idTypeId) || "-1".equals(idTypeId)) {
                 return Utils.getErrorMap("请选择证件类型");
-            }*/
-/*            Map<String, Object> idType =partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
+            }*//*
+             *//*            Map<String, Object> idType =partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
             if (idType == null) {
                 return Utils.getErrorMap("证件类型不存在");
-            }*/
-            /*if (!"未知".equals(idType.get("text"))&&type!=null&&!type.equals("2")) {
+            }*//*
+             *//*if (!"未知".equals(idType.get("text"))&&type!=null&&!type.equals("2")) {
 
                 if (StringUtils.isBlank(idNo)) {
                     return Utils.getErrorMap("请填写证件号码");
@@ -165,7 +166,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                 if (!Utils.checkPhone(phone)) {
                     return Utils.getErrorMap("手机号码格式错误");
                 }
-            }*/
+            }*//*
 
             if (StringUtils.isNotBlank(pid)) {
                 personnelId = pid;
@@ -188,25 +189,25 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                     }
                 }
                 
-               /* Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
+               *//* Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
                 if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
                     return Utils.getErrorMap("请填上传证件信息");
-                }*/
+                }*//*
 
                 partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                         unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});
-                /*partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, legalPerson, gender, birthday, phone, contact, zipCode,
-                        countyId, address, idTypeId, idNo, unitIdTypeId, unitIdNo, unitContact, domicile,nature,ws_address,zw, personnelId});*/
+                *//*partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, legalPerson, gender, birthday, phone, contact, zipCode,
+                        countyId, address, idTypeId, idNo, unitIdTypeId, unitIdNo, unitContact, domicile,nature,ws_address,zw, personnelId});*//*
             } else {
-                /*if (!"未知".equals(idType.get("text")) && tempFile == null) {
+                *//*if (!"未知".equals(idType.get("text")) && tempFile == null) {
                     return Utils.getErrorMap("请填上传证件信息");
-                }*/
+                }*//*
 
                 personnelId = Utils.getId();
                 partyManager.executeSQL(Party.INSERT_LEGAL, new Object[]{Utils.getCreateTime(), personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                         unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson});
-                /*partyManager.executeSQL(Party.INSERT, new Object[]{Utils.getCreateTime(), personnelId, type,
-                        name, legalPerson, gender, birthday, phone, contact, zipCode, countyId, address, idTypeId, idNo, unitIdTypeId, unitIdNo, unitContact, domicile,nature,ws_address,zw});*/
+                *//*partyManager.executeSQL(Party.INSERT, new Object[]{Utils.getCreateTime(), personnelId, type,
+                        name, legalPerson, gender, birthday, phone, contact, zipCode, countyId, address, idTypeId, idNo, unitIdTypeId, unitIdNo, unitContact, domicile,nature,ws_address,zw});*//*
             }
             if (tempFile != null) {
                 partyManager.executeSQL(PartyFile.DELETE_BY_RESID, new Object[]{personnelId});
@@ -220,7 +221,18 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                 return Utils.getSuccessMap(null);
             }
             casesPersonnelManager.save4Party(casesPersonnelType, casesId, personnelId, null, null);
-            return Utils.getSuccessMap(null);
+            return Utils.getSuccessMap(null);*/
+
+            // 处理casesPersonnelType 为1的
+            if (CasesPersonnel.PERSONNEL_TYPE_1.equals(casesPersonnelType)) {
+                return dealWithType1(actId, casesPersonnelType, casesId, personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson);
+                // 处理casesPersonnelType 为3的
+            } else if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
+                return dealWithType3(actId, casesPersonnelType, casesId, personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson);
+                // 处理casesPersonnelType 其他(目前为7)
+            } else {
+                return dealWithType7(actId, casesPersonnelType, casesId, personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson);
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Utils.getErrorMap(null);
@@ -270,5 +282,114 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
 
     public void setPartyManager(PartyManager partyManager) {
         this.partyManager = partyManager;
+    }
+
+
+    /**
+     * 处理casesPersonnelType为1
+     *
+     * @param actId              ${@link String}
+     * @param casesPersonnelType ${@link String}
+     * @param casesId            ${@link String}
+     * @param personnelId        ${@link String}
+     * @param type               ${@link String}
+     * @param name               ${@link String}
+     * @param other_name         ${@link String}
+     * @param nature             ${@link String}
+     * @param gender             ${@link String}
+     * @param birthday           ${@link String}
+     * @param idTypeId           ${@link String}
+     * @param idNo               ${@link String}
+     * @param phone              ${@link String}
+     * @param domicile           ${@link String}
+     * @param zipCode            ${@link String}
+     * @param contact            ${@link String}
+     * @param abode              ${@link String}
+     * @param unitName           ${@link String}
+     * @param unitContact        ${@link String}
+     * @param unitIdTypeId       ${@link String}
+     * @param unitIdNo           ${@link String}
+     * @param unitAbode          ${@link String}
+     * @param legalPerson        ${@link String}
+     * @return Object> ${@link Object>}
+     * @author zhouxuanhong
+     * @date 2019-05-08 11:23
+     */
+    private Map<String, Object> dealWithType1(String actId, String casesPersonnelType, String casesId, String personnelId,
+                                              String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
+                                              String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
+        return null;
+    }
+
+    /**
+     * 处理casesPersonnelType为2
+     *
+     * @param actId              ${@link String}
+     * @param casesPersonnelType ${@link String}
+     * @param casesId            ${@link String}
+     * @param personnelId        ${@link String}
+     * @param type               ${@link String}
+     * @param name               ${@link String}
+     * @param other_name         ${@link String}
+     * @param nature             ${@link String}
+     * @param gender             ${@link String}
+     * @param birthday           ${@link String}
+     * @param idTypeId           ${@link String}
+     * @param idNo               ${@link String}
+     * @param phone              ${@link String}
+     * @param domicile           ${@link String}
+     * @param zipCode            ${@link String}
+     * @param contact            ${@link String}
+     * @param abode              ${@link String}
+     * @param unitName           ${@link String}
+     * @param unitContact        ${@link String}
+     * @param unitIdTypeId       ${@link String}
+     * @param unitIdNo           ${@link String}
+     * @param unitAbode          ${@link String}
+     * @param legalPerson        ${@link String}
+     * @return Object> ${@link Object>}
+     * @author zhouxuanhong
+     * @date 2019-05-08 11:23
+     */
+    private Map<String, Object> dealWithType3(String actId, String casesPersonnelType, String casesId, String personnelId,
+                                              String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
+                                              String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
+        return null;
+    }
+
+    /**
+     * 处理casesPersonnelType为7
+     *
+     * @param actId              ${@link String}
+     * @param casesPersonnelType ${@link String}
+     * @param casesId            ${@link String}
+     * @param personnelId        ${@link String}
+     * @param type               ${@link String}
+     * @param name               ${@link String}
+     * @param other_name         ${@link String}
+     * @param nature             ${@link String}
+     * @param gender             ${@link String}
+     * @param birthday           ${@link String}
+     * @param idTypeId           ${@link String}
+     * @param idNo               ${@link String}
+     * @param phone              ${@link String}
+     * @param domicile           ${@link String}
+     * @param zipCode            ${@link String}
+     * @param contact            ${@link String}
+     * @param abode              ${@link String}
+     * @param unitName           ${@link String}
+     * @param unitContact        ${@link String}
+     * @param unitIdTypeId       ${@link String}
+     * @param unitIdNo           ${@link String}
+     * @param unitAbode          ${@link String}
+     * @param legalPerson        ${@link String}
+     * @return Object> ${@link Object>}
+     * @author zhouxuanhong
+     * @date 2019-05-08 11:23
+     */
+    private Map<String, Object> dealWithType7(String actId, String casesPersonnelType, String casesId, String personnelId,
+                                              String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
+                                              String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
+        return null;
     }
 }

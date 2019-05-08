@@ -2367,7 +2367,6 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
                 $("#loading_apply").hide();
                 //追加当事人按钮
                 if (casesPersonnelType == "1") {
-                    $("#" + saveLoadingId).hide();
                     $("#append_apply_btn").append("<a class='btn btn-xs btn-primary' role='button' id='" + applyId + "' data-toggle='collapse' href='#row_" + applyId + "' aria-expanded='false' aria-controls='row_" + applyId + "'>" + name + "</a> ");
                     $("#apply_info").append("<div class='collapse' id='row_" + applyId + "'>" +
                         "                        <div class='well'></div>" +
@@ -2377,7 +2376,6 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
                     var oldId = $("#addThirdPersonDiv div:last-child").attr("id");
                     var num = Number(oldId.charAt(oldId.length - 1)) + 1;
                     var newId = "row_third_party_" + num;
-                    $("#" + saveLoadingId).hide();
                     $("#thirdpartyappend_element_btn").append("<button class='btn btn-xs btn-primary btn-skin btn-space' type='button' data-toggle='collapse' data-target='#" + newId + "' aria-expanded='false' aria-controls='" + newId + "'>" + third_party_name + "</button>");
                     $("#addThirdPersonDiv").append("<div class='collapsing' style='padding-bottom: 0px;' id='" + newId + "'></div>");
                 } else if (casesPersonnelType == "2") {
