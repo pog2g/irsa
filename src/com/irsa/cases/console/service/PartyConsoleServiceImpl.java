@@ -90,11 +90,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                         domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
                         unitIdNo, unitAbode, legalPerson);
             }
-            // 处理案件相关
-            return dealParty(tempFile, actId, casesPersonnelType, casesId, personnelId,
-                    type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
-                    domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
-                    unitIdNo, unitAbode, legalPerson);
+            return Utils.getErrorMap("案件人员类型错误");
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -177,11 +173,93 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         if (map != null) {
             return map;
         }
-        // 处理案件相关
-        return dealParty(tempFile, actId, casesPersonnelType, casesId, personnelId,
-                type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
-                domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
-                unitIdNo, unitAbode, legalPerson);
+        int isCasesExist = partyManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
+        if (Party.TYPE_2.equals(type)) {
+            if (StringUtils.isBlank(legalPerson)) {
+                return Utils.getErrorMap("请填写单位名称");
+            }
+            if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
+                return Utils.getErrorMap("请选择单位证件类型");
+            }
+            Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
+            if (unitIdType == null) {
+                return Utils.getErrorMap("证件类型不存在");
+            }
+            if (StringUtils.isBlank(unitIdNo)) {
+                return Utils.getErrorMap("请填写单位证件号码");
+            }
+            if (StringUtils.isBlank(unitContact)) {
+                return Utils.getErrorMap("请填写单位联系方式");
+            }
+        }
+        if (StringUtils.isBlank(idTypeId) || "-1".equals(idTypeId)) {
+            return Utils.getErrorMap("请选择证件类型");
+        }
+        Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
+        if (idType == null) {
+            return Utils.getErrorMap("证件类型不存在");
+        }
+        if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
+
+            if (StringUtils.isBlank(idNo)) {
+                return Utils.getErrorMap("请填写证件号码");
+            }
+            if ("中国居民二代身份证".equals(idType.get("text"))) {
+                if (!Utils.checkIdNo(idNo)) {
+                    return Utils.getErrorMap("证件号码格式错误");
+                }
+            }
+            if (StringUtils.isBlank(phone)) {
+                return Utils.getErrorMap("请填写手机号码");
+            }
+            if (!Utils.checkPhone(phone)) {
+                return Utils.getErrorMap("手机号码格式错误");
+            }
+        }
+        if (StringUtils.isNotBlank(personnelId)) {
+            if (isCasesExist == 0) {
+                int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
+                if (isPersonnelExist != 0) {
+                    return Utils.getErrorMap("当事人已存在");
+                }
+            } else {
+                if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
+                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID_WITHOUT_APPLYTHIRDPARTY, new Object[]{casesId, personnelId});
+                    if (isPersonnelExist != 0) {
+                        return Utils.getErrorMap("当事人已存在");
+                    }
+                } else {
+                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
+                    if (isPersonnelExist != 0) {
+                        return Utils.getErrorMap("当事人已存在");
+                    }
+                }
+            }
+
+            Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
+            if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
+                return Utils.getErrorMap("请填上传证件信息");
+            }
+
+            partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
+                    unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});
+        } else {
+            if (!"未知".equals(idType.get("text")) && tempFile == null) {
+                return Utils.getErrorMap("请填上传证件信息");
+            }
+            personnelId = Utils.getId();
+            partyManager.executeSQL(Party.INSERT_LEGAL, new Object[]{Utils.getCreateTime(), personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
+                    unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson});
+        }
+        // 处理资源问题
+        dealTempFile(tempFile, personnelId);
+        // 案件是否存在
+        if (isCasesExist == 0) {
+            partyManager.executeSQL(CasesPersonnelTemp.INSERT, new Object[]{Utils.getId(), Utils.getCreateTime(), casesPersonnelType, casesId, personnelId, null});
+            return Utils.getSuccessMap(null);
+        }
+        casesPersonnelManager.save4Party(casesPersonnelType, casesId, personnelId, null, null);
+        return Utils.getSuccessMap(null);
     }
 
 
@@ -308,129 +386,6 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                     tempFile.get("real_name"), tempFile.get("size"), tempFile.get("ext"), tempFile.get("file_name")});
         }
 
-    }
-
-
-    /**
-     * 处理案件相关
-     *
-     * @param actId              ${@link String}
-     * @param casesPersonnelType ${@link String}
-     * @param casesId            ${@link String}
-     * @param personnelId        ${@link String}
-     * @param type               ${@link String}
-     * @param name               ${@link String}
-     * @param other_name         ${@link String}
-     * @param nature             ${@link String}
-     * @param gender             ${@link String}
-     * @param birthday           ${@link String}
-     * @param idTypeId           ${@link String}
-     * @param idNo               ${@link String}
-     * @param phone              ${@link String}
-     * @param domicile           ${@link String}
-     * @param zipCode            ${@link String}
-     * @param contact            ${@link String}
-     * @param abode              ${@link String}
-     * @param unitName           ${@link String}
-     * @param unitContact        ${@link String}
-     * @param unitIdTypeId       ${@link String}
-     * @param unitIdNo           ${@link String}
-     * @param unitAbode          ${@link String}
-     * @param legalPerson        ${@link String}
-     * @param tempFile           ${@link Map}
-     * @return Object> ${@link Object>}
-     * @date 2019-05-08 11:23
-     */
-    private Map<String, Object> dealParty(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
-                                          String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
-                                          String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
-        int isCasesExist = partyManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
-        if (Party.TYPE_2.equals(type)) {
-            if (StringUtils.isBlank(legalPerson)) {
-                return Utils.getErrorMap("请填写单位名称");
-            }
-            if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
-                return Utils.getErrorMap("请选择单位证件类型");
-            }
-            Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
-            if (unitIdType == null) {
-                return Utils.getErrorMap("证件类型不存在");
-            }
-            if (StringUtils.isBlank(unitIdNo)) {
-                return Utils.getErrorMap("请填写单位证件号码");
-            }
-            if (StringUtils.isBlank(unitContact)) {
-                return Utils.getErrorMap("请填写单位联系方式");
-            }
-        }
-        if (StringUtils.isBlank(idTypeId) || "-1".equals(idTypeId)) {
-            return Utils.getErrorMap("请选择证件类型");
-        }
-        Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
-        if (idType == null) {
-            return Utils.getErrorMap("证件类型不存在");
-        }
-        if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
-
-            if (StringUtils.isBlank(idNo)) {
-                return Utils.getErrorMap("请填写证件号码");
-            }
-            if ("中国居民二代身份证".equals(idType.get("text"))) {
-                if (!Utils.checkIdNo(idNo)) {
-                    return Utils.getErrorMap("证件号码格式错误");
-                }
-            }
-            if (StringUtils.isBlank(phone)) {
-                return Utils.getErrorMap("请填写手机号码");
-            }
-            if (!Utils.checkPhone(phone)) {
-                return Utils.getErrorMap("手机号码格式错误");
-            }
-        }
-        if (StringUtils.isNotBlank(personnelId)) {
-            if (isCasesExist == 0) {
-                int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
-                if (isPersonnelExist != 0) {
-                    return Utils.getErrorMap("当事人已存在");
-                }
-            } else {
-                if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
-                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID_WITHOUT_APPLYTHIRDPARTY, new Object[]{casesId, personnelId});
-                    if (isPersonnelExist != 0) {
-                        return Utils.getErrorMap("当事人已存在");
-                    }
-                } else {
-                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
-                    if (isPersonnelExist != 0) {
-                        return Utils.getErrorMap("当事人已存在");
-                    }
-                }
-            }
-
-            Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
-            if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
-                return Utils.getErrorMap("请填上传证件信息");
-            }
-
-            partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
-                    unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});
-        } else {
-            if (!"未知".equals(idType.get("text")) && tempFile == null) {
-                return Utils.getErrorMap("请填上传证件信息");
-            }
-            personnelId = Utils.getId();
-            partyManager.executeSQL(Party.INSERT_LEGAL, new Object[]{Utils.getCreateTime(), personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
-                    unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson});
-        }
-        // 处理资源问题
-        dealTempFile(tempFile, personnelId);
-        // 案件是否存在
-        if (isCasesExist == 0) {
-            partyManager.executeSQL(CasesPersonnelTemp.INSERT, new Object[]{Utils.getId(), Utils.getCreateTime(), casesPersonnelType, casesId, personnelId, null});
-            return Utils.getSuccessMap(null);
-        }
-        casesPersonnelManager.save4Party(casesPersonnelType, casesId, personnelId, null, null);
-        return Utils.getSuccessMap(null);
     }
 
 
