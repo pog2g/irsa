@@ -2237,12 +2237,12 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
             duty: $("#defendant_duty").val()
         }
         //保存正式第三人至当事人
-    } else if (casesPersonnelType == "3") {
+    } else if (casesPersonnelType == "3" || casesPersonnelType == "7") {
         url = "third_party/save";
         data = {
             id: thirdPartyId,
             cases_id: casesId,
-            cases_personnel_type: "7",
+            cases_personnel_type: casesPersonnelType,
             personnel_id: $("#third_party_personnel_id").val(),
             type: $("input[name='apply_third_party_type']:checked").val(),
             unit_name: $("#third_party_unit_name").val(),
@@ -2266,33 +2266,32 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
         }
 
         //保存建议第三人至当事人
-    } else if (casesPersonnelType == "7") {
-
+    } else if (casesPersonnelType == "73") {
         url = "third_party/save";
         data = {
             id: thirdPartyId,
             cases_id: casesId,
-            cases_personnel_type: "7",
-            personnel_id: $("#third_party_personnel_id").val(),
+            cases_personnel_type: "3",
+            personnel_id: $("#apply_third_party_personnel_id").val(),
             type: $("input[name='apply_third_party_type']:checked").val(),
-            unit_name: $("#third_party_unit_name").val(),
-            unit_content: $("#third_party_unit_contact").val(),
-            unit_id_type: $("#third_party_unit_id_type").val(),
-            unit_id_no: $("#third_party_unit_id_no").val(),
-            unit_abode: $("#third_party_unit_abode").val(),
-            legal_person_type: $("input[name='third_party_Legal_person']:checked").val(),
-            name: $("#third_party_name").val(),
-            other_name: $("#third_party_other_name").val(),
-            nature: $("#third_party_nature").val(),
-            gender: $("input[name='third_party_gender']:checked").val(),
-            birthday: $("#third_party_birthday").val(),
-            id_type: $("#third_party_id_type").val(),
-            id_no: $("#third_party_id_no").val(),
-            phone: $("#third_party_phone").val(),
-            domicile: $("#third_party_domicile").val(),
-            zip_code: $("#third_party_zip_code").val(),
-            content: $("#third_party_contact").val(),
-            abode: $("#third_party_abode").val()
+            unit_name: $("#apply_third_party_unit_name").val(),
+            unit_content: $("#apply_third_party_unit_contact").val(),
+            unit_id_type: $("#apply_third_party_unit_id_type").val(),
+            unit_id_no: $("#apply_third_party_unit_id_no").val(),
+            unit_abode: $("#apply_third_party_unit_abode").val(),
+            legal_person_type: $("input[name='apply_third_party_Legal_person']:checked").val(),
+            name: $("#apply_third_party_name").val(),
+            other_name: $("#apply_third_party_other_name").val(),
+            nature: $("#apply_third_party_nature").val(),
+            gender: $("input[name='apply_third_party_gender']:checked").val(),
+            birthday: $("#apply_third_party_birthday").val(),
+            id_type: $("#apply_third_party_id_type").val(),
+            id_no: $("#apply_third_party_id_no").val(),
+            phone: $("#apply_third_party_phone").val(),
+            domicile: $("#apply_third_party_domicile").val(),
+            zip_code: $("#apply_third_party_zip_code").val(),
+            content: $("#apply_third_party_contact").val(),
+            abode: $("#apply_third_party_abode").val()
         }
         //TODO 保存代理人
     } else {
@@ -2397,9 +2396,9 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
                     clearModal4Defendant();
                 } else if (casesPersonnelType == "3" || casesPersonnelType == "7") {
                     clearModal4ThirdParty();
-                } /*else if (casesPersonnelType == "7") {
+                } else if (casesPersonnelType == "73") {
                     clearModal4ApplyThirdParty();
-                } */ else {
+                } else {
                     clearModal4Agent();
                 }
             } else {
@@ -2879,7 +2878,6 @@ function clearModal4ThirdParty() {
     $("#third_party_unit_id_no").val(null);
     $("#third_party_unit_contact").val(null);
     $("#third_party_domicile").val(null);
-
     thirdPartyId = getActId();
     initUpload("loading_third_party", "third_party_file", "li-third-party-file", "temp/img?res=" + thirdPartyId);
 }
@@ -2984,7 +2982,6 @@ function clearModal4ApplyThirdParty() {
     $("#apply_third_party_unit_id_no").val(null);
     $("#apply_third_party_unit_contact").val(null);
     $("#apply_third_party_domicile").val(null);
-
     applyThirdPartyId = getActId();
     initUpload("loading_apply_third_party", "apply_third_party_file", "li-apply-third-party-file", "temp/img?res=" + applyThirdPartyId);
 }
@@ -3009,6 +3006,9 @@ function initModalEvent4ApplyThirdParty() {
         if (e.params.data.id == "-1") {
             return;
         }
+        applyThirdPartyId = e.params.data.id;
+        thirdPartyId = applyThirdPartyId;
+        initUpload("loading_apply_third_party", "apply_third_party_file", "li-apply-third-party-file", "temp/img?res=" + applyThirdPartyId);
         $("#apply_third_party_personnel_id").val(e.params.data.id);
         $("#apply_third_party_type_" + e.params.data.type).iCheck("check");
         $("#apply_third_party_name").val(e.params.data.name);
@@ -3558,7 +3558,7 @@ function initToolBar(casesId, isReload) {
         }
     });
     $(".btn-apply-third-party").on("click", function () {
-        casesPersonnelType = "7";
+        casesPersonnelType = "73";
         initModal4ApplyThirdParty(casesId);
         $("#modal_add_apply_third_party").modal("show");
     });
@@ -3576,7 +3576,6 @@ var clientId = "";
 
 // 初始化申请人、建议第三人等等相关
 function initSubmit4Personnel(casesId, isTemp, isReload) {
-
     isTemp = isTemp || false;
     isReload = isReload || false;
     // 申请人
@@ -3591,6 +3590,10 @@ function initSubmit4Personnel(casesId, isTemp, isReload) {
     // 第三人
     $("#btn_submit_third_party").on("click", function () {
         savePersonnel(isTemp, false, "loading_third_party", "loading_row_third_party", casesId, "3", isReload);
+    })
+    // 从建议添加第三人
+    $("#btn_submit_apply_third_party").on("click", function () {
+        savePersonnel(isTemp, false, "loading_apply_third_party", "loading_apply_row_third_party", casesId, "73", isReload);
     })
 
     // 委托代理人
