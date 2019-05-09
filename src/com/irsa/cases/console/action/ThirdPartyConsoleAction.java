@@ -41,6 +41,9 @@ public class ThirdPartyConsoleAction {
         return result;
     }*/
 
+    /**
+     * 建议追加第三人
+     */
     @RequestMapping("/save")
     @ResponseBody
     public Map<String, Object> save(String id,

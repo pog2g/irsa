@@ -48,7 +48,9 @@ public class DefendantConsoleServiceImpl implements DefendantConsoleService {
         }
     }
 
-    //保存被申请人到案件
+    /**
+     * 保存被申请人到案件
+     */
     @Override
     public Map<String, Object> save4Personnel(String actId, String casesId, String personnelId, String type, String unit_name, String unit_abode, String unit_contact, String name, String legal_person_type, String duty) {
         try {

@@ -21,11 +21,13 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
     private final CasesPersonnelManager casesPersonnelManager;
     private final PartyManager partyManager;
 
+
     @Autowired
     public PartyConsoleServiceImpl(CasesPersonnelManager casesPersonnelManager, PartyManager partyManager) {
         this.casesPersonnelManager = casesPersonnelManager;
         this.partyManager = partyManager;
     }
+
 
     @Override
     public Map<String, Object> getList(String page, String key) {
@@ -70,10 +72,16 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
             // 处理当事人、第三人等
             if (CasesPersonnel.PERSONNEL_TYPE_1.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为1的情况
-                System.out.println("casesPersonnelType为1的情况");
+                return dealWithType1(tempFile, actId, casesPersonnelType, casesId, personnelId,
+                        type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
+                        domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
+                        unitIdNo, unitAbode, legalPerson);
             } else if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为3的情况
-                System.out.println("casesPersonnelType为1的情况");
+                return dealWithType3(tempFile, actId, casesPersonnelType, casesId, personnelId,
+                        type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
+                        domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
+                        unitIdNo, unitAbode, legalPerson);
             } else if (CasesPersonnel.PERSONNEL_TYPE_7.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为7的情况
                 return dealWithType7(tempFile, actId, casesPersonnelType, casesId, personnelId,
@@ -129,6 +137,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         return null;
     }
 
+
     /**
      * 处理casesPersonnelType为1
      *
@@ -155,17 +164,25 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
      * @param unitIdNo           ${@link String}
      * @param unitAbode          ${@link String}
      * @param legalPerson        ${@link String}
+     * @param tempFile           ${@link Map}
      * @return Object ${@link Object}
      * @date 2019-05-08 11:23
      */
-    private Map<String, Object> dealWithType1(String actId, String casesPersonnelType, String casesId, String personnelId,
+    private Map<String, Object> dealWithType1(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
+        // 必填字段验证，与正式第三人一样
+        Map<String, Object> map = checkFeilds(tempFile, personnelId, type, name, birthday, idTypeId, idNo, phone, domicile, abode);
+        if (map != null) {
+            return map;
+        }
+        // 存储数据
         return null;
     }
 
+
     /**
-     * 处理casesPersonnelType为2
+     * 处理casesPersonnelType为3处理正式第三人(在建议第三人基础上加上验证信息，验证信息与)
      *
      * @param actId              ${@link String}
      * @param casesPersonnelType ${@link String}
@@ -190,17 +207,28 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
      * @param unitIdNo           ${@link String}
      * @param unitAbode          ${@link String}
      * @param legalPerson        ${@link String}
+     * @param tempFile           ${@link Map}
      * @return Object ${@link Object}
      * @date 2019-05-08 11:23
      */
-    private Map<String, Object> dealWithType3(String actId, String casesPersonnelType, String casesId, String personnelId,
+    private Map<String, Object> dealWithType3(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
-        return null;
+        // 验证必填字段，与申请人一致
+        Map<String, Object> map = checkFeilds(tempFile, personnelId, type, name, birthday, idTypeId, idNo, phone, domicile, abode);
+        if (map != null) {
+            return map;
+        }
+        // 存储信息
+        return dealWithType7(tempFile, actId, casesPersonnelType, casesId, personnelId,
+                type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
+                domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
+                unitIdNo, unitAbode, legalPerson);
     }
 
+
     /**
-     * 处理casesPersonnelType为7
+     * 处理casesPersonnelType为7---建议第三人
      *
      * @param actId              ${@link String}
      * @param casesPersonnelType ${@link String}
@@ -232,8 +260,10 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
     private Map<String, Object> dealWithType7(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
-        // 必填字段验证
-
+        // 建议第三人只需要验证用户姓名不能为空
+        if (StringUtils.isBlank(name)) {
+            return Utils.getErrorMap("姓名不能为空");
+        }
         // 如果personnelId存在则检查是否与当前案件绑定，如果绑定则直接返回，否则重新绑定
         if (StringUtils.isNotBlank(personnelId)) {
             int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
@@ -245,6 +275,9 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
             // 如果personnelId不存在创建新的personnelId与案件绑定
         } else {
             personnelId = Utils.getId();
+            if (StringUtils.isBlank(birthday)) {
+                birthday = null;
+            }
             partyManager.executeSQL(Party.INSERT_LEGAL, new Object[]{Utils.getCreateTime(), personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                     unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson});
         }
@@ -350,7 +383,6 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                 return Utils.getErrorMap("手机号码格式错误");
             }
         }
-
         if (StringUtils.isNotBlank(personnelId)) {
             if (isCasesExist == 0) {
                 int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
@@ -397,4 +429,62 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         return Utils.getSuccessMap(null);
     }
 
+
+    /**
+     * 必填字段验证
+     *
+     * @param tempFile    ${@link String}
+     * @param personnelId ${@link String}
+     * @param type        ${@link String}
+     * @param name        ${@link String}
+     * @param birthday    ${@link String}
+     * @param idTypeId    ${@link String}
+     * @param idNo        ${@link String}
+     * @param phone       ${@link String}
+     * @param domicile    ${@link String}
+     * @param abode       ${@link String}
+     * @return Object> ${@link Object>}
+     * @date 2019-05-09 22:52
+     */
+    private Map<String, Object> checkFeilds(Map<String, Object> tempFile, String personnelId, String type, String name,
+                                            String birthday, String idTypeId, String idNo, String phone, String domicile, String abode) {
+        if (StringUtils.isBlank(birthday)) {
+            return Utils.getErrorMap("请选择或输入生日");
+        }
+        String regex = "^(19|20)\\d{2}-(1[0-2]|0?[1-9])-(0?[1-9]|[1-2][0-9]|3[0-1])$";
+        if (!birthday.matches(regex)) {
+            return Utils.getErrorMap("请输入正确的出生日期");
+        }
+        if (StringUtils.isBlank(name)) {
+            return Utils.getErrorMap("请输入姓名");
+        }
+        if (!Utils.checkPhone(phone)) {
+            return Utils.getErrorMap("手机号码格式错误");
+        }
+        Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
+        if (idType == null) {
+            return Utils.getErrorMap("证件类型不存在");
+        }
+        if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
+            if (StringUtils.isBlank(idNo)) {
+                return Utils.getErrorMap("请填写证件号码");
+            }
+            if ("中国居民二代身份证".equals(idType.get("text"))) {
+                if (!Utils.checkIdNo(idNo)) {
+                    return Utils.getErrorMap("证件号码格式错误");
+                }
+            }
+        }
+        if (StringUtils.isBlank(domicile)) {
+            return Utils.getErrorMap("请填写户籍所在地");
+        }
+        if (StringUtils.isBlank(abode)) {
+            return Utils.getErrorMap("请填写法律文书送达地址");
+        }
+        Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
+        if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
+            return Utils.getErrorMap("请填上传证件信息");
+        }
+        return null;
+    }
 }
