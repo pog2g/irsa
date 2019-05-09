@@ -77,7 +77,6 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                         unitIdNo, unitAbode, legalPerson);
             } else if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为3的情况
-                System.out.println("========111");
                 return dealWithType3(tempFile, actId, casesPersonnelType, casesId, personnelId,
                         type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                         domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
@@ -343,7 +342,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
         // 建议第三人只需要验证用户姓名不能为空
-        if (StringUtils.isBlank(name) || StringUtils.isBlank(other_name)) {
+        if (StringUtils.isBlank(name) && StringUtils.isBlank(other_name)) {
             return Utils.getErrorMap("姓名不能为空");
         }
         // 如果personnelId存在则检查是否与当前案件绑定，如果绑定则直接返回，否则重新绑定

@@ -3006,14 +3006,19 @@ function initModalEvent4ApplyThirdParty() {
         if (e.params.data.id == "-1") {
             return;
         }
+        console.log(e.params.data)
         applyThirdPartyId = e.params.data.id;
         thirdPartyId = applyThirdPartyId;
         initUpload("loading_apply_third_party", "apply_third_party_file", "li-apply-third-party-file", "temp/img?res=" + applyThirdPartyId);
         $("#apply_third_party_personnel_id").val(e.params.data.id);
         $("#apply_third_party_type_" + e.params.data.type).iCheck("check");
         $("#apply_third_party_name").val(e.params.data.name);
+        $("#apply_third_party_other_name").val(e.params.data.other_name);
+        $("#apply_third_party_nature").val(e.params.data.nature);
+        $("#apply_third_party_abode").val(e.params.data.abode);
+
         $("#apply_third_party_legal_person").val(e.params.data.legal_person);
-        $("#apply_third_party_gender_" + e.params.data.gender).iCheck("check");
+        $("#apply_third_party_gender" + e.params.data.gender).iCheck("check");
         $("#apply_third_party_birthday").val(e.params.data.birthday);
         $("#apply_third_party_phone").val(e.params.data.phone);
         $("#apply_third_party_contact").val(e.params.data.contact);
@@ -3037,14 +3042,13 @@ function initModalEvent4ApplyThirdParty() {
         $("#apply_third_party_unit_id_no").val(e.params.data.unit_id_no);
         $("#apply_third_party_unit_contact").val(e.params.data.unit_contact);
         $("#apply_third_party_domicile").val(e.params.data.domicile);
-
-        if (e.params.data.id_file_id != null && e.params.data.id_file_id != "") {
+        if (e.params.data.id_file != null && e.params.data.id_file_name != "") {
             var data = [{
                 id: e.params.data.id_file_id,
                 url: e.params.data.id_file,
-                type: e.params.data.id_file_type,
+                type: e.params.data.id_file_name,
                 real_name: e.params.data.id_file_name,
-                ext: e.params.data.id_file_ext
+                ext: e.params.data.id_file_name
             }];
             initData4Files("ul_apply_third_party_file", "li-apply-third-party-file", data, true);
         }
