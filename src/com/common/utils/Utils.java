@@ -1,25 +1,5 @@
 package com.common.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -30,18 +10,29 @@ import org.jdom.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Utils {
     private static Logger log = LoggerFactory.getLogger(Utils.class);
     public static SimpleDateFormat SDF_YYYYMMDD_HHMMSS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static SimpleDateFormat SDF_YYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     public static Map<String, Object> getErrorMap(String msg) {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("result", 0);
         data.put("error_msg", msg == null ? "系统繁忙，请重试" : msg);
         return data;
     }
-    
+
     public static Map<String, Object> getSuccessMap(Object obj) {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("result", 1);
@@ -49,28 +40,28 @@ public class Utils {
         log.info(data.toString());
         return data;
     }
-    
+
     public static String getId() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
-    
+
     public static String getCreateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
     }
-    
+
     public static BigDecimal changeToBigDecimal(Object obj) {
         BigDecimal bd = new BigDecimal(0);
         try {
             if (obj == null) {
                 return bd;
             }
-            
+
             String str = toString(obj);
             if (StringUtils.isBlank(str)) {
                 return bd;
             }
-            
+
             bd = new BigDecimal(str);
             return bd;
         } catch (Exception e) {
@@ -78,7 +69,7 @@ public class Utils {
             return bd;
         }
     }
-    
+
     public static String changeISO88591ToUTF8(String str) {
         try {
             return new String(str.getBytes("ISO8859-1"), "UTF-8");
@@ -87,7 +78,7 @@ public class Utils {
             return str;
         }
     }
-    
+
     public static String httpGet(String url) {
         HttpURLConnection connection = null;
         InputStream is = null;
@@ -95,13 +86,13 @@ public class Utils {
         BufferedReader reader = null;
         try {
             URL httpUrl = new URL(url);
-            connection = (HttpURLConnection)httpUrl.openConnection();
+            connection = (HttpURLConnection) httpUrl.openConnection();
             connection.setDoOutput(false);//输出
             connection.setDoInput(true);//输入
             connection.setRequestMethod("GET");
             connection.setUseCaches(false);//是否使用缓存
             connection.setInstanceFollowRedirects(false);//是否自动执行重定向
-            connection.setConnectTimeout(30*1000);
+            connection.setConnectTimeout(30 * 1000);
             connection.connect();
             int state = connection.getResponseCode();
             if (state != 200) {
@@ -115,7 +106,7 @@ public class Utils {
             while ((line = reader.readLine()) != null) {
                 result.append(line);
             }
-            System.out.println("["+url+"] "+result);
+            System.out.println("[" + url + "] " + result);
             return result.toString();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
@@ -146,7 +137,7 @@ public class Utils {
             }
         }
     }
-    
+
     public static List<Map<String, Object>> changeToSelectList(List<Map<String, Object>> list) {
         Map<String, Object> index = new HashMap<String, Object>();
         index.put("id", "-1");
@@ -154,31 +145,31 @@ public class Utils {
         list.add(0, index);
         return list;
     }
-    
+
     public static boolean checkPwd(String str) {
         try {
             String check = "^[a-zA-Z0-9_]{6,18}$";
             Pattern regex = Pattern.compile(check);
             Matcher matcher = regex.matcher(str);
             return matcher.matches();
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
         }
     }
-    
+
     public static boolean checkPhone(String phone) {
         try {
-            String check = "^([1][3|4|5|7|8][0-9]{9})$";
+            String check = "^1[0-9]{10}$";
             Pattern regex = Pattern.compile(check);
             Matcher matcher = regex.matcher(phone);
             return matcher.matches();
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
         }
     }
-    
+
     public static boolean checkIdNo(String idNo) {
         try {
             if (idNo.length() != 15 && idNo.length() != 18) {
@@ -194,23 +185,23 @@ public class Utils {
             Pattern regex = Pattern.compile(check);
             Matcher matcher = regex.matcher(idNo);
             return matcher.matches();
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
         }
     }
-    
+
     public static int random(int number) {
-        return (int)(1 + Math.random() * number);
+        return (int) (1 + Math.random() * number);
     }
-    
+
     public static String toString(Object obj) {
         if (obj == null) {
             return "";
         }
         return obj.toString().trim();
     }
-    
+
     public static String modifyDate(String mode, String type, int num, String dateTime) throws ParseException {
         Date date = new Date();
         if (StringUtils.isNotBlank(dateTime)) {
@@ -221,7 +212,7 @@ public class Utils {
         if ("+".equals(mode)) {
             if ("Y".equals(type)) {
                 calendar.add(Calendar.YEAR, num);
-            } else if ("M".equals(type)){
+            } else if ("M".equals(type)) {
                 calendar.add(Calendar.MONTH, num);
             } else {
                 calendar.add(Calendar.DATE, num);
@@ -229,7 +220,7 @@ public class Utils {
         } else {
             if ("Y".equals(type)) {
                 calendar.add(Calendar.YEAR, -num);
-            } else if ("M".equals(type)){
+            } else if ("M".equals(type)) {
                 calendar.add(Calendar.MONTH, -num);
             } else {
                 calendar.add(Calendar.DATE, -num);
@@ -237,30 +228,30 @@ public class Utils {
         }
         return SDF_YYYYMMDD.format(calendar.getTime());
     }
-    
+
     public static String createDocument(String html, String name) throws JDOMException, IOException {
         SAXBuilder sb = new SAXBuilder();
-        StringReader read = new StringReader("<div>"+html+"</div>"); 
+        StringReader read = new StringReader("<div>" + html + "</div>");
         Document doc = sb.build(read);
         Element response = doc.getRootElement();
-        Element content = (Element)(((Element)((Element)response.getChildren().get(2)).getChildren().get(1)).getChildren().get(0));
+        Element content = (Element) (((Element) ((Element) response.getChildren().get(2)).getChildren().get(1)).getChildren().get(0));
         content.setText(name);
         XMLOutputter outputter = new XMLOutputter();
-        Format f = Format.getPrettyFormat();  
+        Format f = Format.getPrettyFormat();
         f.setEncoding("UTF-8");//default=UTF-8  
         outputter.setFormat(f);
         return outputter.outputString(doc);
     }
-    
-    public static String MD5(String s){
+
+    public static String MD5(String s) {
         return encrypt("MD5", s);
     }
-    
+
     private static String encrypt(String type, String s) {
         if (StringUtils.isBlank(s)) {
             return null;
         }
-        char hexDigits[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};       
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         try {
             byte[] btInput = s.getBytes("UTF-8");
             // 获得MD5摘要算法的 MessageDigest 对象
@@ -280,22 +271,22 @@ public class Utils {
                 str[k++] = hexDigits[byte0 & 0xf];
             }
             return new String(str);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
         }
     }
-    
+
     public static void main(String[] args) throws ParseException, JDOMException, IOException {
 //        String result = Utils.httpGet("https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code");
 //        JSONObject js = new JSONObject(result);
 //        System.out.println(js.has("errcode"));
 //        for (int i = 0; i < 10; i++)
 //            System.out.println(random(10));
-        
+
 //        String file = "123.doc";
 //        System.out.println(file.substring(0, file.lastIndexOf(".")));
-        
+
 //        String html = "<div style=\"line-height: 37px;font-size: 29px;text-align: center;font-family: simsun;color: red;font-weight: 100;\">郑州市人民政府行政复议办公室</div>" +
 //                      "<div style=\"line-height: 37px;font-size: 29px;text-align: center;font-family: simsun;color: red;font-weight: 100;margin-bottom: 37px;\">行政复议受理通知书</div>" +
 //                      "<div style=\"line-height: 37px;font-size: 21px;font-family: '仿宋';\">" +
@@ -320,14 +311,14 @@ public class Utils {
 //        XMLOutputter out = new XMLOutputter();
 //        System.out.println(out.outputString(doc).replaceAll("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""));
 //        System.out.println("Ok");
-        
+
 //        String number = "1,2,,";
 //        System.out.println(number.split(",").length);
-        
+
         //1，判断是否在节假日中 或 是周么 
         //2，判断是否加班，判断是否周末
         //3，
-        
+
         // 
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //        Date date = sdf.parse("2018-09-07");
@@ -339,12 +330,12 @@ public class Utils {
 //            }
 //            System.out.println(dateTime);
 //        }
-        
+
         String html = "因为你们大家";
         html = html.replaceAll("你们", "你");
         System.out.println(html);
     }
-    
+
     public static int getDayOfWeek(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -354,7 +345,7 @@ public class Utils {
         }
         return week;
     }
-    
+
     public static boolean isWorkDay(String dateTime, List<String> restList, List<String> workList) throws ParseException {
         if (workList != null && workList.size() > 0) {
             if (workList.contains(dateTime)) {
@@ -369,26 +360,27 @@ public class Utils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sdf.parse(dateTime);
         int week = getDayOfWeek(date);
-        if (week == 6 || week ==7) {
+        if (week == 6 || week == 7) {
             return false;
         }
         return true;
     }
-    
+
     /**
      * 判断对象是否为空
+     *
      * @param str
      * @return
-     * */
-    public static boolean isNotEmpty(Object str){
-    	boolean flag=true;
-    	if (str!=null&&!str.equals("")) {
-			if (str.toString().length()>0) {
-				flag=true;
-			}
-		}else {
-			flag=false;
-		}
-    	return flag;
+     */
+    public static boolean isNotEmpty(Object str) {
+        boolean flag = true;
+        if (str != null && !str.equals("")) {
+            if (str.toString().length() > 0) {
+                flag = true;
+            }
+        } else {
+            flag = false;
+        }
+        return flag;
     }
 }

@@ -59,6 +59,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                                     String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                     String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
         try {
+            System.out.println("1111111111111");
             // 获取证件id
             if (StringUtils.isBlank(personnelId) && StringUtils.isNotBlank(idNo)) {
                 Map<String, Object> party = partyManager.getMap(Party.SELECT_EXIST_BY_IDNO, new Object[]{idNo});
@@ -68,7 +69,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
             }
             // 获取资源存储信息
             Map<String, Object> tempFile = partyManager.getMap(TempFile.SELECT_BY_RESID, new Object[]{actId});
-
+            System.out.println(casesPersonnelType);
             // 处理当事人、第三人等
             if (CasesPersonnel.PERSONNEL_TYPE_1.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为1的情况
@@ -176,8 +177,11 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         if (map != null) {
             return map;
         }
-        // 存储数据
-        return null;
+        // 处理案件相关
+        return dealParty(tempFile, actId, casesPersonnelType, casesId, personnelId,
+                type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
+                domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
+                unitIdNo, unitAbode, legalPerson);
     }
 
 
