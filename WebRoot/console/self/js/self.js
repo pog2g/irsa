@@ -2242,28 +2242,27 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
         data = {
             id: thirdPartyId,
             cases_id: casesId,
-            cases_personnel_type: casesPersonnelType,
+            cases_personnel_type: "7",
             personnel_id: $("#third_party_personnel_id").val(),
-            type: addApplyType,
+            type: $("input[name='apply_third_party_type']:checked").val(),
+            unit_name: $("#third_party_unit_name").val(),
+            unit_content: $("#third_party_unit_contact").val(),
+            unit_id_type: $("#third_party_unit_id_type").val(),
+            unit_id_no: $("#third_party_unit_id_no").val(),
+            unit_abode: $("#third_party_unit_abode").val(),
+            legal_person_type: $("input[name='third_party_Legal_person']:checked").val(),
             name: $("#third_party_name").val(),
-            legal_person: $("#third_party_legal_person").val(),
+            other_name: $("#third_party_other_name").val(),
+            nature: $("#third_party_nature").val(),
             gender: $("input[name='third_party_gender']:checked").val(),
             birthday: $("#third_party_birthday").val(),
-            phone: $("#third_party_phone").val(),
-            contact: $("#third_party_contact").val(),
-            zip_code: $("#third_party_zip_code").val(),
-            province_id: $("#third_party_province").val(),
-            city_id: $("#third_party_city").val(),
-            county_id: $("#third_party_county").val(),
-            address: $("#third_party_address").val(),
-            id_type_id: $("#third_party_id_type").val(),
+            id_type: $("#third_party_id_type").val(),
             id_no: $("#third_party_id_no").val(),
-            unit_id_type_id: $("#third_party_unit_id_type").val(),
-            unit_id_no: $("#third_party_unit_id_no").val(),
-            unit_contact: $("#third_party_unit_contact").val(),
+            phone: $("#third_party_phone").val(),
             domicile: $("#third_party_domicile").val(),
-            nature: $("#third_party_nature").val(),
-            ws_address: $("#apply_ws_address").val(),
+            zip_code: $("#third_party_zip_code").val(),
+            content: $("#third_party_contact").val(),
+            abode: $("#third_party_abode").val()
         }
 
         //保存建议第三人至当事人
@@ -2388,9 +2387,8 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
             if (result.result != 1) {
                 // 失败回调显示错误信息，但不关闭模态框
                 showMsg(result.error_msg);
-                return true;
+                return false;
             }
-
             var element = initModal(casesPersonnelType);
             if (isNext) {
                 if (casesPersonnelType == "1") {
@@ -3592,7 +3590,7 @@ function initSubmit4Personnel(casesId, isTemp, isReload) {
     })
     // 第三人
     $("#btn_submit_third_party").on("click", function () {
-        savePersonnel(isTemp, false, "loading_third_party", "loading_row_third_party", casesId, "7", isReload);
+        savePersonnel(isTemp, false, "loading_third_party", "loading_row_third_party", casesId, "3", isReload);
     })
 
     // 委托代理人

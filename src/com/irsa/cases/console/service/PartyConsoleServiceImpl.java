@@ -77,6 +77,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                         unitIdNo, unitAbode, legalPerson);
             } else if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为3的情况
+                System.out.println("========111");
                 return dealWithType3(tempFile, actId, casesPersonnelType, casesId, personnelId,
                         type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                         domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
@@ -299,6 +300,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         if (map != null) {
             return map;
         }
+        System.out.println("=========dealWithType3=");
         // 存储信息
         return dealWithType7(tempFile, actId, casesPersonnelType, casesId, personnelId,
                 type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
