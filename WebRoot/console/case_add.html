@@ -1085,7 +1085,7 @@
 <!-- 添加委托代表人modal 结束 -->
 
 <!-- 添加建议第三人模态框 开始 -->
-<div class="modal fade" id="modal_advice_third_party">
+<div class="modal fade" id="modal_add_third_party">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -1794,8 +1794,8 @@
         //TODO 建议第三人模态框按钮事件
         $(".btn-add-third-party").on("click", function () {
             casesPersonnelType = $(this).data("type");
+            $("#modal_add_third_party").modal("show");
             initModal4ThirdParty();
-            $("#modal_advice_third_party").modal("show");
         });
         initModalEvent4ThirdParty();
         //被申请人

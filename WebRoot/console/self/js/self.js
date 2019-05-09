@@ -2399,9 +2399,9 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
                     clearModal4Defendant();
                 } else if (casesPersonnelType == "3" || casesPersonnelType == "7") {
                     clearModal4ThirdParty();
-                } else if (casesPersonnelType == "73") {
+                } /*else if (casesPersonnelType == "7") {
                     clearModal4ApplyThirdParty();
-                } else {
+                } */ else {
                     clearModal4Agent();
                 }
             } else {
@@ -2868,6 +2868,8 @@ function clearModal4ThirdParty() {
     $("input[name='third_party_gender']:first").iCheck("check");
     $("#third_party_birthday").val(null);
     $("#third_party_phone").val(null);
+    $("#third_party_other_name").val("");
+    $("#third_party_abode").val("");
     $("#third_party_contact").val(null);
     $("#third_party_zip_code").val(null);
     $("#third_party_province").val("-1").trigger("change");
@@ -2900,7 +2902,6 @@ function initModal4ThirdParty() {
     onChange4Province("third_party_province", "third_party_city", "region/get_choose_list_by_parent", "third_party_county");
     onChange4City("third_party_city", "third_party_county", "region/get_choose_list_by_parent");
     loadData4Select2("third_party_id_type", "id_type/get_choose_list");
-
     clearModal4ThirdParty();
 }
 
@@ -3387,6 +3388,7 @@ function clearModal4Defendant() {
     initUpload("loading_defendant", "defendant_file_3", "li-defendant-file-3", "temp/img?mode=3&res=" + defendantId);
 }
 
+
 function initModal4Defendant() {
     initSelect4Ajax("search_defendant", "defendant/get_choose_list");
 
@@ -3574,6 +3576,7 @@ function initToolBar(casesId, isReload) {
 var client = "";
 var clientId = "";
 
+// 初始化申请人、建议第三人等等相关
 function initSubmit4Personnel(casesId, isTemp, isReload) {
 
     isTemp = isTemp || false;
@@ -3588,9 +3591,9 @@ function initSubmit4Personnel(casesId, isTemp, isReload) {
         savePersonnel(isTemp, false, "loading_advice_third_party", "loading_row_third_party", casesId, "7", isReload);
     })
     // 第三人
-    /*$("#btn_submit_third_party").on("click", function() {
-		savePersonnel(isTemp, false, "loading_third_party", "loading_row_third_party", casesId, "7", isReload);
-	})*/
+    $("#btn_submit_third_party").on("click", function () {
+        savePersonnel(isTemp, false, "loading_third_party", "loading_row_third_party", casesId, "7", isReload);
+    })
 
     // 委托代理人
     $("#btn_submit_agent").on("click", function () {

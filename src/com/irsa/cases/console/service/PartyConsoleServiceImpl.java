@@ -59,7 +59,6 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                                     String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                     String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
         try {
-            System.out.println("1111111111111");
             // 获取证件id
             if (StringUtils.isBlank(personnelId) && StringUtils.isNotBlank(idNo)) {
                 Map<String, Object> party = partyManager.getMap(Party.SELECT_EXIST_BY_IDNO, new Object[]{idNo});
@@ -69,7 +68,6 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
             }
             // 获取资源存储信息
             Map<String, Object> tempFile = partyManager.getMap(TempFile.SELECT_BY_RESID, new Object[]{actId});
-            System.out.println(casesPersonnelType);
             // 处理当事人、第三人等
             if (CasesPersonnel.PERSONNEL_TYPE_1.equals(casesPersonnelType)) {
                 // 处理casesPersonnelType为1的情况
@@ -343,14 +341,14 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
         // 建议第三人只需要验证用户姓名不能为空
-        if (StringUtils.isBlank(name)) {
+        if (StringUtils.isBlank(name) || StringUtils.isBlank(other_name)) {
             return Utils.getErrorMap("姓名不能为空");
         }
         // 如果personnelId存在则检查是否与当前案件绑定，如果绑定则直接返回，否则重新绑定
         if (StringUtils.isNotBlank(personnelId)) {
             int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
             if (isPersonnelExist != 0) {
-                return Utils.getErrorMap("当事人已存在");
+                return Utils.getErrorMap("第三人已存在或当前录入第三人也是申请人、被申请人");
             }
             partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                     unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});

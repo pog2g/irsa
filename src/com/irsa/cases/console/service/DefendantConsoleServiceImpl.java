@@ -63,11 +63,16 @@ public class DefendantConsoleServiceImpl implements DefendantConsoleService {
             if (StringUtils.isBlank(unit_abode)) {
                 return Utils.getErrorMap("请填写被申请人住所");
             }
-            /*if (StringUtils.isBlank(legal_person_type)) {
+            if (StringUtils.isBlank(legal_person_type)) {
                 return Utils.getErrorMap("请填写法定负责人的类型");
-            }*/
-            if (StringUtils.isBlank(name)) {
-                return Utils.getErrorMap("请填写法定代表人");
+            }
+
+            if (StringUtils.isBlank(name) && "2".equalsIgnoreCase(legal_person_type)) {
+                return Utils.getErrorMap("请填写法定代表人姓名");
+            }
+
+            if (StringUtils.isBlank(name) && "1".equalsIgnoreCase(legal_person_type)) {
+                return Utils.getErrorMap("请填写负责人姓名");
             }
 
             Map<String, Object> tempFile1 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_1});
