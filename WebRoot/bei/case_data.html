@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>复议应答列表</title>
+    <title>单位应议资料</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="res/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="res/ionicons/css/ionicons.min.css">
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="res/plugins/iCheck/all.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="res/plugins/iCheck/all.css">
     <!-- switch -->
     <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
     <!-- Theme style -->
@@ -42,35 +42,54 @@
     <aside class="main-sidebar">
         <section class="sidebar">
             <ul class="sidebar-menu" id="ul_menu">
+                <li class='active'>
+                    <a href="index.html">
+                        <i class="fa fa-th"></i> <span>我的案件</span>
+                    </a>
+                </li>
             </ul>
         </section>
     </aside>
     <div class="content-wrapper">
         <section class="content">
-            <div class="box box-solid">
-                <div class="box-body">
-                    <button class="btn btn-primary btn-skin" id="btn_refresh"><i class="fa fa-refresh"></i> 刷新</button>
+            <div class="box box-solid no-shadow">
+                <div class="box-body text-center text-green">
+                    <h1 style="font-size: 50px;"><i class="fa fa-hand-peace-o"></i></h1>
+                    <h2>提交成功</h2>
                 </div>
             </div>
-            <div class="box box-solid">
-                <div class="box-body">
-                    <table class="table table-bordered table-striped table-hover" id="table_data">
-                        <tr>
-                            <th>年号</th>
-                            <th>编号</th>
-                            <th>类型</th>
-                            <th>申请人</th>
-                            <th>被申请人</th>
-                            <th>行政管理类别</th>
-                            <th>案由</th>
-                            <th>状态</th>
-                            <th>申请时间</th>
-                            <th>预计结案时间</th>
-                            <th>承办单位</th>
-                        </tr>
-                    </table>
+            <div class="box box-solid no-shadow">
+                <div class="box-body" style="padding: 10px 20px;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <strong>案件年号</strong>
+                            <p style="margin: 10px 0 0;" id="label_year_no"></p>
+                            <hr style="margin: 10px 0;">
+                            <strong>案件状态</strong>
+                            <p style="margin: 10px 0 0;" id="label_state"></p>
+                            <hr style="margin: 10px 0;">
+                            <strong>申请方式</strong>
+                            <p style="margin: 10px 0 0;" id="label_apply_mode"></p>
+                            <hr style="margin: 10px 0;">
+                            <strong>行政类别</strong>
+                            <p style="margin: 10px 0 0;" id="label_administrative_category"></p>
+                        </div>
+                        <div class="col-lg-6">
+                            <strong>案件编号</strong>
+                            <p style="margin: 10px 0 0;" id="label_no"></p>
+                            <hr style="margin: 10px 0;">
+                            <strong>案件类型</strong>
+                            <p style="margin: 10px 0 0;" id="label_type"></p>
+                            <hr style="margin: 10px 0;">
+                            <strong>立案时间</strong>
+                            <p style="margin: 10px 0 0;" id="label_apply_time"></p>
+                            <hr style="margin: 10px 0;">
+                            <strong>案由</strong>
+                            <p style="margin: 10px 0 0;" id="label_reason"></p>
+                        </div>
+                    </div>
                 </div>
-                <div class="overlay" id="table_loading" style="display: none;">
+                <div class="overlay" id="loading_info">
                     <i class="fa fa-spin fa-refresh"></i>
                 </div>
             </div>
@@ -79,6 +98,7 @@
     <footer class="main-footer"></footer>
 
     <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
             <li class="active">
                 <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
@@ -90,6 +110,7 @@
                 <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
             </li>
         </ul>
+        <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane active" id="tab_skin">
                 <h4 class="control-sidebar-heading">皮肤</h4>
@@ -120,6 +141,18 @@
     <div class="control-sidebar-bg"></div>
 </div>
 
+<div class="modal fade" id="modal_view">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-aria-label="Close"><span
+                        data-aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-eye"></i> 预览</h4>
+            </div>
+            <div class="modal-body" style="padding: 15px 40px;" id="font_content"></div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modal_msg">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -137,82 +170,23 @@
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <!-- Bootstrap 3.3.5 -->
 <script src="res/bootstrap/js/bootstrap.min.js"></script>
-<!-- iCheck 1.0.1 -->
-<script src="res/plugins/iCheck/icheck.min.js"></script>
 <!-- Select2 -->
 <script src="res/plugins/select2/select2.full.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="res/plugins/iCheck/icheck.min.js"></script>
 <!-- switch -->
 <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
 <!-- AdminLTE App -->
 <script src="res/dist/js/app.min.js"></script>
 <!-- 自定义 -->
-<script src="self/js/self.js"></script>
 <script src="self/js/head.js"></script>
+<script src="self/js/self.js"></script>
 <script src="self/js/sidebar.js"></script>
 <script>
     $(function () {
-        initAccount("li_home");
-        initData();
+        var web = getParameter("web");
+        initAccount(web);
 
-        //加载数据
-        function initData() {
-            $("#table_loading").show();
-            $.ajax({
-                type: "POST",
-                url: "cases/get_list",
-                dataType: "JSON",
-                success: function (data) {
-                    $("#table_loading").hide();
-                    if (data.result != 1) {
-                        showMsg(data.error_msg);
-                        return;
-                    }
-
-                    $(".tr-data").remove(); //清除数据
-                    if (data.data == null || data.data.length == 0) {
-                        return;
-                    }
-                    $.each(data.data, function (index, value) {
-                        var btn = "";
-                        $td_data = $("<tr class='tr-data' data-id='" + value.id + "' data-state='" + value.state + "' style='cursor: pointer;'>" +
-                            "<td>" + value.year_no + "</td>" +
-                            "<td>" + value.no + "</td>" +
-                            "<td>" + value.label_type + "</td>" +
-                            "<td>" + value.apply + "</td>" +
-                            "<td>" + value.defendant + "</td>" +
-                            "<td>" + value.label_administrative_category + "</td>" +
-                            "<td>" + value.label_reason + "</td>" +
-                            "<td>" + getStateLabel(value.state) + "</td>" +
-                            "<td>" + value.apply_time + "</td>" +
-                            "<td>" + value.expected_time + "</td>" +
-                            "<td>" + value.create_department + "</td>" +
-                            "</tr>");
-                        $("#table_data").append($td_data);
-                    });
-
-                    onEvent();
-                },
-                error: function (xhr, type) {
-                    $("#table_loading").hide();
-                    showMsg("系统繁忙");
-                }
-            });
-        }
-
-        //刷新
-        $("#btn_refresh").click(function () {
-            initData();
-        })
-
-        function onEvent() {
-            $(".tr-data").on("click", function () {
-                if ($(this).data("state") == "9" || $(this).data("state") == "32") {
-                    window.location.href = "case_process_exchange.html?cases=" + $(this).data("id");
-                } else {
-                    window.location.href = "audit_case.html?cases=" + $(this).data("id");
-                }
-            })
-        }
     })
 </script>
 </body>
