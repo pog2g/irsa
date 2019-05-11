@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>结案详情</title>
+    <title>案件详情</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="res/plugins/iCheck/all.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="res/plugins/select2/select2.min.css">
-    <!-- datetimepicker -->
-    <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
     <!-- switch -->
     <link rel="stylesheet" href="res/plugins/switch/bootstrap-switch.min.css">
+    <!-- datetimepicker -->
+    <link rel="stylesheet" href="res/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="res/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -46,96 +46,303 @@
             <ul class="sidebar-menu" id="ul_menu"></ul>
         </section>
     </aside>
-    <div class="content-wrapper">
+    <div class="content-wrapper" id="topAnchor">
+        <section class="content-header">
+            <h1>受理系统
+                <small>结案详情</small>
+            </h1>
+        </section>
         <section class="content">
             <a id="arrow_left" class="btn btn-flat btn-skin btn-primary"
-               style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display:none;"><i
+               style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display: none;"><i
                     class="fa fa-arrow-left"></i></a>
-            <div id="form_list" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;display: none;">
+            <div id="form_list" style="position: fixed;right: 0;bottom: 20px;z-index: 50 !important;">
                 <div class="btn-group-vertical">
+                    <a class="btn btn-flat btn-skin btn-primary" href="#box_case_intro">案件标签</a>
+                    <a class="btn btn-flat btn-skin btn-primary" href="#box_case_detail">复议申请详情</a>
+                    <a class="btn btn-flat btn-skin btn-primary" href="#box_case_folder">证据信息</a>
+                    <a class="btn btn-flat btn-skin btn-primary" href="#box_apply">申请人</a>
+                    <a class="btn btn-flat btn-skin btn-primary" href="#box_defendant">被申请人</a>
+                    <a class="btn btn-flat btn-skin btn-primary" href="#box_third_party">第三人</a>
+                    <a class="btn btn-flat btn-skin btn-primary" href="#">进度详情</a>
                     <a class="btn btn-flat btn-skin btn-primary" href="#topAnchor"><i
                             class="fa fa-arrow-circle-o-up"></i> 返回顶部</a>
                     <button class="btn btn-flat btn-skin btn-primary" id="arrow_right"><i
-                            class="fa fa-arrow-circle-o-right"></i>
-                        收起
+                            class="fa fa-arrow-circle-o-right"></i> 收起
                     </button>
                 </div>
             </div>
             <div class="row">
-                <!-- 左侧当事人详情主体开始 -->
-                <div class="col-lg-7">
-                    <div class="box box-solid no-shadow">
-                        <div class="box-header with-border">
-                            <i class="fa fa-user"></i> 当事人详情
-                            <!-- <div class="box-tools pull-right">
-                                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                 </button>
-                             </div>-->
-                        </div>
-                        <div class="box-body">
-                            <!-- Custom Tabs -->
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs" id="defendant-tab">
-                                    <!--<li class="active"><a href="#defendant_name_1" data-toggle="tab">被申请人姓名 1</a></li>
-                                    <li><a href="#defendant_name_2" data-toggle="tab">被申请人姓名 2</a></li>
-                                    <li><a href="#defendant_name_3" data-toggle="tab">被申请人姓名 3</a></li>-->
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content" id="defendant-info">
-                                    <!--<div role="tabpanel" class="tab-pane active" id="home">...</div>
-                                    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-                                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                                    <div role="tabpanel" class="tab-pane" id="settings">...</div>-->
+                <!-- 左侧开始 -->
+                <div class="col-lg-6">
+                    <!-- 案件标签开始 -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="box box-solid no-shadow">
+                                <div class="box-header with-border text-blue">
+                                    <i class="fa fa-thumb-tack">案件标签</i>
+                                    <h3 class="box-title" id="box_case_intro">案件标签</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i
+                                                class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="defendant_name_1">
-                                        <div class="box-body" style="padding: 10px 10px 0;" id="row_defendant"></div>
-                                        <div class="overlay" id="loading_row_defendant">
-                                            <i class="fa fa-spin fa-refresh"></i>
+                                <!-- /.box-header -->
+                                <div class="box-body no-border-radius info-block-with-border">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <strong>案件年号</strong>
+                                            <p style='margin: 10px 0 0;' id="label_year_no"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案件编号</strong>
+                                            <p style='margin: 10px 0 0;' id="label_no"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案件状态</strong>
+                                            <p style='margin: 10px 0 0;' id="label_state"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案件类型</strong>
+                                            <p style='margin: 10px 0 0;' id="label_type"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>申请时间</strong>
+                                            <p style='margin: 10px 0 0;' id="label_apply_time"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>申请方式</strong>
+                                            <p style='margin: 10px 0 0;' id="label_apply_mode"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>行政类别</strong>
+                                            <p style='margin: 10px 0 0;' id="label_administrative_category"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>案由</strong>
+                                            <p style='margin: 10px 0 0;' id="label_reason"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>请求类别</strong>
+                                            <p style='margin: 10px 0 0;' id="label_reason1"></p>
+                                            <hr style='margin: 10px 0;'>
                                         </div>
                                     </div>
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="defendant_name_2">
-
-                                    </div>
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="defendant_name_3">
-
-                                    </div>
-                                    <!-- /.tab-pane -->
                                 </div>
-                                <!-- /.tab-content -->
                             </div>
-                            <!-- nav-tabs-custom -->
                         </div>
                     </div>
+                    <!-- 案件标签结束 -->
+                    <!-- 复议申请详情开始 -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="box box-solid no-shadow">
+                                <div class="box-header with-border text-blue">
+                                    <i class="fa fa-hourglass"></i>
+                                    <h3 class="box-title" id="box_case_detail">复议申请详情</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i
+                                                class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body no-border-radius info-block-with-border">
+                                    <div class="row">
+                                        <div class="col-lg-12" id="box_apply_specific_behavior">
+                                            <strong>不服具体行政行为</strong>
+                                            <p style='margin: 10px 0 0;' id="label_specific_behavior"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12" id="box_apply_request">
+                                            <strong>行政复议请求</strong>
+                                            <p style='margin: 10px 0 0;' id="label_apply_request"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12" id="box_facts_reasons">
+                                            <strong>事实和理由</strong>
+                                            <p style='margin: 10px 0 0;' id="label_facts_reasons"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <strong>关键字标签</strong>
+                                            <p style='margin: 10px 0 0;line-height: 2rem;' id="labels"></p>
+                                            <hr style='margin: 10px 0;'>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <strong>录入时间</strong>
+                                            <p style='margin: 10px 0 0;' id="label_create_time"></p>
+                                        </div>
+                                        <div class="col-lg-6" style="display: none;">
+                                            <strong>最后修改时间</strong>
+                                            <p style='margin: 10px 0 0;' id="label_last_time"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 复议申请详情结束 -->
+                    <!-- 证据信息开始 -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="box box-solid no-shadow">
+                                <div class="box-header with-border text-blue">
+                                    <i class="fa  fa-folder"></i>
+                                    <h3 class="box-title" id="box_case_folder">证据信息</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i
+                                                class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body no-border-radius info-block-with-border">
+                                    <div class="row">
+                                        <div class="box-body no-border-radius info-block-with-border case-type-2">
+                                            <strong>行政复议代表推选凭证</strong>
+                                            <p style='margin: 10px 0 0;line-height: 1.8em;' id="label_cases_file_9"></p>
+                                        </div>
+                                        <div class="box-body no-border-radius info-block-with-border"
+                                             id="box_cases_file_1">
+                                            <strong>申请人证据信息</strong>
+                                            <p style='margin: 10px 0 0;line-height: 1.8em;' id="label_cases_file_1"></p>
+                                        </div>
+                                        <div class="box-body no-border-radius info-block-with-border"
+                                             id="box_cases_file_3">
+                                            <strong>第三人证据信息</strong>
+                                            <p style='margin: 10px 0 0;' id="label_cases_file_3"></p>
+                                        </div>
+                                        <div class="box-body no-border-radius info-block-with-border">
+                                            <strong id="box_defendant_reply">被申请人答复书</strong>
+                                            <p style='margin: 10px 0 0;' id="label_defendant_reply"></p>
+                                            <hr style='margin: 10px 0;'>
+                                            <strong id="box_cases_file_7">被申请人答复书照片</strong>
+                                            <p style='margin: 10px 0 0;' id="label_cases_file_7"></p>
+                                            <hr style='margin: 10px 0;'>
+                                            <strong id="box_cases_file_2">被申请人证据和其他相关材料</strong>
+                                            <p style='margin: 10px 0 0;' id="label_cases_file_2"></p>
+                                            <hr style='margin: 10px 0;'>
+                                            <strong id="box_defendant_remark">被申请人备注</strong>
+                                            <p style='margin: 10px 0 0;' id="label_defendant_remark"></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 证据信息结束 -->
                 </div>
-                <!-- 左侧当事人详情主体结束 -->
-                <!-- 右侧流转详情开始 -->
-                <div class="col-lg-5">
-                    <div class="box box-solid no-shadow">
+                <!-- 左侧结束 -->
+                <!-- 右侧开始 -->
+                <div class="col-lg-6">
+                    <div class="box box-solid no-shadow" id="box_apply">
                         <div class="box-header with-border">
-                            <i class="fa fa-user"></i> 流转详情
-                            <!-- <div class="box-tools pull-right">
-                                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                 </button>
-                             </div>-->
-                        </div>
-                        <div class="box-body">
-                            <div class="nav-tabs-custom">
-                                <div class="modal-body">
-                                    <ul class="timeline" id="ul_step"></ul>
-                                </div>
+                            <i class="fa fa-user"></i> 申请人
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
                             </div>
+                        </div>
+                        <div class="box-body" style="padding: 10px 10px 0;" id="cases_personnel_1"></div>
+                        <div class="overlay loading-cases-personnel-1">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                    <div class="box box-solid no-shadow" id="box_defendant">
+                        <div class="box-header with-border">
+                            <i class="fa fa-user"></i> 被申请人
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="padding: 10px 10px 0;" id="cases_personnel_2"></div>
+                        <div class="overlay loading-cases-personnel-2">
+                            <i class="fa fa-spin fa-refresh"></i>
+                        </div>
+                    </div>
+                    <div class="box box-solid no-shadow" id="box_third_party">
+                        <div class="box-header with-border">
+                            <i class="fa fa-user"></i> 第三人
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="padding: 10px 10px 0;" id="cases_personnel_3"></div>
+                        <div class="overlay loading-cases-personnel-3">
+                            <i class="fa fa-spin fa-refresh"></i>
                         </div>
                     </div>
                 </div>
-                <!--右侧流转详情结束-->
+                <!-- 右侧结束 -->
             </div>
         </section>
     </div>
     <footer class="main-footer"></footer>
+
+    <aside class="control-sidebar control-sidebar-dark">
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li class="active">
+                <a href="#tab_skin" data-toggle="tab"><i class="fa fa-dashboard"></i></a>
+            </li>
+            <li>
+                <a href="#tab_contactbook" data-toggle="tab"><i class="fa fa-user-plus"></i></a>
+            </li>
+            <li>
+                <a href="#tab_notice" data-toggle="tab"><i class="fa fa-bullhorn"></i></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_skin">
+                <h4 class="control-sidebar-heading">皮肤</h4>
+            </div>
+            <div class="tab-pane" id="tab_contactbook">
+                <h4 class="control-sidebar-heading">通讯录</h4>
+                <ul class="control-sidebar-menu">
+                    <li style="display: none;">
+                        <a href="javascript:void(0)">
+                            <i class="menu-icon fa fa-user bg-gray"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">张三</h4>
+                                <p>18712345678</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab_notice">
+                <h4 class="control-sidebar-heading">版本更新公告</h4>
+                <div class="form-group" style="display: none;">
+                    <label class="control-sidebar-subheading"><i class="fa fa-check-square-o"></i>
+                        修复挺里面可能会遇到的多处bug</label>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <div class="control-sidebar-bg"></div>
 </div>
+
+<!-- 流转详情 -->
+<div class="modal fade" id="modal_process">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
 
 <!-- jQuery 2.1.4 -->
 <script src="res/plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -153,11 +360,6 @@
 <script src="res/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="res/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <!-- Chart 2.7.2 -->
-<script src="res/plugins/chart/Chart.bundle.js"></script>
-<!-- fileupload -->
-<script src="res/plugins/fileupload/jquery.ui.widget.js"></script>
-<script src="res/plugins/fileupload/jquery.fileupload.js"></script>
-<!-- Chart 2.7.2 -->
 <script src="res/plugins/chart/Chart.bundle.min.js"></script>
 <!-- switch -->
 <script src="res/plugins/switch/bootstrap-switch.min.js"></script>
@@ -169,7 +371,6 @@
 <script src="self/js/sidebar.js"></script>
 <script>
     $(function () {
-        limitTime = "2018-10-01 23:59:59";
         initFormList();
 
         var view = getParameter("view");
@@ -182,359 +383,323 @@
         initAccount(web);
 
         var casesId = getParameter("cases");
-        alert(casesId)
-        // 加载流程进度
-        showCasesSetp(casesId);
-        getCasesPersonnelList4Representative(casesId);
+        var mode = getParameter("mode");
+        // 加载案件详情
         getCasesPersonnelList(false, "loading_row_apply", casesId, "1");
-        //              getCasesPersonnelList(false, "loading_row_apply_agent", casesId, "4");
-        getCasesPersonnelList(false, "loading_row_apply_third_party", casesId, "7");
-        getCasesPersonnelList(false, "loading_row_third_party", casesId, "3");
-        //              getCasesPersonnelList(false, "loading_row_third_party_agent", casesId, "5");
         getCasesPersonnelList(false, "loading_row_defendant", casesId, "2");
-        //              getCasesPersonnelList(false, "loading_row_defendant_agent", casesId, "6");
+        // 加载申请人信息
+        getCasesPersonnelList2("1", casesId);
+        getCasesPersonnelList2("2", casesId);
+        getCasesPersonnelList2("3", casesId);
         initModal4AgentView();
-        initToolBar(casesId);
-        getCasesRemarkList(casesId);
-        getCases("loading_info", casesId, true, true, false, "1", isView);
+        initTabs4Refence(casesId, "0");
+        /* getCases("loading_info", casesId, false, false, false, mode); */
+        getCases("loading_info", casesId, true, true, false, mode, isView);
 
-        getFileList("loading_info", "label_cases_file_9", "label-cases-file-9", "cases_file/files?mode=9&cases_id=" + casesId, true);
         getFileList("loading_info", "label_cases_file_1", "label-cases-file-1", "cases_file/files?mode=1&cases_id=" + casesId, true);
-        getFileList("loading_info", "label_cases_file_3", "label-cases-file-3", "cases_file/files?mode=3&cases_id=" + casesId, true);
-        getFileList("loading_info", "label_cases_file_7", "label-cases-file-7", "cases_file/files?mode=7&cases_id=" + casesId, true);
-        getFileList("loading_info", "label_cases_file_2", "label-cases-file-2", "cases_file/files?mode=2&cases_id=" + casesId, true);
 
-        //处理
-        $(".btn-process-pre").on("click", function () {
-            window.location.href = "audit_process_pre.html?web=" + web + "&cases=" + casesId + "&mode=" + $(this).data("mode");
+        function initStateRefine() {
+            $("input[name='state_refine_17']").iCheck("uncheck");
+            $("input[name='state_refine_21']").iCheck("uncheck");
+            $("input[name='state_refine_22']").iCheck("uncheck");
+            $("#state_refine_remark").val(null);
+
+            if (state == "17") {
+                $(".state-refine-17").show();
+                $(".state-refine-21").hide();
+                $(".state-refine-22").hide();
+                $(".state-refine-remark").hide();
+                return;
+            }
+            if (state == "21") {
+                $(".state-refine-17").hide();
+                $(".state-refine-21").show();
+                $(".state-refine-22").hide();
+                $(".state-refine-remark").hide();
+                return;
+            }
+            if (state == "22") {
+                $(".state-refine-17").hide();
+                $(".state-refine-21").hide();
+                $(".state-refine-22").show();
+                $(".state-refine-remark").hide();
+                return;
+            }
+            if (state == "24") {
+                $(".state-refine-17").hide();
+                $(".state-refine-21").hide();
+                $(".state-refine-22").hide();
+                $(".state-refine-remark").show();
+                return;
+            }
+            if (state == "26") {
+                $(".state-refine-17").hide();
+                $(".state-refine-21").hide();
+                $(".state-refine-22").hide();
+                $(".state-refine-remark").show();
+                return;
+            }
+        }
+
+        var state = "";
+        $(".margin-bottom-20").on("click", function () {
+            state = $(this).data("state");
+            if (state == "17" || state == "21" || state == "22" || state == "24" || state == "26") {
+                initStateRefine();
+                $("#modal_process").modal("show");
+                return;
+            }
+            window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + $(this).data("state");
         });
 
-        //备注
-        $("#modal_remark").on("show.bs.modal", function (event) {
-            $("#remark_id").val(null);
-            $("#remark_remark").val(null);
+        $(".btn-process").on("click", function () {
+            $("#loading_state_refine").show();
+            var refineArr = [];
+            $("input[name='state_refine_" + state + "']:checked").each(function () {
+                refineArr.push($(this).data("refine"));
+            })
 
-            var button = $(event.relatedTarget);
-            if (button.data("type") != "1") {
-                $("#remark_id").val(button.data("id"));
-                $("#remark_remark").val(button.data("remark"));
+            if (state == "24" || state == "26") {
+                window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + state + "&refine=" + escape($("#state_refine_remark").val());
+            } else {
+                window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + state + "&refine=" + escape(refineArr.join("，"));
             }
         });
-        $("#btn_submit_remark").on("click", function () {
-            $("#loading_info").show();
-            $.ajax({
-                url: "cases_remark/save",
-                type: "post",
-                dataType: "json",
-                data: {
-                    cases_id: casesId,
-                    id: $("#remark_id").val(),
-                    remark: $("#remark_remark").val()
-                },
-                success: function (data) {
-                    $("#loading_info").hide();
-                    if (data.result != 1) {
-                        showMsg(data.error_msg);
-                        return;
-                    }
-
-                    getCasesRemarkList(casesId);
-                    $("#modal_remark").modal("hide");
-                },
-                error: function (xhr, type) {
-                    $("#loading_info").hide();
-                    showMsg("系统繁忙");
-                }
-            });
-        });
     });
 
-    $('body').on('hidden.bs.modal', function () {
-        $('input:text').val('');
-    });
-
-    var html1 = '<div class="col-lg-3"  id="1"  style="">'
-        + '       <div class="form-group">'
-        + '           <label>姓名</label>'
-        + '            <input class="form-control" id="agent_name2" name="agent_name2" />'
-        + '        </div>'
-        + '     </div>';
-    var html2 = '     <div class="col-lg-3" id="2"  style="">'
-        + '        <div class="form-group">'
-        + '            <label>性别</label>'
-        + '            <div class="form-control">'
-        + '                <label style="padding-left: 7px"><input type="radio" class="minimal" name="agent_gender2"'
-        + '                    value="1" checked="checked"> 男</label>'
-        + '                <label style="padding-left: 7px"><input type="radio" class="minimal" name="agent_gender2"'
-        + '                    value="2"> 女</label>'
-        + '           </div>'
-        + '       </div>'
-        + '   </div>';
-
-    var html3 = '   <div class="col-lg-6" id="3" style="">'
-        + '       <div class="form-group">'
-        + '           <label>工作单位</label>'
-        + '         <input class="form-control" id="agent_unit_name2" name="agent_unit_name2" />'
-        + '      </div>'
-        + '  </div>';
-
-    var html4 = '  <div class="col-lg-6" id="4" style="">'
-        + '       <div class="form-group">'
-        + '           <label>职务</label>'
-        + ' <select class="form-control" style="width: 100%;" id="agent_id_type2" name="agent_id_type2">'
-        + '<option value="1">律师</option>'
-        + '<option value="2">法律工作者</option>'
-        + '<option value="3">专职律师</option>'
-        + '<option value="4">军队律师</option>'
-        + '</select>'
-        + '      </div>'
-        + '   </div>';
-    /*    var html5='  <div class="col-lg-3" id="5"  style="">'
-                           +'       <div class="form-group">'
-                           +'           <label>证件类型</label>'
-                            +'          <select class="form-control" style="width: 100%;" id="agent_id_type" name="agent_id_type"></select>'
-                           +'       </div>'
-                            +'  </div>'; */
-    var html5 = '  <div class="col-lg-3" id="5"  style="">'
-        + '       <div class="form-group">'
-        + '           <label>亲属关系</label>'
-
-        + '       <input class="form-control" id="agent_kinsfolk" name="agent_kinsfolk" />'
-        + '       </div>'
-        + '  </div>';
-    var html6 = '   <div class="col-lg-3" id="6"  style="">'
-        + '      <div class="form-group">'
-        + '          <label>证件号码</label>'
-        + '          <input class="form-control" id="agent_id_no2" name="agent_id_no2" />'
-        + '      </div>'
-        + '   </div>';
-
-    var html7 = '   <div class="col-lg-3" id="7"  style="">'
-        + '      <div class="form-group">'
-        + '         <label>联系方式</label>'
-        + '          <input class="form-control" id="agent_phone2" name="agent_phone2" />'
-        + '      </div>'
-        + '  </div>';
-
-    /*  var html8='   <div class="col-lg-3" style="display:none" id="8" >'
-                           +'       <div class="form-group">'
-                           +'           <label>其他联系方式</label>'
-                            +'          <input class="form-control" id="agent_contact" name="agent_contact" />'
-                            +'      </div>'
-                            +'  </div>'; */
-
-    var html9 = '  <div class="col-lg-4" id="9"  style="">'
-        + '     <div class="form-group">'
-        + '         <label>出生日期 <small>（格式：2018-01-01）</small></label>'
-        + '         <input class="form-control" id="agent_birthday2" name="agent_birthday2" />'
-        + '     </div>'
-        + ' </div>';
-    var html10 = '  <div class="col-lg-8" id="210"  style="">'
-        + '     <div class="form-group">'
-        + '          <label>联系地址</label>'
-        + '         <div class="input-group">'
-        + '             <div class="input-group-addon">省</div>'
-        + '             <select class="select2" style="width: 100%;" id="agent_province"></select>'
-        + '             <div class="input-group-addon">市</div>'
-        + '            <select class="select2" style="width: 100%;" id="agent_city"></select>'
-        + '            <div class="input-group-addon">区/县</div>'
-        + '             <select class="select2" style="width: 100%;" id="agent_county"></select>'
-        + '          </div>'
-        + '      </div>'
-        + '   </div>';
-
-    var html11 = '    <div class="col-lg-4" id="11" style="">'
-        + '        <div class="form-group">'
-        + '            <label>户籍所在地</label>'
-        + '            <input class="form-control" id="apply_domicile2" name="apply_domicile2" />'
-        + '        </div>'
-        + '    </div>';
-
-    var html12 = '    <div class="col-lg-4" id="12"  >'
-        + '        <div class="form-group">'
-        + '            <label>当事人所在社区</label>'
-        + '            <input class="form-control" id="agent_szsq2" name="agent_szsq2" />'
-        + '        </div>'
-        + '    </div>';
-
-    var html13 = '   <div class="col-lg-8" id="13"  style="">'
-        + '        <div class="form-group">'
-        + '           <label>通讯地址</label>'
-        + '           <input class="form-control" id="agent_address2" name="agent_address2" />'
-        + '       </div>'
-        + '   </div>';
-
-    var html14 = '    <div class="col-lg-12"  id="14">'
-        + '       <div class="form-group">'
-        + '           <label>单位以及有关社会团体推荐书（选填）</label>'
-        + '          <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">'
-        + '              <ul class="mailbox-attachments clearfix" id="ul_agent_file_3">'
-        + '                   <li style="width: auto;">'
-        + '                       <div class="mailbox-attachment-info">'
-        + '                          <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>'
-        + '                           <span class="mailbox-attachment-size">'
-        + '                           <button class="btn btn-xs btn-skin btn-primary btn-file">'
-        + '                              <i class="fa fa-plus"></i> 添加'
-        + '                              <input type="file" id="agent_file_3" />'
-        + '                          </button>'
-        + '                       </span>'
-        + '                       </div>'
-        + '                   </li>'
-        + '               </ul>'
-        + '           </div>'
-        + '       </div>'
-        + '    </div>';
-
-    var html15 = '   <div class="col-lg-12"  id="15" style="">'
-        + '       <div class="form-group">'
-        + '          <label>亲属关系证明材料（选填）</label>'
-        + '          <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">'
-        + '            <ul class="mailbox-attachments clearfix" id="ul_agent_file_4">'
-        + '                <li style="width: auto;">'
-        + '                     <div class="mailbox-attachment-info">'
-        + '                         <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>'
-        + '                          <span class="mailbox-attachment-size">'
-        + '                         <button class="btn btn-xs btn-skin btn-primary btn-file">'
-        + '                             <i class="fa fa-plus"></i> 添加'
-        + '                              <input type="file" id="agent_file_4" />'
-        + '                          </button>'
-        + '                     </span>'
-        + '                     </div>'
-        + '                 </li>'
-        + '              </ul>'
-        + '          </div>'
-        + '      </div>'
-        + '   </div>';
-
-    var html16 = '  <div class="col-lg-12"  id="16" style="display:none" >'
-        + '     <div class="form-group">'
-        + '        <label>单位公函</label>'
-        + '        <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">'
-        + '           <ul class="mailbox-attachments clearfix" id="ul_agent_file_5">'
-        + '               <li style="width: auto;">'
-        + '                   <div class="mailbox-attachment-info">'
-        + '                      <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>'
-        + '                      <span class="mailbox-attachment-size">'
-        + '                      <button class="btn btn-xs btn-skin btn-primary btn-file">'
-        + '                          <i class="fa fa-plus"></i> 添加'
-        + '                          <input type="file" id="agent_file_5" />'
-        + '                       </button>'
-        + '                   </span>'
-        + '                   </div>'
-        + '               </li>'
-        + '           </ul>'
-        + '      </div>'
-        + '    </div>'
-        + '   </div>';
-
-    var html17 = '   <div class="col-lg-12"  id="17"  style="">'
-        + '      <div class="form-group">'
-        + '          <label>证件信息</label>'
-        + '          <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">'
-        + '             <ul class="mailbox-attachments clearfix" id="ul_agent_file_6">'
-        + '                 <li style="width: auto;">'
-        + '                     <div class="mailbox-attachment-info">'
-        + '                         <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>'
-        + '                        <span class="mailbox-attachment-size">'
-        + '                         <button class="btn btn-xs btn-skin btn-primary btn-file">'
-        + '                             <i class="fa fa-plus"></i> 添加'
-        + '                             <input type="file" id="agent_file_6" />'
-        + '                           </button>'
-        + '                        </span>'
-        + '                      </div>'
-        + '                   </li>'
-        + '                 </ul>'
-        + '             </div>'
-        + '       </div>'
-        + '    </div>';
-
-    var html18 = '    <div class="col-lg-12"  id="18"  style="">'
-        + '       <div class="form-group no-margin">'
-        + '           <label>委托代理书</label>'
-        + '          <div style="border: 1px solid #d2d6de;padding: 10px 0 0 10px;">'
-        + '            <ul class="mailbox-attachments clearfix" id="ul_agent_file_7">'
-        + '                  <li style="width: auto;">'
-        + '                      <div class="mailbox-attachment-info">'
-        + '                        <div class="mailbox-attachment-name" style="overflow: hidden;height: 25px;"><i class="fa fa-paperclip"></i> 选择文件</div>'
-        + '                         <span class="mailbox-attachment-size">'
-        + '                         <button class="btn btn-xs btn-skin btn-primary btn-file">'
-        + '                            <i class="fa fa-plus"></i> 添加'
-        + '                            <input type="file" id="agent_file_7" />'
-        + '                       </button>'
-        + '                    </span>'
-        + '                   </div>'
-        + '                </li>'
-        + '          </ul>'
-        + '      </div>'
-        + '   </div>'
-        + '   </div>';
-
-
-    function changeImg(val) {
-        if (val == '1') {
-            $('#agent_id_type2 option:eq(0)').prop('selected', 'selected');
-            $('#center1').css('position', '');
-            $('#center1').css('z-index', '0');
-            $('#center2').css('position', 'absolute');
-            $('#center2').css('z-index', '-110');
-            $('#center3').css('position', 'absolute');
-            $('#center3').css('z-index', '-200');
-        } else if (val == '2') {
-            $('#center1').css('position', 'absolute');
-            $('#center1').css('z-index', '-100');
-            $('#center2').css('position', '');
-            $('#center2').css('z-index', '0');
-            $('#center3').css('position', 'absolute');
-            $('#center3').css('z-index', '-200');
-        } else if (val == '3') {
-            $('#center1').css('position', 'absolute');
-            $('#center1').css('z-index', '-100');
-            $('#center2').css('position', 'absolute');
-            $('#center2').css('z-index', '-200');
-            $('#center3').css('position', '');
-            $('#center3').css('z-index', '0');
-        }
-    }
-
-    /**
-     * 流程详情
-     * @param casesId 当前案件id
-     */
-    function showCasesSetp(casesId) {
+    <!--处理案件人员信息-->
+    function getCasesPersonnelList2(type, casesId) {
+        $(".loading-cases-personnel-" + type).show();
         $.ajax({
-            url: "cases_step/get_list",
+            url: "cases_personnel/get_list?type=" + type + "&cases_id=" + casesId,
             type: "post",
             dataType: "json",
-            data: {
-                cases_id: casesId
-            },
             success: function (data) {
+                $(".loading-cases-personnel-" + type).hide();
                 if (data.result != 1) {
                     showMsg(data.error_msg);
                     return;
                 }
-                $(".li-step").remove();
-                if (data.data != null && data.data.length > 0) {
-                    $.each(data.data, function (index, value) {
-                        var lebal = getStateLabel(value.state, true);
-                        var label_account = "";
-                        if (value.label_account != null && value.label_account != "") {
-                            label_account = "<div class='pull-right'><label class='label label-info' style='border-radius: 0px;'>" + value.label_department + "</label>" +
-                                "<label class='label label-default' style='border-radius: 0px;'>" + value.label_account + "</label><div>";
-                        }
-                        var $li = $("<li class='li-step'>" +
-                            "<i class='fa fa-clock-o'></i>" +
-                            "<div class='timeline-item no-shadow' style='border: 1px solid #eee;'>" +
-                            "<div class='timeline-header' style='border-bottom: 0px;'>" +
-                            lebal + "<label class='label label-default' style='border-radius: 0px;'>" + value.create_time + "</label>" + label_account +
-                            "</div>" +
-                            "</div>" +
-                            "</li>");
-                        $("#ul_step").append($li);
-                    });
+
+                $(".cases-personnel-" + type).remove();
+                if (data.data == null || data.data.length == 0) {
+                    return;
                 }
+
+                <!--拼接被申请人-->
+                $.each(data.data, function (index, value) {
+                    if (typeof value.id_no === "undefined") {
+                        var $div = "<div class='cases-personnel-" + type + "' style='border: 1px solid #eee;padding: 15px; margin-bottom: 10px;'>" +
+                            "<div class='row'>" +
+                            "<div class='col-lg-12'>" +
+                            "<strong><i class='fa fa-bank margin-r-5'></i>  被申请人名称</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + value.unit_name + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-12'>" +
+                            "<strong><i class='fa fa-map-marker margin-r-5'></i>  被申请人住所</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + value.unit_abode + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-4'>" +
+                            "<strong><i class='fa fa-balance-scale margin-r-5'></i>  被申请人类型</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + value.label_type + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-3'>" +
+                            "<strong><i class='fa fa-black-tie margin-r-5'></i>  法定代表人</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + value.name + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-5'>" +
+                            "<strong><i class='fa fa-book margin-r-5'></i>  社会统一信用代码证</strong>" +
+                            "<p style='margin: 10px 0 0;'><a href='" + value.file_1 + "' target='_blank'>" + value.file_name_1 + "</a></p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-6'>" +
+                            "<strong><i class='fa fa-book margin-r-5'></i>  法定代表人证明书</strong>" +
+                            "<p style='margin: 10px 0 0;'><a href='" + value.file_2 + "' target='_blank'>" + value.file_name_2 + "</a></p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-6'>" +
+                            "<strong><i class='fa fa-book margin-r-5'></i>  法定代表人证件信息</strong>" +
+                            "<p style='margin: 10px 0 0;'><a href='" + value.file_3 + "' target='_blank'>" + value.file_name_3 + "</a></p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-6'>" +
+                            "<strong><i class='fa fa-user margin-r-5'></i>  委托代理人</strong>" +
+                            "<p style='margin: 10px 0 0;' id='personnel_agent_" + value.id + "'></p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-12'>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>";
+                        $("#cases_personnel_" + type).append($div);
+
+                        if (value.agent_list != null && value.agent_list.length > 0) {
+                            $.each(value.agent_list, function (index1, value1) {
+                                $child = $("<button class='btn btn-default bg-gray as-btn btn-cases-personnel' data-casepersonneltype='" + value1.personnel_type + "' " +
+                                    "data-id='" + value1.id + "' data-idtype='" + value1.id_type_id + "' data-idno='" + value1.id_no + "' " +
+                                    "data-name='" + value1.name + "' data-unit_name='" + value1.unit_name + "' data-gender='" + value1.gender + "' data-birthday='" + value1.birthday + "' " +
+                                    "data-phone='" + value1.phone + "' data-contact='" + value1.contact + "' " +
+                                    "data-zipcode='" + value1.zip_code + "' " +
+                                    "data-provinceid='" + value1.province_id + "' data-cityid='" + value1.city_id + "' data-countyid='" + value1.county_id + "' " +
+                                    "data-address='" + value1.address + "'><i class='fa fa-user'></i> " + value1.name + "</button>");
+                                $("#personnel_agent_" + value.id).append($child);
+                            })
+                        }
+                    } else {
+                        var dName = "";
+                        var dLast = "";
+
+                        var domicile = "&nbsp;"
+                        if (value.domicile != null && value.domicile != "") {
+                            domicile = value.domicile;
+                        }
+
+                        if (value.type == "1") {
+                            var legalPerson = "&nbsp;"
+                            if (value.legal_person != null && value.legal_person != "") {
+                                legalPerson = value.legal_person;
+                            }
+                            dName = "<div class='col-lg-12'>" +
+                                "<strong><i class='fa fa-user margin-r-5'></i>  姓名</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + value.name + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-6'>" +
+                                "<strong style='font-size: 13px'><i class='fa fa-user margin-r-5'></i>  英文名/其他语言名/化名/曾用名</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + legalPerson + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-6'>" +
+                                "<strong style='font-size: 13px'><i class='fa fa-user margin-r-5'></i>  英文名/其他语言名/化名/曾用名</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + domicile + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>";
+
+                            dLast += "<div class='col-lg-12'>" +
+                                "<strong><i class='fa fa-map-marker margin-r-5'></i>  通讯地址</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + value.province + value.city + value.county + value.address + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>";
+                        } else if (value.type == "2") {
+                            var labelUnitIdType = "&nbsp;";
+                            if (value.label_unit_id_type != null && value.label_unit_id_type != "") {
+                                labelUnitIdType = value.label_unit_id_type;
+                            }
+                            var unitIdNo = "&nbsp;";
+                            if (value.unit_id_no != null && value.unit_id_no != "") {
+                                unitIdNo = value.unit_id_no;
+                            }
+                            var unitContact = "&nbsp;";
+                            if (value.unit_contact != null && value.unit_contact != "") {
+                                unitContact = value.unit_contact;
+                            }
+                            var legalPerson = "&nbsp;";
+                            if (value.legal_person != null && value.legal_person != "") {
+                                legalPerson = value.legal_person;
+                            }
+                            dName = "<div class='col-lg-12'>" +
+                                "<strong><i class='fa fa-bank margin-r-5'></i>  法人组织名称</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + value.name + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-4'>" +
+                                "<strong><i class='fa fa-briefcase margin-r-5'></i>  单位证件类型</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + labelUnitIdType + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-4'>" +
+                                "<strong><i class='fa fa-barcode margin-r-5'></i>  单位证件号码</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + unitIdNo + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-4'>" +
+                                "<strong><i class='fa fa-phone margin-r-5'></i>  单位联系方式</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + unitContact + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-12'>" +
+                                "<strong><i class='fa fa-map-marker margin-r-5'></i>  通讯地址</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + value.province + value.city + value.county + value.address + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-6'>" +
+                                "<strong><i class='fa fa-user margin-r-5'></i>  法定代表人</strong>" +
+                                "<p style='margin: 10px 0 0;'><a href='" + value.id_file + "' target='_blank'>" + legalPerson + "</a></p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>" +
+                                "<div class='col-lg-6'>" +
+                                "<strong><i class='fa fa-home margin-r-5'></i>  户籍所在地</strong>" +
+                                "<p style='margin: 10px 0 0;'>" + domicile + "</p>" +
+                                "<hr style='margin: 10px 0;'>" +
+                                "</div>";
+                        }
+
+                        dLast += "<div class='col-lg-12'>" +
+                            "<strong><i class='fa fa-user margin-r-5'></i>  委托代理人</strong>" +
+                            "<p style='margin: 10px 0 0;' id='personnel_agent_" + value.id + "'></p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>";
+
+                        var birthday = "&nbsp;"
+                        if (value.birthday != null && value.birthday != "") {
+                            birthday = value.birthday;
+                        }
+                        var contact = "&nbsp;"
+                        if (value.contact != null && value.contact != "") {
+                            contact = value.contact;
+                        }
+                        var $div = "<div class='cases-personnel-" + type + "' style='border: 1px solid #eee;padding: 15px; margin-bottom: 10px;'>" +
+                            "<div class='row'>" +
+                            dName +
+                            "<div class='col-lg-2'>" +
+                            "<strong><i class='fa fa-intersex margin-r-5'></i>  性别</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + value.label_gender + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-3'>" +
+                            "<strong><i class='fa fa-calendar margin-r-5'></i>  出生日期</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + birthday + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-3'>" +
+                            "<strong><i class='fa fa-mobile margin-r-5'></i>  手机号码</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + value.phone + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            "<div class='col-lg-4'>" +
+                            "<strong><i class='fa fa-phone margin-r-5'></i>  其他联系方式</strong>" +
+                            "<p style='margin: 10px 0 0;'>" + contact + "</p>" +
+                            "<hr style='margin: 10px 0;'>" +
+                            "</div>" +
+                            dLast +
+                            "<div class='col-lg-12'>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>";
+                        $("#cases_personnel_" + type).append($div);
+
+                        if (value.agent_list != null && value.agent_list.length > 0) {
+                            $.each(value.agent_list, function (index1, value1) {
+                                $child = $("<button class='btn btn-default bg-gray as-btn btn-cases-personnel' data-casepersonneltype='" + value1.personnel_type + "' " +
+                                    "data-id='" + value1.id + "' data-idtype='" + value1.id_type_id + "' data-idno='" + value1.id_no + "' " +
+                                    "data-name='" + value1.name + "' data-unit_name='" + value1.unit_name + "' data-gender='" + value1.gender + "' data-birthday='" + value1.birthday + "' " +
+                                    "data-phone='" + value1.phone + "' data-contact='" + value1.contact + "' " +
+                                    "data-zipcode='" + value1.zip_code + "' " +
+                                    "data-provinceid='" + value1.province_id + "' data-cityid='" + value1.city_id + "' data-countyid='" + value1.county_id + "' " +
+                                    "data-address='" + value1.address + "'><i class='fa fa-user'></i> " + value1.name + "</button>");
+                                $("#personnel_agent_" + value.id).append($child);
+                            })
+                        }
+                    }
+                })
+                initEvent4CasesPersonnel();
             },
             error: function (xhr, type) {
+                $(".loading-cases-personnel-" + type).hide();
                 showMsg("系统繁忙");
             }
         });
