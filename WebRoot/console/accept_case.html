@@ -1518,9 +1518,8 @@
 <script>
     $(function () {
         limitTime = "2018-10-01 23:59:59";
-
         initFormList();
-
+        addApplyType = "1";
         var view = getParameter("view");
         var isView = false;
         if (view != null && view != "") {
@@ -1565,9 +1564,11 @@
         });
         //追加申请人类型切换
         $("#person-radio").on("ifChecked", function () {
+            addApplyType = "1";
             $(".form-unit").addClass("hidden");
         });
         $("#legal-radio").on("ifChecked", function () {
+            addApplyType = "2";
             $(".form-unit").removeClass("hidden");
         });
         //追加第三人类型切换
@@ -1589,6 +1590,7 @@
                 $("#remark_remark").val(button.data("remark"));
             }
         });
+
         $("#btn_submit_remark").on("click", function () {
             $("#loading_info").show();
             $.ajax({

@@ -60,8 +60,9 @@ public class ThirdPartyConsoleAction {
                                     @RequestParam(required = false, name = "zip_code") String zip_code,
                                     String contact,
                                     @RequestParam(required = true, name = "abode") String abode,
-                                    String unit_name, String unit_contact, String unit_id_type_id, String unit_id_no, String unit_abode, String legal_person_type) {
-        Map<String, Object> result = partyConsoleService.save(id, cases_personnel_type, casesId, personnelId, type, name, other_name, nature, gender, birthday, id_type, id_no, phone, domicile, zip_code, contact, abode, unit_name, unit_contact, unit_id_type_id, unit_id_no, unit_abode, legal_person_type);
+                                    String unit_name, String unit_contact, String unit_id_type, String unit_id_no, String unit_abode, String legal_person_type) {
+        System.out.println("unit_contact======" + unit_contact);
+        Map<String, Object> result = partyConsoleService.save(id, cases_personnel_type, casesId, personnelId, type, name, other_name, nature, gender, birthday, id_type, id_no, phone, domicile, zip_code, contact, abode, unit_name, unit_contact, unit_id_type, unit_id_no, unit_abode, legal_person_type);
         log.info("[/console/third_party/save] {}", result);
         return result;
     }

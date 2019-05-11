@@ -58,6 +58,11 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
     public Map<String, Object> save(String actId, String casesPersonnelType, String casesId, String personnelId,
                                     String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                     String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
+        // 生日如果为空或者格式不匹配时重置为null,避免数据库存储失败
+        String regex = "^(19|20)\\d{2}-(1[0-2]|0?[1-9])-(0?[1-9]|[1-2][0-9]|3[0-1])$";
+        if (StringUtils.isBlank(birthday) || !birthday.matches(regex)) {
+            birthday = null;
+        }
         try {
             // 获取证件id
             if (StringUtils.isBlank(personnelId) && StringUtils.isNotBlank(idNo)) {
@@ -170,7 +175,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         // 字段验证
         Map<String, Object> map = checkFeilds(tempFile, isCasesExist, casesPersonnelType, casesId,
                 personnelId, type, name, birthday, idTypeId, idNo, phone, domicile,
-                abode, unitName, unitContact, unitIdTypeId, unitIdNo);
+                abode, unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode);
         if (map != null) {
             return map;
         }
@@ -232,7 +237,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         // 字段验证
         Map<String, Object> map = checkFeilds(tempFile, isCasesExist, casesPersonnelType, casesId,
                 personnelId, type, name, birthday, idTypeId, idNo, phone, domicile,
-                abode, unitName, unitContact, unitIdTypeId, unitIdNo);
+                abode, unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode);
         if (map != null) {
             return map;
         }
@@ -352,17 +357,10 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
      */
     private Map<String, Object> checkFeilds(Map<String, Object> tempFile, int isCasesExist, String casesPersonnelType, String casesId, String personnelId,
                                             String type, String name, String birthday, String idTypeId, String idNo, String phone, String domicile, String abode,
-                                            String unitName, String unitContact, String unitIdTypeId, String unitIdNo) {
+                                            String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode) {
         //公共验证字段
         // 验证证件信息
-        Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
         Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
-        if (idType == null || idType.isEmpty()) {
-            return Utils.getErrorMap("请选择证件类型");
-        }
-        if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
-            return Utils.getErrorMap("请填上传证件信息");
-        }
         // 验证文书送达地址
         if (StringUtils.isBlank(abode)) {
             return Utils.getErrorMap("请填写法律文书送达地址");
@@ -397,8 +395,12 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                 return Utils.getErrorMap("请输入正确的出生日期");
             }
             // 证件类型
-            if (idType == null) {
-                return Utils.getErrorMap("证件类型不存在");
+            Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
+            if (idType == null || idType.isEmpty()) {
+                return Utils.getErrorMap("请选择证件类型");
+            }
+            if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
+                return Utils.getErrorMap("请填上传证件信息");
             }
             // 验证证件号码
             if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
@@ -428,9 +430,15 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
             if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
                 return Utils.getErrorMap("请选择单位证件类型");
             }
+            if (StringUtils.isBlank(unitAbode)) {
+                return Utils.getErrorMap("请选择单位住所");
+            }
             Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
             if (unitIdType == null) {
                 return Utils.getErrorMap("证件类型不存在");
+            }
+            if (!"未知".equals(unitIdType.get("text")) && tempFile == null && file == null) {
+                return Utils.getErrorMap("请填上传证件信息");
             }
             // 证件号码
             if (StringUtils.isBlank(unitIdNo)) {
