@@ -5,11 +5,11 @@
         <property name="jdbcUrl">jdbc:mysql://47.93.229.62:3306/irsa</property>
         <property name="jdbcUrl">jdbc:mysql://localhost:3306/irsa_bak</property>
          -->
-        <property name="jdbcUrl">jdbc:mysql://101.201.234.9:3306/irsa_temp?useSSL=false</property>
-        <!--        <property name="jdbcUrl">jdbc:mysql://localhost:3306/irsa_temp?useSSL=false</property>-->
+        <!--        <property name="jdbcUrl">jdbc:mysql://101.201.234.9:3306/irsa_temp?useSSL=false</property>-->
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/irsa_temp?useSSL=false</property>
         <property name="user">root</property>
-        <property name="password">kk356910</property>
-        <!--        <property name="password">root</property>-->
+        <!--        <property name="password">kk356910</property>-->
+        <property name="password">root</property>
         <property name="driverClass">com.mysql.jdbc.Driver</property>
         <!-- 以上的user是数据库的用户，password是数据库的密码，driverClass是mysql的数据库驱动，jdbcUrl是连接数据库的url -->
         <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数 -->
