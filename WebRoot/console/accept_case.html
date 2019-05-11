@@ -1556,6 +1556,28 @@
             window.location.href = "accept_process_pre.html?web=" + web + "&cases=" + casesId + "&mode=" + $(this).data("mode");
         });
 
+        //请求追加第三人类型切换
+        $("#apply_choose_third_for_person").on("ifChecked", function () {
+            $(".form-third-unit").addClass("hidden");
+        });
+        $("#apply_choose_third_for_legal").on("ifChecked", function () {
+            $(".form-third-unit").removeClass("hidden");
+        });
+        //追加申请人类型切换
+        $("#person-radio").on("ifChecked", function () {
+            $(".form-unit").addClass("hidden");
+        });
+        $("#legal-radio").on("ifChecked", function () {
+            $(".form-unit").removeClass("hidden");
+        });
+        //追加第三人类型切换
+        $("#choose_third_for_person").on("ifChecked", function () {
+            $(".form-third-unit").addClass("hidden");
+        });
+        $("#choose_third_for_legal").on("ifChecked", function () {
+            $(".form-third-unit").removeClass("hidden");
+        });
+
         //备注
         $("#modal_remark").on("show.bs.modal", function (event) {
             $("#remark_id").val(null);

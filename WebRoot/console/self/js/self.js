@@ -3002,11 +3002,11 @@ function initModalEvent4ApplyThirdParty() {
         clearModal4ApplyThirdParty();
     })
 
+    // 处理建议第三人数据页面渲染
     $("#search_apply_third_party").on("select2:select", function (e) {
         if (e.params.data.id == "-1") {
             return;
         }
-        console.log(e.params.data)
         applyThirdPartyId = e.params.data.id;
         thirdPartyId = applyThirdPartyId;
         initUpload("loading_apply_third_party", "apply_third_party_file", "li-apply-third-party-file", "temp/img?res=" + applyThirdPartyId);
@@ -3527,8 +3527,10 @@ function initToolBar(casesId, isReload) {
     $("#modal_document").on("show.bs.modal", function () {
         getFileList("loading_document", "table_cases_file_6", "cases-file-6", "cases_file/files?mode=6&cases_id=" + casesId, false, true);
     })
+    $(".form-third-unit").addClass("hidden");
     //追加当事人
     $("#modal_party").on("show.bs.modal", function () {
+        $(".form-third-unit").addClass("hidden");
         casesPersonnelType = "";
     });
     $(".btn-add-personnel").on("click", function () {
@@ -3581,6 +3583,8 @@ var clientId = "";
 
 // 初始化申请人、建议第三人等等相关
 function initSubmit4Personnel(casesId, isTemp, isReload) {
+    $(".form-third-unit").addClass("hidden");
+    $(".form-unit").addClass("hidden");
     isTemp = isTemp || false;
     isReload = isReload || false;
     // 申请人
