@@ -3057,6 +3057,7 @@ function initModalEvent4ApplyThirdParty() {
     onChange4Province("apply_third_party_province", "apply_third_party_city", "region/get_choose_list_by_parent", "apply_third_party_county");
     onChange4City("apply_third_party_city", "apply_third_party_county", "region/get_choose_list_by_parent");
 
+
     $("input[name='apply_third_party_type']").on("ifChanged", function () {
         if ($("input[name='apply_third_party_type']:checked").val() == "1") {
             $("#label_apply_third_party_name").html("姓名");
@@ -3067,7 +3068,7 @@ function initModalEvent4ApplyThirdParty() {
             $("#label_apply_third_party_legal_person").html("法定代表人");
             $(".form-apply-third-party-unit").show();
         }
-    })
+    });
 }
 
 var agentId = "";
