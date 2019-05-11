@@ -50,6 +50,19 @@ public class DefendantConsoleServiceImpl implements DefendantConsoleService {
 
     /**
      * 保存被申请人到案件
+     *
+     * @param actId             ${@link String}
+     * @param casesId           ${@link String}
+     * @param personnelId       ${@link String}
+     * @param type              ${@link String}
+     * @param unit_name         ${@link String}
+     * @param unit_abode        ${@link String}
+     * @param unit_contact      ${@link String}
+     * @param name              ${@link String}
+     * @param legal_person_type ${@link String}
+     * @param duty              ${@link String}
+     * @return Map ${@link Map}
+     * @date 2019-05-11 10:59
      */
     @Override
     public Map<String, Object> save4Personnel(String actId, String casesId, String personnelId, String type, String unit_name, String unit_abode, String unit_contact, String name, String legal_person_type, String duty) {
@@ -66,19 +79,12 @@ public class DefendantConsoleServiceImpl implements DefendantConsoleService {
             if (StringUtils.isBlank(legal_person_type)) {
                 return Utils.getErrorMap("请填写法定负责人的类型");
             }
-
             if (StringUtils.isBlank(name) && "2".equalsIgnoreCase(legal_person_type)) {
                 return Utils.getErrorMap("请填写法定代表人姓名");
             }
-
             if (StringUtils.isBlank(name) && "1".equalsIgnoreCase(legal_person_type)) {
                 return Utils.getErrorMap("请填写负责人姓名");
             }
-
-            Map<String, Object> tempFile1 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_1});
-            Map<String, Object> tempFile2 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_2});
-            Map<String, Object> tempFile3 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_3});
-
             String pid = "";
             if (StringUtils.isNotBlank(personnelId)) {
                 pid = personnelId;
@@ -113,13 +119,15 @@ public class DefendantConsoleServiceImpl implements DefendantConsoleService {
                 // 修改:原sql ps字段对应不上导致被申请人插入错误：defendantManager.executeSQL(Defendant.INSERT, new Object[]{personnelId, Utils.getCreateTime(), type , unit_name, name, unit_contact, unit_abode, name, legal_person_type, duty, "", ""});
                 defendantManager.executeSQL(Defendant.INSERT, new Object[]{personnelId, Utils.getCreateTime(), type, unit_name, unit_contact, unit_abode, name, legal_person_type, duty, "", ""});
             }
-
+            Map<String, Object> tempFile1 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_1});
             if (tempFile1 != null) {
                 defendantManager.saveFile(personnelId, DefendantFile.MODE_1, tempFile1);
             }
+            Map<String, Object> tempFile2 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_2});
             if (tempFile2 != null) {
                 defendantManager.saveFile(personnelId, DefendantFile.MODE_2, tempFile2);
             }
+            Map<String, Object> tempFile3 = defendantManager.getMap(TempFile.SELECT_BY_RESID_MODE, new Object[]{actId, DefendantFile.MODE_3});
             if (tempFile3 != null) {
                 defendantManager.saveFile(personnelId, DefendantFile.MODE_3, tempFile3);
             }

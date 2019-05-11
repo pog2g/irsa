@@ -70,7 +70,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
             Map<String, Object> tempFile = partyManager.getMap(TempFile.SELECT_BY_RESID, new Object[]{actId});
             // 处理当事人、第三人等
             if (CasesPersonnel.PERSONNEL_TYPE_1.equals(casesPersonnelType)) {
-                // 处理casesPersonnelType为1的情况
+                // 处理casesPersonnelType为1的情况--申请人
                 return dealWithType1(tempFile, actId, casesPersonnelType, casesId, personnelId,
                         type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                         domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
@@ -134,7 +134,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
 
 
     /**
-     * 处理casesPersonnelType为1
+     * 处理casesPersonnelType为1--申请人
      *
      * @param actId              ${@link String}
      * @param casesPersonnelType ${@link String}
@@ -160,91 +160,24 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
      * @param unitAbode          ${@link String}
      * @param legalPerson        ${@link String}
      * @param tempFile           ${@link Map}
-     * @return Object ${@link Object}
+     * @return Map ${@link Map}
      * @date 2019-05-08 11:23
      */
     private Map<String, Object> dealWithType1(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
-        // 必填字段验证，与正式第三人一样
-        Map<String, Object> map = checkFeilds(tempFile, personnelId, type, name, birthday, idTypeId, idNo, phone, domicile, abode);
+        int isCasesExist = partyManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
+        // 字段验证
+        Map<String, Object> map = checkFeilds(tempFile, isCasesExist, casesPersonnelType, casesId,
+                personnelId, type, name, birthday, idTypeId, idNo, phone, domicile,
+                abode, unitName, unitContact, unitIdTypeId, unitIdNo);
         if (map != null) {
             return map;
         }
-        int isCasesExist = partyManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
-        if (Party.TYPE_2.equals(type)) {
-            if (StringUtils.isBlank(legalPerson)) {
-                return Utils.getErrorMap("请填写单位名称");
-            }
-            if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
-                return Utils.getErrorMap("请选择单位证件类型");
-            }
-            Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
-            if (unitIdType == null) {
-                return Utils.getErrorMap("证件类型不存在");
-            }
-            if (StringUtils.isBlank(unitIdNo)) {
-                return Utils.getErrorMap("请填写单位证件号码");
-            }
-            if (StringUtils.isBlank(unitContact)) {
-                return Utils.getErrorMap("请填写单位联系方式");
-            }
-        }
-        if (StringUtils.isBlank(idTypeId) || "-1".equals(idTypeId)) {
-            return Utils.getErrorMap("请选择证件类型");
-        }
-        Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
-        if (idType == null) {
-            return Utils.getErrorMap("证件类型不存在");
-        }
-        if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
-
-            if (StringUtils.isBlank(idNo)) {
-                return Utils.getErrorMap("请填写证件号码");
-            }
-            if ("中国居民二代身份证".equals(idType.get("text"))) {
-                if (!Utils.checkIdNo(idNo)) {
-                    return Utils.getErrorMap("证件号码格式错误");
-                }
-            }
-            if (StringUtils.isBlank(phone)) {
-                return Utils.getErrorMap("请填写手机号码");
-            }
-            if (!Utils.checkPhone(phone)) {
-                return Utils.getErrorMap("手机号码格式错误");
-            }
-        }
         if (StringUtils.isNotBlank(personnelId)) {
-            if (isCasesExist == 0) {
-                int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
-                if (isPersonnelExist != 0) {
-                    return Utils.getErrorMap("当事人已存在");
-                }
-            } else {
-                if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
-                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID_WITHOUT_APPLYTHIRDPARTY, new Object[]{casesId, personnelId});
-                    if (isPersonnelExist != 0) {
-                        return Utils.getErrorMap("当事人已存在");
-                    }
-                } else {
-                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
-                    if (isPersonnelExist != 0) {
-                        return Utils.getErrorMap("当事人已存在");
-                    }
-                }
-            }
-
-            Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
-            if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
-                return Utils.getErrorMap("请填上传证件信息");
-            }
-
             partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                     unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});
         } else {
-            if (!"未知".equals(idType.get("text")) && tempFile == null) {
-                return Utils.getErrorMap("请填上传证件信息");
-            }
             personnelId = Utils.getId();
             partyManager.executeSQL(Party.INSERT_LEGAL, new Object[]{Utils.getCreateTime(), personnelId, type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                     unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson});
@@ -262,7 +195,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
 
 
     /**
-     * 处理casesPersonnelType为3处理正式第三人(在建议第三人基础上加上验证信息，验证信息与)
+     * 处理casesPersonnelType为3正式第三人
      *
      * @param actId              ${@link String}
      * @param casesPersonnelType ${@link String}
@@ -288,18 +221,21 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
      * @param unitAbode          ${@link String}
      * @param legalPerson        ${@link String}
      * @param tempFile           ${@link Map}
-     * @return Object ${@link Object}
+     * @return Map ${@link Map}
      * @date 2019-05-08 11:23
      */
     private Map<String, Object> dealWithType3(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
         // 验证必填字段，与申请人一致
-        Map<String, Object> map = checkFeilds(tempFile, personnelId, type, name, birthday, idTypeId, idNo, phone, domicile, abode);
+        int isCasesExist = partyManager.getListCount(Cases.SELECT_EXIST_BY_ID, new Object[]{casesId});
+        // 字段验证
+        Map<String, Object> map = checkFeilds(tempFile, isCasesExist, casesPersonnelType, casesId,
+                personnelId, type, name, birthday, idTypeId, idNo, phone, domicile,
+                abode, unitName, unitContact, unitIdTypeId, unitIdNo);
         if (map != null) {
             return map;
         }
-        System.out.println("=========dealWithType3=");
         // 存储信息
         return dealWithType7(tempFile, actId, casesPersonnelType, casesId, personnelId,
                 type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
@@ -309,7 +245,7 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
 
 
     /**
-     * 处理casesPersonnelType为7---建议第三人
+     * 处理casesPersonnelType为7建议第三人
      *
      * @param actId              ${@link String}
      * @param casesPersonnelType ${@link String}
@@ -335,14 +271,14 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
      * @param unitAbode          ${@link String}
      * @param legalPerson        ${@link String}
      * @param tempFile           ${@link Map}
-     * @return Object> ${@link Object>}
+     * @return Map ${@link Map}
      * @date 2019-05-08 11:23
      */
     private Map<String, Object> dealWithType7(Map<String, Object> tempFile, String actId, String casesPersonnelType, String casesId, String personnelId,
                                               String type, String name, String other_name, String nature, String gender, String birthday, String idTypeId, String idNo, String phone, String domicile, String zipCode, String contact, String abode,
                                               String unitName, String unitContact, String unitIdTypeId, String unitIdNo, String unitAbode, String legalPerson) {
         // 建议第三人只需要验证用户姓名不能为空
-        if (StringUtils.isBlank(name) && StringUtils.isBlank(other_name)) {
+        if (StringUtils.isBlank(name)) {
             return Utils.getErrorMap("姓名不能为空");
         }
         // 如果personnelId存在则检查是否与当前案件绑定，如果绑定则直接返回，否则重新绑定
@@ -389,59 +325,136 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
 
 
     /**
-     * 必填字段验证
+     * 处理申请人(个人与组织)、正式第三人字段验证
      *
-     * @param tempFile    ${@link String}
-     * @param personnelId ${@link String}
-     * @param type        ${@link String}
-     * @param name        ${@link String}
-     * @param birthday    ${@link String}
-     * @param idTypeId    ${@link String}
-     * @param idNo        ${@link String}
-     * @param phone       ${@link String}
-     * @param domicile    ${@link String}
-     * @param abode       ${@link String}
-     * @return Object> ${@link Object>}
-     * @date 2019-05-09 22:52
+     * @param tempFile           ${@link Map}
+     * @param isCasesExist       ${@link Integer}
+     * @param casesPersonnelType ${@link String}
+     * @param casesId            ${@link String}
+     * @param personnelId        ${@link String}
+     * @param type               ${@link String}
+     * @param name               ${@link String}
+     * @param birthday           ${@link String}
+     * @param idTypeId           ${@link String}
+     * @param idNo               ${@link String}
+     * @param phone              ${@link String}
+     * @param domicile           ${@link String}
+     * @param abode              ${@link String}
+     * @param unitName           ${@link String}
+     * @param unitContact        ${@link String}
+     * @param unitIdTypeId       ${@link String}
+     * @param unitIdNo           ${@link String}
+     * @return Map ${@link Map}
+     * @date 2019-05-11 10:55
      */
-    private Map<String, Object> checkFeilds(Map<String, Object> tempFile, String personnelId, String type, String name,
-                                            String birthday, String idTypeId, String idNo, String phone, String domicile, String abode) {
-        if (StringUtils.isBlank(birthday)) {
-            return Utils.getErrorMap("请选择或输入生日");
-        }
-        String regex = "^(19|20)\\d{2}-(1[0-2]|0?[1-9])-(0?[1-9]|[1-2][0-9]|3[0-1])$";
-        if (!birthday.matches(regex)) {
-            return Utils.getErrorMap("请输入正确的出生日期");
-        }
-        if (StringUtils.isBlank(name)) {
-            return Utils.getErrorMap("请输入姓名");
-        }
-        if (!Utils.checkPhone(phone)) {
-            return Utils.getErrorMap("手机号码格式错误");
-        }
+    private Map<String, Object> checkFeilds(Map<String, Object> tempFile, int isCasesExist, String casesPersonnelType, String casesId, String personnelId,
+                                            String type, String name, String birthday, String idTypeId, String idNo, String phone, String domicile, String abode,
+                                            String unitName, String unitContact, String unitIdTypeId, String unitIdNo) {
+        //公共验证字段
+        // 验证证件信息
         Map<String, Object> idType = partyManager.getMap(IdType.SELECT_BY_ID, new Object[]{idTypeId});
-        if (idType == null) {
-            return Utils.getErrorMap("证件类型不存在");
+        Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
+        if (idType == null || idType.isEmpty()) {
+            return Utils.getErrorMap("请选择证件类型");
         }
-        if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
-            if (StringUtils.isBlank(idNo)) {
-                return Utils.getErrorMap("请填写证件号码");
-            }
-            if ("中国居民二代身份证".equals(idType.get("text"))) {
-                if (!Utils.checkIdNo(idNo)) {
-                    return Utils.getErrorMap("证件号码格式错误");
-                }
-            }
+        if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
+            return Utils.getErrorMap("请填上传证件信息");
         }
-        if (StringUtils.isBlank(domicile)) {
-            return Utils.getErrorMap("请填写户籍所在地");
-        }
+        // 验证文书送达地址
         if (StringUtils.isBlank(abode)) {
             return Utils.getErrorMap("请填写法律文书送达地址");
         }
-        Map<String, Object> file = partyManager.getMap(PartyFile.SELECT_BY_RESID, new Object[]{personnelId});
-        if (!"未知".equals(idType.get("text")) && tempFile == null && file == null) {
-            return Utils.getErrorMap("请填上传证件信息");
+        // 验证手机号码
+        if (StringUtils.isBlank(phone) || !Utils.checkPhone(phone)) {
+            return Utils.getErrorMap("请填写正确的手机号码");
+        }
+        // 验证姓名
+        if (StringUtils.isBlank(name)) {
+            return Utils.getErrorMap("请填姓名");
+        }
+        if ("1".equalsIgnoreCase(casesPersonnelType)) {
+            if (StringUtils.isBlank(type) || "-1".equals(type)) {
+                return Utils.getErrorMap("请选择申请人类型");
+            }
+        } else {
+            if (StringUtils.isBlank(type) || "-1".equals(type)) {
+                return Utils.getErrorMap("请选择第三人类型");
+            }
+        }
+
+        // 其余字段验证
+        if (Party.TYPE_1.equals(type)) {
+            // 个人字段信息验证
+            // 验证出生日期
+            if (StringUtils.isBlank(birthday)) {
+                return Utils.getErrorMap("请选择或输入生日");
+            }
+            String regex = "^(19|20)\\d{2}-(1[0-2]|0?[1-9])-(0?[1-9]|[1-2][0-9]|3[0-1])$";
+            if (!birthday.matches(regex)) {
+                return Utils.getErrorMap("请输入正确的出生日期");
+            }
+            // 证件类型
+            if (idType == null) {
+                return Utils.getErrorMap("证件类型不存在");
+            }
+            // 验证证件号码
+            if (!"未知".equals(idType.get("text")) && type != null && !type.equals("2")) {
+                if (StringUtils.isBlank(idNo)) {
+                    return Utils.getErrorMap("请填写证件号码");
+                }
+                if ("中国居民二代身份证".equals(idType.get("text"))) {
+                    if (!Utils.checkIdNo(idNo)) {
+                        return Utils.getErrorMap("证件号码格式错误");
+                    }
+                }
+            }
+            // 验证户籍所在地
+            if (StringUtils.isBlank(domicile)) {
+                return Utils.getErrorMap("请填写户籍所在地");
+            }
+        } else if (Party.TYPE_2.equals(type)) {
+            // 组织字段验证
+            if (StringUtils.isBlank(unitName)) {
+                return Utils.getErrorMap("请填写单位名称");
+            }
+            // 单位联系方式
+            if (StringUtils.isBlank(unitContact)) {
+                return Utils.getErrorMap("请填写单位联系方式");
+            }
+            // 证件类型
+            if (StringUtils.isBlank(unitIdTypeId) || "-1".equals(unitIdTypeId)) {
+                return Utils.getErrorMap("请选择单位证件类型");
+            }
+            Map<String, Object> unitIdType = partyManager.getMap(UnitIdType.SELECT_BY_ID, new Object[]{unitIdTypeId});
+            if (unitIdType == null) {
+                return Utils.getErrorMap("证件类型不存在");
+            }
+            // 证件号码
+            if (StringUtils.isBlank(unitIdNo)) {
+                return Utils.getErrorMap("请填写单位证件号码");
+            }
+
+        }
+        // 查看当事人是否存在
+        if (StringUtils.isNotBlank(personnelId)) {
+            if (isCasesExist == 0) {
+                int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
+                if (isPersonnelExist != 0) {
+                    return Utils.getErrorMap("当事人已存在");
+                }
+            } else {
+                if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
+                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID_WITHOUT_APPLYTHIRDPARTY, new Object[]{casesId, personnelId});
+                    if (isPersonnelExist != 0) {
+                        return Utils.getErrorMap("当事人已存在");
+                    }
+                } else {
+                    int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
+                    if (isPersonnelExist != 0) {
+                        return Utils.getErrorMap("当事人已存在");
+                    }
+                }
+            }
         }
         return null;
     }
