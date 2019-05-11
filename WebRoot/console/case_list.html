@@ -414,6 +414,8 @@
                     window.location.href = "case_process_exchange.html?web=" + web + "&cases=" + $(this).data("id");
                 } else if ($(this).data("state") == "1") {
                     window.location.href = "accept_case.html?web=" + web + "&cases=" + $(this).data("id");
+                } else if (mode == "2") {
+                    window.location.href = "case_final.html?web=" + web + "&cases=" + $(this).data("id");
                 } else {
                     window.location.href = "case_detail.html?web=" + web + "&cases=" + $(this).data("id");
                 }
