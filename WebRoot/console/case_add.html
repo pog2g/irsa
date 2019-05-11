@@ -1733,9 +1733,11 @@
                 addApplyType = "1";
                 $("#person-radio").on("ifChecked", function () {
                     addApplyType = "1";
+                    initSelect4Ajax("search_apply", "party/get_choose_list?type=" + addApplyType);
                 });
                 $("#legal-radio").on("ifChecked", function () {
                     addApplyType = "2";
+                    initSelect4Ajax("search_apply", "party/get_choose_list?type=" + addApplyType);
                 });
             }
             initCasesType();
