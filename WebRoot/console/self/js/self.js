@@ -1990,34 +1990,30 @@ function initData4PersonnelFont(parentId, childClassName, data) {
             name = value.name;
             unit_name = "，工作单位，" + value.unit_name;
         }
-
         var agent_cases_type = $("#font_cases_type").html();
         var apply_legal_person = getValues("apply_legal_person");
-
+        var $font = "";
         if (addApplyType == "1") {
-            var $font = "";
             $font = $("<div class='" + childClassName + "' style='text-indent: 2em;' id='font_" + value.id + "'>" + title +
-                name + value.birthday.substring(0, 4) + "年" + value.birthday.substring(5, 7) + "月" + value.birthday.substring(8, 10) + "日出生1，户籍所在地" + value.domicile + "。</div>");
-
-            $("#" + parentId).append($font);
+                name + value.birthday.substring(0, 4) + "年" + value.birthday.substring(5, 7) + "月" + value.birthday.substring(8, 10) + "日出生，户籍所在地" + value.domicile + "。</div>");
         } else {
             var $font = $("<div class='" + childClassName + "' style='text-indent: 2em;' id='font_" + value.id + "'>申请人：" + name + "</div>");
-            $("#" + parentId).append($font);
         }
-        if (agent_cases_type.indexOf("其他申请行政复议") != -1) {
-            var third_party_type = $('input:radio[name="apply_type"]:checked').val();
-            if (third_party_type == "2") {
-                var apply_name = getValues("apply_name");
-                var apply_address = getValues("apply_address");
-                var fzrname = $("#label_third_party_legal_person").val();
-                var zjcontent = "<div class='" + childClassName + "' style='text-indent: 2em;' id='font_" + value.id + "'>申请人：" + apply_name + ",地址" + apply_address + ",负责人：" + fzrname + "。</div>";
-                $("#" + parentId).append(zjcontent);
-            } else {
-                $font = $("<div class='" + childClassName + "' style='text-indent: 2em;' id='font_" + value.id + "'>" + title +
-                    name + "，" + value.label_gender + "，（" + value.nature + "）" + value.nature + "族，" + value.birthday.substring(0, 4) + "年" + value.birthday.substring(5, 7) + "月" + value.birthday.substring(8, 10) + "日出生，户籍所在地" + value.domicile + "。</div>");
-                $("#" + parentId).append($font);
-            }
-        }
+        $("#" + parentId).append($font);
+        /* if (agent_cases_type.indexOf("其他申请行政复议") != -1) {
+             var third_party_type = $('input:radio[name="apply_type"]:checked').val();
+             if (third_party_type == "2") {
+                 var apply_name = getValues("apply_name");
+                 var apply_address = getValues("apply_address");
+                 var fzrname = $("#label_third_party_legal_person").val();
+                 var zjcontent = "<div class='" + childClassName + "' style='text-indent: 2em;' id='font_" + value.id + "'>申请人：" + apply_name + ",地址" + apply_address + ",负责人：" + fzrname + "。</div>";
+                 $("#" + parentId).append(zjcontent);
+             } else {
+                 $font = $("<div class='" + childClassName + "' style='text-indent: 2em;' id='font_" + value.id + "'>" + title +
+                     name + "，" + value.label_gender + "，（" + value.nature + "）" + value.nature + "族，" + value.birthday.substring(0, 4) + "年" + value.birthday.substring(5, 7) + "月" + value.birthday.substring(8, 10) + "日出生，户籍所在地" + value.domicile + "。</div>");
+                 $("#" + parentId).append($font);
+             }
+         }*/
     })
 }
 
