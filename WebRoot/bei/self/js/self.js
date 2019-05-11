@@ -221,7 +221,7 @@ function initAccount1(webpage) {
             }, {
                 "icon": "fa-th",
                 "id": "page5",
-                "text": "未经诉论结案",
+                "text": "未经诉讼结案",
                 "url": "development.html?web=page5"
             }],
             "role": "超级管理员",
