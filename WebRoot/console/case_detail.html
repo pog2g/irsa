@@ -64,12 +64,59 @@
                     <a class="btn btn-flat btn-skin btn-primary" href="#box_apply">申请人</a>
                     <a class="btn btn-flat btn-skin btn-primary" href="#box_defendant">被申请人</a>
                     <a class="btn btn-flat btn-skin btn-primary" href="#box_third_party">第三人</a>
-                    <a class="btn btn-flat btn-skin btn-primary" href="#">进度详情</a>
                     <a class="btn btn-flat btn-skin btn-primary" href="#topAnchor"><i
                             class="fa fa-arrow-circle-o-up"></i> 返回顶部</a>
                     <button class="btn btn-flat btn-skin btn-primary" id="arrow_right"><i
                             class="fa fa-arrow-circle-o-right"></i> 收起
                     </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body">
+                            <div class="btn-group">
+                                <button class="btn btn-skin btn-primary" data-toggle="modal"
+                                        data-target="#modal_remark_list"><i class="fa fa-tags"></i> 案件备注
+                                </button>
+                                <button class="btn btn-skin btn-primary" data-toggle="modal" data-target="#modal_step">
+                                    <i class="fa fa-search"></i> 进度查询
+                                </button>
+                                <button class="btn btn-skin btn-primary btn-handle" data-toggle="modal"
+                                        data-target="#modal_file"><i class="fa fa-clone"></i> 证据目录/证据增补
+                                </button>
+                                <button class="btn btn-skin btn-primary" data-toggle="modal"
+                                        data-target="#modal_document"><i class="fa fa-file-text-o"></i> 涉案文书
+                                </button>
+                                <button class="btn btn-skin btn-primary btn-handle" data-toggle="modal"
+                                        data-target="#modal_party"><i class="fa fa-user-plus"></i> 当事人追加
+                                </button>
+                                <button class="btn btn-skin btn-primary btn-handle" data-toggle="modal"
+                                        data-target="#modal_dossier"><i class="fa fa-book"></i> 电子卷宗
+                                </button>
+                                <button class="btn btn-skin btn-primary btn-handle" data-toggle="modal"
+                                        data-target="#modal_document"><i class="fa fa-book"></i> 送达与回证
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-solid no-shadow">
+                        <div class="box-body">
+                            <div class="btn-group">
+                                <button class="btn btn-skin btn-primary btn-handle btn-apply-third-party"
+                                        style="display: none;"><i class="fa fa-users"></i> 请求追加第三人处理
+                                </button>
+                                <button class="btn btn-skin btn-primary btn-remark" data-toggle="modal"
+                                        data-target="#modal_remark" data-type='1'><i class="fa fa-tag"></i> 添加备注
+                                </button>
+                                <button class="btn btn-skin btn-primary btn-handle btn-process-pre-1 btn-process-pre "
+                                        data-mode="1" style="display: none;"><i class="fa fa-gavel"></i> 处理
+                                </button>
+                                <a class="btn btn-skin btn-primary btn-handle btn-process-pre-3" data-toggle="collapse"
+                                   href="#div_process_pre_3" style="display: none;"><i class="fa fa-gavel"></i> 处理</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -80,7 +127,7 @@
                         <div class="col-lg-12">
                             <div class="box box-solid no-shadow">
                                 <div class="box-header with-border text-blue">
-                                    <i class="fa fa-thumb-tack">案件标签</i>
+                                    <i class="fa fa-thumb-tack"></i>
                                     <h3 class="box-title" id="box_case_intro">案件标签</h3>
                                     <div class="box-tools pull-right">
                                         <button class="btn btn-box-tool" data-widget="collapse"><i
@@ -335,10 +382,57 @@
 </div>
 
 <!-- 流转详情 -->
-<div class="modal fade" id="modal_process">
+<div class="modal fade" id="modal_step">
     <div class="modal-dialog">
         <div class="modal-content">
-
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-search"></i> 进度查询</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="timeline" id="ul_step"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--案件备注-->
+<div class="modal fade" id="modal_remark_list">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-tags"></i> 案件备注</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="table_remark">
+                    <tr>
+                        <th>备注</th>
+                        <th>备注人</th>
+                        <th style="width: 150px;">备注时间</th>
+                        <th style="width: 100px;">操作</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--涉案文书-->
+<div class="modal fade" id="modal_document">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><i class="fa fa-file-text-o"></i> 涉案文书</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="table_cases_file_6"></table>
+            </div>
+        </div>
+        <div class="loading" id="loading_document">
+            <i class="fa fa-spin fa-refresh loading-icon"></i>
         </div>
     </div>
 </div>
@@ -464,6 +558,46 @@
             } else {
                 window.location.href = "case_process.html?web=" + web + "&cases=" + casesId + "&state=" + state + "&refine=" + escape(refineArr.join("，"));
             }
+        });
+
+
+        //备注
+        $("#modal_remark").on("show.bs.modal", function (event) {
+            $("#remark_id").val(null);
+            $("#remark_remark").val(null);
+
+            var button = $(event.relatedTarget);
+            if (button.data("type") != "1") {
+                $("#remark_id").val(button.data("id"));
+                $("#remark_remark").val(button.data("remark"));
+            }
+        });
+        $("#btn_submit_remark").on("click", function () {
+            $("#loading_info").show();
+            $.ajax({
+                url: "cases_remark/save",
+                type: "post",
+                dataType: "json",
+                data: {
+                    cases_id: casesId,
+                    id: $("#remark_id").val(),
+                    remark: $("#remark_remark").val()
+                },
+                success: function (data) {
+                    $("#loading_info").hide();
+                    if (data.result != 1) {
+                        showMsg(data.error_msg);
+                        return;
+                    }
+
+                    getCasesRemarkList(casesId);
+                    $("#modal_remark").modal("hide");
+                },
+                error: function (xhr, type) {
+                    $("#loading_info").hide();
+                    showMsg("系统繁忙");
+                }
+            });
         });
     });
 
@@ -695,8 +829,7 @@
                             })
                         }
                     }
-                })
-                initEvent4CasesPersonnel();
+                });
             },
             error: function (xhr, type) {
                 $(".loading-cases-personnel-" + type).hide();
