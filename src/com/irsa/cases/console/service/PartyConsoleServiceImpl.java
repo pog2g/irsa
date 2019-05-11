@@ -75,8 +75,8 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                         type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                         domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
                         unitIdNo, unitAbode, legalPerson);
-            } else if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType)) {
-                // 处理casesPersonnelType为3的情况
+            } else if (CasesPersonnel.PERSONNEL_TYPE_3.equals(casesPersonnelType) || CasesPersonnel.PERSONNEL_TYPE_73.equals(casesPersonnelType)) {
+                // 处理casesPersonnelType为3或73的情况的情况(73为从建议添加为正式第三人，因此存储入库局是73要改变为3)
                 return dealWithType3(tempFile, actId, casesPersonnelType, casesId, personnelId,
                         type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                         domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
@@ -236,7 +236,6 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         if (map != null) {
             return map;
         }
-        // 存储信息
         return dealWithType7(tempFile, actId, casesPersonnelType, casesId, personnelId,
                 type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone,
                 domicile, zipCode, contact, abode, unitName, unitContact, unitIdTypeId,
@@ -284,8 +283,12 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
         // 如果personnelId存在则检查是否与当前案件绑定，如果绑定则直接返回，否则重新绑定
         if (StringUtils.isNotBlank(personnelId)) {
             int isPersonnelExist = partyManager.getListCount(CasesPersonnelTemp.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
-            if (isPersonnelExist != 0) {
+            if (isPersonnelExist != 0 && !CasesPersonnel.PERSONNEL_TYPE_73.equals(casesPersonnelType)) {
                 return Utils.getErrorMap("第三人已存在或当前录入第三人也是申请人、被申请人");
+            }
+            // 存储信息
+            if (CasesPersonnel.PERSONNEL_TYPE_73.equals(casesPersonnelType)) {
+                casesPersonnelType = "3";
             }
             partyManager.executeSQL(Party.UPDATE, new Object[]{type, name, other_name, nature, gender, birthday, idTypeId, idNo, phone, domicile, zipCode, contact, abode,
                     unitName, unitContact, unitIdTypeId, unitIdNo, unitAbode, legalPerson, personnelId});
@@ -450,7 +453,8 @@ public class PartyConsoleServiceImpl implements PartyConsoleService {
                     }
                 } else {
                     int isPersonnelExist = partyManager.getListCount(CasesPersonnel.SELECT_EXIST_BY_CASESID_PERSONNELID, new Object[]{casesId, personnelId});
-                    if (isPersonnelExist != 0) {
+                    // 如果是从建议第三人添加为第三人，此时不需要验证用户信息是否重复
+                    if (isPersonnelExist != 0 && !CasesPersonnel.PERSONNEL_TYPE_73.equals(casesPersonnelType)) {
                         return Utils.getErrorMap("当事人已存在");
                     }
                 }

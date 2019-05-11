@@ -34,6 +34,10 @@ public class CasesPersonnel {
      * 建议第三人
      */
     public static String PERSONNEL_TYPE_7 = "7";
+    /**
+     * 从建议添加第三人
+     */
+    public static String PERSONNEL_TYPE_73 = "73";
 
     /**
      * 是否申请人代表：否

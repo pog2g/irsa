@@ -2271,7 +2271,7 @@ function savePersonnel(isTemp, isNext, saveLoadingId, getLoadingId, casesId, cas
         data = {
             id: thirdPartyId,
             cases_id: casesId,
-            cases_personnel_type: "3",
+            cases_personnel_type: "73",
             personnel_id: $("#apply_third_party_personnel_id").val(),
             type: $("input[name='apply_third_party_type']:checked").val(),
             unit_name: $("#apply_third_party_unit_name").val(),
@@ -3004,9 +3004,12 @@ function initModalEvent4ApplyThirdParty() {
 
     // 处理建议第三人数据页面渲染
     $("#search_apply_third_party").on("select2:select", function (e) {
+        $(".form-third-unit").addClass("hidden");
+        $("#apply_choose_third_for_person").iCheck("check");
         if (e.params.data.id == "-1") {
             return;
         }
+        console.log(e.params.data)
         applyThirdPartyId = e.params.data.id;
         thirdPartyId = applyThirdPartyId;
         initUpload("loading_apply_third_party", "apply_third_party_file", "li-apply-third-party-file", "temp/img?res=" + applyThirdPartyId);
